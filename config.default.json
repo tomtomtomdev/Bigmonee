@@ -1,0 +1,15 @@
+{
+  "stockbitBaseUrl": "https://api.stockbit.com",
+  "endpoints": {
+    "ihsgChart": "/v2.1/chart/COMPOSITE",
+    "topGainers": "/v2/ranking/top-gainer",
+    "topLosers": "/v2/ranking/top-loser",
+    "topValue": "/v2/ranking/most-active-value",
+    "topVolume": "/v2/ranking/most-active-volume",
+    "marketSummary": "/v2/market/summary"
+  },
+  "cacheTtlSeconds": 30,
+  "proxyPort": 8001,
+  "backendPort": 3001,
+  "frontendPort": 3000
+}
