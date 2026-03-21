@@ -82,6 +82,11 @@ function parseChartData(data) {
         const ts = item[0] > 1e12 ? Math.floor(item[0] / 1000) : item[0]
         return { time: ts, value: item[4] ?? item[1] }
       }
+      // Exodus format: { formatted_date: "2026-03-17 09:00:00", value: "7106.47" }
+      if (item.formatted_date) {
+        const ts = Math.floor(new Date(item.formatted_date).getTime() / 1000)
+        if (!isNaN(ts)) return { time: ts, value: parseFloat(item.value) || 0 }
+      }
       // Object format
       if (item.time || item.timestamp || item.date) {
         let time = item.time || item.timestamp || item.date

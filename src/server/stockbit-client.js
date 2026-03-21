@@ -15,7 +15,7 @@ function loadConfig() {
   }
 }
 
-async function stockbitFetch(endpoint, params = {}) {
+async function stockbitFetch(endpoint, params = {}, { appendParams = {} } = {}) {
   const token = tokenManager.getToken()
   if (!token) throw new Error('No access token captured yet')
 
@@ -23,6 +23,12 @@ async function stockbitFetch(endpoint, params = {}) {
   const url = new URL(config.stockbitBaseUrl + endpoint)
   for (const [k, v] of Object.entries(params)) {
     url.searchParams.set(k, v)
+  }
+  // Support repeated query params (e.g. filter_stocks appearing multiple times)
+  for (const [k, values] of Object.entries(appendParams)) {
+    for (const v of values) {
+      url.searchParams.append(k, v)
+    }
   }
 
   const cacheKey = url.toString()
@@ -79,29 +85,62 @@ async function stockbitFetch(endpoint, params = {}) {
   return data
 }
 
+const TIMEFRAME_MAP = { '1d': 'today', '1w': '1week', '1m': '1month', '3m': '3months', '1y': '1year' }
+
 export async function fetchIHSG(range = '1d') {
   const config = loadConfig()
-  return stockbitFetch(config.endpoints.ihsgChart, { range })
+  const timeframe = TIMEFRAME_MAP[range] || 'today'
+  const [chart, info] = await Promise.all([
+    stockbitFetch(config.endpoints.ihsgChart, { is_include_previous_historical: '1', timeframe }),
+    stockbitFetch(config.endpoints.ihsgInfo),
+  ])
+  // Normalize into the shape the frontend expects
+  const infoData = info?.data || {}
+  return {
+    data: {
+      close: parseFloat(infoData.price) || 0,
+      change: parseFloat(infoData.change) || 0,
+      percent: infoData.percentage ?? 0,
+      prices: chart?.data?.prices || [],
+    },
+  }
 }
 
-export async function fetchTopGainers() {
+async function fetchMarketMover(moverType, limit = 20) {
   const config = loadConfig()
-  return stockbitFetch(config.endpoints.topGainers, { page: '1', per_page: '20' })
+  const raw = await stockbitFetch(
+    config.endpoints.marketMover,
+    { limit: String(limit), mover_type: moverType },
+    { appendParams: { filter_stocks: config.marketMoverFilterStocks } },
+  )
+  // Normalize mover_list into flat stock objects the frontend expects
+  const list = raw?.data?.mover_list || []
+  return {
+    data: list.map((item) => ({
+      symbol: item.stock_detail?.code || '',
+      company_name: item.stock_detail?.name || '',
+      price: item.price ?? 0,
+      change_pct: item.change?.percentage ?? 0,
+      value: item.value?.raw ?? 0,
+      volume: item.volume?.raw ?? 0,
+    })),
+  }
 }
 
-export async function fetchTopLosers() {
-  const config = loadConfig()
-  return stockbitFetch(config.endpoints.topLosers, { page: '1', per_page: '20' })
+export function fetchTopGainers() {
+  return fetchMarketMover('MOVER_TYPE_TOP_GAINER')
 }
 
-export async function fetchTopValue() {
-  const config = loadConfig()
-  return stockbitFetch(config.endpoints.topValue, { page: '1', per_page: '20' })
+export function fetchTopLosers() {
+  return fetchMarketMover('MOVER_TYPE_TOP_LOSER')
 }
 
-export async function fetchTopVolume() {
-  const config = loadConfig()
-  return stockbitFetch(config.endpoints.topVolume, { page: '1', per_page: '20' })
+export function fetchTopValue() {
+  return fetchMarketMover('MOVER_TYPE_TOP_VALUE')
+}
+
+export function fetchTopVolume() {
+  return fetchMarketMover('MOVER_TYPE_TOP_VOLUME')
 }
 
 export async function fetchMarketSummary() {

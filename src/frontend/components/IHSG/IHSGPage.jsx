@@ -14,7 +14,7 @@ export default function IHSGPage() {
     [range]
   )
 
-  const chartData = data?.data?.ohlcv || data?.data?.chart || data?.data || []
+  const chartData = data?.data?.prices || data?.data?.ohlcv || data?.data?.chart || data?.data || []
 
   return (
     <div className="p-6 space-y-4">

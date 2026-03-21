@@ -1,13 +1,17 @@
 {
-  "stockbitBaseUrl": "https://api.stockbit.com",
+  "stockbitBaseUrl": "https://exodus.stockbit.com",
   "endpoints": {
-    "ihsgChart": "/v2.1/chart/COMPOSITE",
-    "topGainers": "/v2/ranking/top-gainer",
-    "topLosers": "/v2/ranking/top-loser",
-    "topValue": "/v2/ranking/most-active-value",
-    "topVolume": "/v2/ranking/most-active-volume",
+    "ihsgChart": "/charts/ihsg/daily",
+    "ihsgInfo": "/emitten/IHSG/info",
+    "marketMover": "/order-trade/market-mover",
     "marketSummary": "/v2/market/summary"
   },
+  "marketMoverFilterStocks": [
+    "FILTER_STOCKS_TYPE_MAIN_BOARD",
+    "FILTER_STOCKS_TYPE_DEVELOPMENT_BOARD",
+    "FILTER_STOCKS_TYPE_ACCELERATION_BOARD",
+    "FILTER_STOCKS_TYPE_NEW_ECONOMY_BOARD"
+  ],
   "cacheTtlSeconds": 30,
   "proxyPort": 8001,
   "backendPort": 3001,
