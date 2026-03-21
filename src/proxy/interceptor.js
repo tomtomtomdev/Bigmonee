@@ -52,7 +52,7 @@ export function setupInterceptor(proxy) {
     }
 
     // Learn header profile from requests to api.stockbit.com
-    if (host === 'api.stockbit.com') {
+    if (isStockbitHost(host)) {
       updateProfile(ctx.clientToProxyRequest.headers)
     }
 

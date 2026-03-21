@@ -3,6 +3,8 @@ import path from 'path'
 import crypto from 'crypto'
 
 const LOG_PATH = path.resolve('data/api-log.json')
+const DETAILS_PATH = path.resolve('data/api-log-details.json')
+const CAPTURED_PATH = path.resolve('data/api-captured-requests.json')
 const BODY_SIZE_LIMIT = 100 * 1024 // 100KB
 const MAX_LOGS = 500
 
@@ -30,9 +32,38 @@ function isTextContent(contentType) {
   return contentType.includes('json') || contentType.includes('text') || contentType.includes('xml') || contentType.includes('javascript')
 }
 
+function saveDetails() {
+  const obj = Object.fromEntries(logDetails)
+  fs.writeFileSync(DETAILS_PATH, JSON.stringify(obj))
+}
+
+function saveCaptured() {
+  const obj = Object.fromEntries(capturedRequests)
+  fs.writeFileSync(CAPTURED_PATH, JSON.stringify(obj))
+}
+
+// Load persisted state
 try {
   if (fs.existsSync(LOG_PATH)) {
     logs = JSON.parse(fs.readFileSync(LOG_PATH, 'utf-8'))
+  }
+} catch { /* ignore */ }
+
+try {
+  if (fs.existsSync(DETAILS_PATH)) {
+    const obj = JSON.parse(fs.readFileSync(DETAILS_PATH, 'utf-8'))
+    for (const [id, detail] of Object.entries(obj)) {
+      logDetails.set(id, detail)
+    }
+  }
+} catch { /* ignore */ }
+
+try {
+  if (fs.existsSync(CAPTURED_PATH)) {
+    const obj = JSON.parse(fs.readFileSync(CAPTURED_PATH, 'utf-8'))
+    for (const [urlPath, data] of Object.entries(obj)) {
+      capturedRequests.set(urlPath, data)
+    }
   }
 } catch { /* ignore */ }
 
@@ -84,7 +115,7 @@ export function logRequest({ method, url, host, statusCode, contentType, respons
   })
 
   // Store raw request data keyed by URL path (without query string) for replay
-  if (requestHeaders && host === 'api.stockbit.com') {
+  if (requestHeaders && host?.endsWith('.stockbit.com')) {
     try {
       const urlPath = new URL(url).pathname
       capturedRequests.set(urlPath, {
@@ -106,6 +137,8 @@ export function logRequest({ method, url, host, statusCode, contentType, respons
 
   fs.mkdirSync(path.dirname(LOG_PATH), { recursive: true })
   fs.writeFileSync(LOG_PATH, JSON.stringify(logs, null, 2))
+  saveDetails()
+  saveCaptured()
 
   return entry
 }

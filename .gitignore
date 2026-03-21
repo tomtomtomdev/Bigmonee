@@ -3,6 +3,8 @@ dist/
 data/token.json
 data/certs/
 data/api-log.json
+data/api-log-details.json
+data/api-captured-requests.json
 data/config.json
 data/header-profile.json
 .DS_Store
