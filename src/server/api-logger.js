@@ -3,7 +3,7 @@ import path from 'path'
 import crypto from 'crypto'
 
 const LOG_PATH = path.resolve('data/api-log.json')
-const DETAILS_PATH = path.resolve('data/api-log-details.json')
+const DETAILS_DIR = path.resolve('data/details')
 const CAPTURED_PATH = path.resolve('data/api-captured-requests.json')
 const BODY_SIZE_LIMIT = 100 * 1024 // 100KB
 const MAX_LOGS = 500
@@ -32,29 +32,39 @@ function isTextContent(contentType) {
   return contentType.includes('json') || contentType.includes('text') || contentType.includes('xml') || contentType.includes('javascript')
 }
 
-function saveDetails() {
-  const obj = Object.fromEntries(logDetails)
-  fs.writeFileSync(DETAILS_PATH, JSON.stringify(obj))
+function saveDetail(id, detail) {
+  fs.mkdirSync(DETAILS_DIR, { recursive: true })
+  fs.writeFileSync(path.join(DETAILS_DIR, `${id}.json`), JSON.stringify(detail))
+}
+
+function loadDetail(id) {
+  try {
+    const filePath = path.join(DETAILS_DIR, `${id}.json`)
+    if (fs.existsSync(filePath)) {
+      const detail = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
+      logDetails.set(id, detail)
+      return detail
+    }
+  } catch { /* ignore */ }
+  return null
+}
+
+function deleteDetail(id) {
+  try {
+    const filePath = path.join(DETAILS_DIR, `${id}.json`)
+    if (fs.existsSync(filePath)) fs.unlinkSync(filePath)
+  } catch { /* ignore */ }
 }
 
 function saveCaptured() {
-  const obj = Object.fromEntries(capturedRequests)
-  fs.writeFileSync(CAPTURED_PATH, JSON.stringify(obj))
+  fs.mkdirSync(path.dirname(CAPTURED_PATH), { recursive: true })
+  fs.writeFileSync(CAPTURED_PATH, JSON.stringify(Object.fromEntries(capturedRequests)))
 }
 
 // Load persisted state
 try {
   if (fs.existsSync(LOG_PATH)) {
     logs = JSON.parse(fs.readFileSync(LOG_PATH, 'utf-8'))
-  }
-} catch { /* ignore */ }
-
-try {
-  if (fs.existsSync(DETAILS_PATH)) {
-    const obj = JSON.parse(fs.readFileSync(DETAILS_PATH, 'utf-8'))
-    for (const [id, detail] of Object.entries(obj)) {
-      logDetails.set(id, detail)
-    }
   }
 } catch { /* ignore */ }
 
@@ -105,14 +115,17 @@ export function logRequest({ method, url, host, statusCode, contentType, respons
     }
   }
 
-  logDetails.set(id, {
+  const detail = {
     requestHeaders: maskSensitiveHeaders(requestHeaders),
     requestBody: storedRequestBody,
     requestBodyTruncated,
     responseHeaders: responseHeaders || {},
     responseBody: storedResponseBody,
     responseBodyTruncated,
-  })
+  }
+
+  logDetails.set(id, detail)
+  saveDetail(id, detail)
 
   // Store raw request data keyed by URL path (without query string) for replay
   if (requestHeaders && host?.endsWith('.stockbit.com')) {
@@ -132,12 +145,12 @@ export function logRequest({ method, url, host, statusCode, contentType, respons
     const removed = logs.splice(MAX_LOGS)
     for (const old of removed) {
       logDetails.delete(old.id)
+      deleteDetail(old.id)
     }
   }
 
   fs.mkdirSync(path.dirname(LOG_PATH), { recursive: true })
   fs.writeFileSync(LOG_PATH, JSON.stringify(logs, null, 2))
-  saveDetails()
   saveCaptured()
 
   return entry
@@ -150,7 +163,8 @@ export function getLogs() {
 export function getLogDetail(id) {
   const summary = logs.find((l) => l.id === id)
   if (!summary) return null
-  const detail = logDetails.get(id) || {}
+  let detail = logDetails.get(id)
+  if (!detail) detail = loadDetail(id) || {}
   return { ...summary, ...detail }
 }
 
@@ -161,7 +175,8 @@ export function findCapturedRequest(urlPath) {
 export function getLatestExodusHeaders() {
   const entry = logs.find((l) => l.host === 'exodus.stockbit.com')
   if (!entry) return null
-  const detail = logDetails.get(entry.id)
+  let detail = logDetails.get(entry.id)
+  if (!detail) detail = loadDetail(entry.id)
   return detail?.requestHeaders || null
 }
 
