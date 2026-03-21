@@ -4,13 +4,15 @@ import { api } from './lib/api.js'
 import SetupPage from './components/Setup/SetupPage.jsx'
 import IHSGPage from './components/IHSG/IHSGPage.jsx'
 import TopMoversPage from './components/TopMovers/TopMoversPage.jsx'
+import TopBrokerPage from './components/TopBroker/TopBrokerPage.jsx'
 import ExplorerPage from './components/Explorer/ExplorerPage.jsx'
-import { Activity, BarChart3, TrendingUp, Search, Wifi, WifiOff } from 'lucide-react'
+import { Activity, BarChart3, TrendingUp, Search, Wifi, WifiOff, Building2 } from 'lucide-react'
 
 const TABS = [
   { id: 'setup', label: 'Setup', icon: Activity },
   { id: 'ihsg', label: 'IHSG', icon: TrendingUp },
   { id: 'movers', label: 'Top Movers', icon: BarChart3 },
+  { id: 'brokers', label: 'Top Brokers', icon: Building2 },
   { id: 'explorer', label: 'API Explorer', icon: Search },
 ]
 
@@ -80,6 +82,7 @@ export default function App() {
         {tab === 'setup' && <SetupPage status={status} />}
         {tab === 'ihsg' && <IHSGPage />}
         {tab === 'movers' && <TopMoversPage />}
+        {tab === 'brokers' && <TopBrokerPage />}
         {tab === 'explorer' && <ExplorerPage />}
       </main>
     </div>

@@ -4,6 +4,9 @@
     "ihsgChart": "/charts/ihsg/daily",
     "ihsgInfo": "/emitten/IHSG/info",
     "marketMover": "/order-trade/market-mover",
+    "topBroker": "/order-trade/broker/top",
+    "paywallIncrement": "/paywall/counter/increment",
+    "paywallCheck": "/paywall/eligibility/check",
     "marketSummary": "/v2/market/summary"
   },
   "marketMoverFilterStocks": [

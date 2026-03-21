@@ -15,7 +15,7 @@ function loadConfig() {
   }
 }
 
-async function stockbitFetch(endpoint, params = {}, { appendParams = {} } = {}) {
+async function stockbitFetch(endpoint, params = {}, { appendParams = {}, method: methodOverride, body: bodyOverride, skipCache = false } = {}) {
   const token = tokenManager.getToken()
   if (!token) throw new Error('No access token captured yet')
 
@@ -32,25 +32,27 @@ async function stockbitFetch(endpoint, params = {}, { appendParams = {} } = {}) 
   }
 
   const cacheKey = url.toString()
-  const cached = cache.get(cacheKey)
-  if (cached) {
-    console.log(`[stockbit-client] ${url} → cache hit`)
-    return cached
+  if (!skipCache) {
+    const cached = cache.get(cacheKey)
+    if (cached) {
+      console.log(`[stockbit-client] ${url} → cache hit`)
+      return cached
+    }
   }
 
   // Try per-endpoint captured request first, then global profile, then hardcoded fallback
   const captured = findCapturedRequest(endpoint)
   let headers
-  let body = undefined
-  let method = 'GET'
+  let body = bodyOverride ?? undefined
+  let method = methodOverride || 'GET'
 
-  if (captured) {
+  if (captured && !methodOverride) {
     headers = { ...captured.headers, authorization: `Bearer ${token}`, host: url.hostname }
     // Remove per-request transport headers
     for (const h of ['content-length', 'content-encoding', 'transfer-encoding', 'connection', 'keep-alive', 'proxy-connection', 'proxy-authorization']) {
       delete headers[h]
     }
-    body = captured.body || undefined
+    body = body ?? captured.body ?? undefined
     method = captured.method || 'GET'
   } else {
     const profile = getProfile()
@@ -63,6 +65,11 @@ async function stockbitFetch(endpoint, params = {}, { appendParams = {} } = {}) 
         'User-Agent': 'Stockbit-iOS/5.0',
       }
     }
+  }
+
+  if (bodyOverride && typeof bodyOverride === 'object') {
+    headers['content-type'] = 'application/json'
+    body = JSON.stringify(bodyOverride)
   }
 
   const fetchOptions = { method, headers }
@@ -141,6 +148,49 @@ export function fetchTopValue() {
 
 export function fetchTopVolume() {
   return fetchMarketMover('MOVER_TYPE_TOP_VOLUME')
+}
+
+export async function fetchTopBrokers({ period = 'TB_PERIOD_LAST_1_DAY', sort = 'TB_SORT_BY_TOTAL_VALUE' } = {}) {
+  const config = loadConfig()
+
+  // Paywall gate: increment counter then check eligibility
+  await stockbitFetch(config.endpoints.paywallIncrement, {}, {
+    method: 'POST',
+    body: { feature: 'PAYWALL_FEATURE_TOP_BROKER' },
+    skipCache: true,
+  })
+  const eligibility = await stockbitFetch(config.endpoints.paywallCheck, {
+    company: '',
+    features: 'PAYWALL_FEATURE_TOP_BROKER',
+  }, { skipCache: true })
+  const feature = eligibility?.data?.features?.find((f) => f.feature === 'PAYWALL_FEATURE_TOP_BROKER')
+  if (feature && !feature.is_eligible) {
+    throw new Error('Top Broker feature is not available for your account')
+  }
+
+  const raw = await stockbitFetch(config.endpoints.topBroker, {
+    market_type: '1',
+    order: 'ORDER_BY_DESC',
+    period,
+    sort,
+  })
+  const list = raw?.data?.list || []
+  return {
+    data: {
+      date: raw?.data?.date || {},
+      list: list.map((b) => ({
+        code: b.code || '',
+        name: b.name || '',
+        group: b.group || '',
+        total_value: Number(b.total_value) || 0,
+        net_value: Number(b.net_value) || 0,
+        buy_value: Number(b.buy_value) || 0,
+        sell_value: Number(b.sell_value) || 0,
+        total_volume: Number(b.total_volume) || 0,
+        total_frequency: Number(b.total_frequency) || 0,
+      })),
+    },
+  }
 }
 
 export async function fetchMarketSummary() {

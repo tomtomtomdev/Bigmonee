@@ -124,6 +124,16 @@ app.get('/api/top-volume', async (req, res) => {
   }
 })
 
+// Top Brokers
+app.get('/api/top-brokers', async (req, res) => {
+  try {
+    const { period, sort } = req.query
+    res.json(await stockbit.fetchTopBrokers({ period, sort }))
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
 // Market Summary
 app.get('/api/market-summary', async (req, res) => {
   try {
