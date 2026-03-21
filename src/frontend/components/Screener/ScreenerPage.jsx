@@ -4,12 +4,12 @@ import { useStockData } from '../../hooks/useStockData.js'
 import { RefreshCw } from 'lucide-react'
 
 const FALLBACK_TEMPLATES = [
-  { id: '77', name: 'Template 77' },
-  { id: '80', name: 'Template 80' },
-  { id: '92', name: 'Template 92' },
-  { id: '96', name: 'Template 96' },
-  { id: '97', name: 'Template 97' },
-  { id: '117', name: 'Template 117' },
+  { id: '77', name: 'Foreign Flow Uptrend' },
+  { id: '80', name: '1 Month Net Foreign Flow' },
+  { id: '92', name: 'Big Accumulation' },
+  { id: '96', name: 'Bandar Accumulation Uptrend' },
+  { id: '97', name: 'Frequency Spike' },
+  { id: '117', name: 'Insider Net Buy (3M - 1Y)' },
 ]
 
 function ScreenerTable({ stocks, onStockClick }) {

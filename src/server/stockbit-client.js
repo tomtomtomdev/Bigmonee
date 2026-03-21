@@ -8,10 +8,12 @@ import { findCapturedRequest } from './api-logger.js'
 const CONFIG_PATH = path.resolve('data/config.json')
 
 function loadConfig() {
+  const defaults = JSON.parse(fs.readFileSync(path.resolve('config.default.json'), 'utf-8'))
   try {
-    return JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8'))
+    const user = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8'))
+    return { ...defaults, ...user, endpoints: { ...defaults.endpoints, ...user.endpoints } }
   } catch {
-    return JSON.parse(fs.readFileSync(path.resolve('config.default.json'), 'utf-8'))
+    return defaults
   }
 }
 
@@ -294,8 +296,28 @@ export async function fetchMarketSummary() {
   return stockbitFetch(config.endpoints.marketSummary)
 }
 
+async function screenerPaywallGate() {
+  const config = loadConfig()
+  await stockbitFetch(config.endpoints.paywallIncrement, {}, {
+    method: 'POST',
+    body: { feature: 'PAYWALL_FEATURE_SCREENER' },
+    skipCache: true,
+  })
+  const eligibility = await stockbitFetch(config.endpoints.paywallCheck, {
+    company: '',
+    features: 'PAYWALL_FEATURE_SCREENER',
+  }, { skipCache: true })
+  const feature = eligibility?.data?.features?.find((f) => f.feature === 'PAYWALL_FEATURE_SCREENER')
+  if (feature && !feature.is_eligible) {
+    throw new Error('Screener feature is not available for your account')
+  }
+}
+
 export async function fetchScreenerPresets() {
   const config = loadConfig()
+  await screenerPaywallGate()
+  // Initial preset load (required before drilling into guru category)
+  await stockbitFetch(config.endpoints.screenerPresets, { mobile: '1' }, { skipCache: true })
   const raw = await stockbitFetch(config.endpoints.screenerPresets, { mobile: '1', parent_id: '32' })
   const list = raw?.data || []
   if (!Array.isArray(list)) return { data: [] }
@@ -309,6 +331,11 @@ export async function fetchScreenerPresets() {
 
 export async function fetchBandarScan(templateId) {
   const config = loadConfig()
+
+  // Paywall gate + preset warmup (required before screener API calls)
+  await screenerPaywallGate()
+  await stockbitFetch(config.endpoints.screenerPresets, { mobile: '1' }, { skipCache: true })
+  await stockbitFetch(config.endpoints.screenerPresets, { mobile: '1', parent_id: '32' }, { skipCache: true })
 
   // 1. Fetch screener template to get candidate stocks
   const templateEndpoint = config.endpoints.screenerTemplate.replace('{id}', templateId)
@@ -399,6 +426,7 @@ export async function fetchBandarScan(templateId) {
 
 export async function fetchScreenerTemplate(id) {
   const config = loadConfig()
+  await screenerPaywallGate()
   const endpoint = config.endpoints.screenerTemplate.replace('{id}', id)
   const raw = await stockbitFetch(endpoint, { limit: '25', type: 'TEMPLATE_TYPE_GURU' })
 
