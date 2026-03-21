@@ -296,7 +296,15 @@ export async function fetchMarketSummary() {
 
 export async function fetchScreenerPresets() {
   const config = loadConfig()
-  return stockbitFetch(config.endpoints.screenerPresets, { mobile: '1', parent_id: '32' })
+  const raw = await stockbitFetch(config.endpoints.screenerPresets, { mobile: '1', parent_id: '32' })
+  const list = raw?.data || []
+  if (!Array.isArray(list)) return { data: [] }
+  return {
+    data: list.map((p) => ({
+      id: p.id ?? p.screenerid ?? p.template_id ?? '',
+      name: p.name || p.screen_name || p.title || '',
+    })),
+  }
 }
 
 export async function fetchBandarScan(templateId) {

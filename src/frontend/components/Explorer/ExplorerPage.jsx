@@ -2,7 +2,7 @@ import { useState, useCallback, useRef, useEffect } from 'react'
 import { api } from '../../lib/api.js'
 import { useStockData } from '../../hooks/useStockData.js'
 import { formatTime } from '../../lib/formatters.js'
-import { RefreshCw, Search, X, Trash2 } from 'lucide-react'
+import { RefreshCw, Search, X, Trash2, Eraser } from 'lucide-react'
 import RequestDetail from './RequestDetail.jsx'
 
 const METHODS = ['', 'GET', 'POST', 'PUT', 'DELETE', 'PATCH']
@@ -78,12 +78,26 @@ export default function ExplorerPage() {
             Intercepted Stockbit API requests. Browse the Stockbit app to discover endpoints.
           </p>
         </div>
-        <button
-          onClick={refresh}
-          className="p-2 text-gray-400 hover:text-gray-200 transition-colors"
-        >
-          <RefreshCw size={18} className={loading ? 'animate-spin' : ''} />
-        </button>
+        <div className="flex items-center gap-1">
+          <button
+            onClick={async () => {
+              if (!confirm('Clear all intercepted requests?')) return
+              await api.clearDiscoveredEndpoints()
+              setSelectedId(null)
+              refresh()
+            }}
+            className="p-2 text-gray-400 hover:text-red-400 transition-colors"
+            title="Clear all requests"
+          >
+            <Eraser size={18} />
+          </button>
+          <button
+            onClick={refresh}
+            className="p-2 text-gray-400 hover:text-gray-200 transition-colors"
+          >
+            <RefreshCw size={18} className={loading ? 'animate-spin' : ''} />
+          </button>
+        </div>
       </div>
 
       {/* Search & Filters */}

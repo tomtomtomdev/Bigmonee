@@ -3,6 +3,15 @@ import { api } from '../../lib/api.js'
 import { useStockData } from '../../hooks/useStockData.js'
 import { RefreshCw } from 'lucide-react'
 
+const FALLBACK_TEMPLATES = [
+  { id: '77', name: 'Template 77' },
+  { id: '80', name: 'Template 80' },
+  { id: '92', name: 'Template 92' },
+  { id: '96', name: 'Template 96' },
+  { id: '97', name: 'Template 97' },
+  { id: '117', name: 'Template 117' },
+]
+
 function ScreenerTable({ stocks, onStockClick }) {
   if (!stocks || !Array.isArray(stocks) || stocks.length === 0) {
     return <div className="p-6 text-center text-gray-500 text-sm">No data available</div>
@@ -59,12 +68,16 @@ export default function ScreenerPage({ onStockClick }) {
     api.getScreenerPresets()
       .then((res) => {
         const list = res?.data || []
-        setPresets(list)
-        if (list.length > 0 && !selectedId) {
-          setSelectedId(String(list[0].id || list[0].template_id))
+        const templates = list.length > 0 ? list : FALLBACK_TEMPLATES
+        setPresets(templates)
+        if (templates.length > 0 && !selectedId) {
+          setSelectedId(String(templates[0].id))
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        setPresets(FALLBACK_TEMPLATES)
+        setSelectedId(FALLBACK_TEMPLATES[0].id)
+      })
       .finally(() => setPresetsLoading(false))
   }, [])
 

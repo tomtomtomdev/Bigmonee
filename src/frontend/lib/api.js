@@ -32,6 +32,7 @@ export const api = {
   getScreenerPresets: () => apiFetch('/api/screener/presets'),
   getScreenerTemplate: (id) => apiFetch(`/api/screener/templates/${id}`),
   getDiscoveredEndpoints: () => apiFetch('/api/discovered-endpoints'),
+  clearDiscoveredEndpoints: () => apiFetch('/api/discovered-endpoints', { method: 'DELETE' }),
   searchEndpoints: ({ q, method, status } = {}) => {
     const params = new URLSearchParams()
     if (q) params.set('q', q)

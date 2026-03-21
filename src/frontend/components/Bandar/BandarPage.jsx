@@ -4,6 +4,15 @@ import { useStockData } from '../../hooks/useStockData.js'
 import { formatCompact, changeColor } from '../../lib/formatters.js'
 import { RefreshCw } from 'lucide-react'
 
+const FALLBACK_TEMPLATES = [
+  { id: '77', name: 'Template 77' },
+  { id: '80', name: 'Template 80' },
+  { id: '92', name: 'Template 92' },
+  { id: '96', name: 'Template 96' },
+  { id: '97', name: 'Template 97' },
+  { id: '117', name: 'Template 117' },
+]
+
 function SignalBadge({ signal }) {
   if (!signal || signal === '-') return <span className="text-gray-500 text-xs">-</span>
   const isAcc = signal.includes('Acc')
@@ -37,12 +46,16 @@ export default function BandarPage({ onStockClick }) {
     api.getScreenerPresets()
       .then((res) => {
         const list = res?.data || []
-        setPresets(list)
-        if (list.length > 0 && !selectedTemplate) {
-          setSelectedTemplate(String(list[0].id || list[0].template_id))
+        const templates = list.length > 0 ? list : FALLBACK_TEMPLATES
+        setPresets(templates)
+        if (templates.length > 0 && !selectedTemplate) {
+          setSelectedTemplate(String(templates[0].id))
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        setPresets(FALLBACK_TEMPLATES)
+        setSelectedTemplate(FALLBACK_TEMPLATES[0].id)
+      })
       .finally(() => setPresetsLoading(false))
   }, [])
 

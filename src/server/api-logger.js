@@ -160,6 +160,15 @@ export function getLogs() {
   return logs
 }
 
+export function clearLogs() {
+  for (const log of logs) {
+    deleteDetail(log.id)
+  }
+  logs.length = 0
+  logDetails.clear()
+  fs.writeFileSync(LOG_PATH, '[]')
+}
+
 export function getLogDetail(id) {
   const summary = logs.find((l) => l.id === id)
   if (!summary) return null

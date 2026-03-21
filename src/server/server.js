@@ -7,7 +7,7 @@ import { createProxy, getCACertPath } from '../proxy/proxy.js'
 import { tokenManager } from './token-manager.js'
 import { initWebSocket, broadcast } from './websocket.js'
 import { cache } from './cache.js'
-import { getLogs, getLogDetail, searchLogs } from './api-logger.js'
+import { getLogs, getLogDetail, searchLogs, clearLogs } from './api-logger.js'
 import * as stockbit from './stockbit-client.js'
 import { getProfile, clearProfile } from './header-profile.js'
 
@@ -193,6 +193,11 @@ app.get('/api/discovered-endpoints/:id', (req, res) => {
   const detail = getLogDetail(req.params.id)
   if (!detail) return res.status(404).json({ error: 'Not found' })
   res.json(detail)
+})
+
+app.delete('/api/discovered-endpoints', (req, res) => {
+  clearLogs()
+  res.json({ ok: true })
 })
 
 // Header Profile
