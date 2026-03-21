@@ -1,17 +1,8 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useCallback } from 'react'
 import { api } from '../../lib/api.js'
 import { useStockData } from '../../hooks/useStockData.js'
 import { formatCompact, changeColor } from '../../lib/formatters.js'
 import { RefreshCw } from 'lucide-react'
-
-const FALLBACK_TEMPLATES = [
-  { id: '77', name: 'Foreign Flow Uptrend' },
-  { id: '80', name: '1 Month Net Foreign Flow' },
-  { id: '92', name: 'Big Accumulation' },
-  { id: '96', name: 'Bandar Accumulation Uptrend' },
-  { id: '97', name: 'Frequency Spike' },
-  { id: '117', name: 'Insider Net Buy (3M - 1Y)' },
-]
 
 function SignalBadge({ signal }) {
   if (!signal || signal === '-') return <span className="text-gray-500 text-xs">-</span>
@@ -37,34 +28,22 @@ function BrokerBadges({ brokers, color }) {
   )
 }
 
-export default function BandarPage({ onStockClick }) {
-  const [presets, setPresets] = useState([])
-  const [selectedTemplate, setSelectedTemplate] = useState(null)
-  const [presetsLoading, setPresetsLoading] = useState(true)
-
-  useEffect(() => {
-    api.getScreenerPresets()
-      .then((res) => {
-        const list = res?.data || []
-        const templates = list.length > 0 ? list : FALLBACK_TEMPLATES
-        setPresets(templates)
-        if (templates.length > 0 && !selectedTemplate) {
-          setSelectedTemplate(String(templates[0].id))
-        }
-      })
-      .catch(() => {
-        setPresets(FALLBACK_TEMPLATES)
-        setSelectedTemplate(FALLBACK_TEMPLATES[0].id)
-      })
-      .finally(() => setPresetsLoading(false))
-  }, [])
-
-  const fetcher = useCallback(
-    () => selectedTemplate ? api.getBandarScan(selectedTemplate) : Promise.resolve({ data: [] }),
-    [selectedTemplate]
+function ScreenerTags({ screeners }) {
+  if (!screeners || screeners.length === 0) return null
+  return (
+    <div className="flex gap-1 flex-wrap mt-1">
+      {screeners.map((s) => (
+        <span key={s} className="px-1.5 py-0.5 rounded text-[10px] bg-blue-500/10 text-blue-400 whitespace-nowrap">
+          {s}
+        </span>
+      ))}
+    </div>
   )
+}
 
-  const { data, loading, error, refresh } = useStockData(fetcher, [selectedTemplate], 60000)
+export default function BandarPage({ onStockClick }) {
+  const fetcher = useCallback(() => api.getBandarScan(), [])
+  const { data, loading, error, refresh } = useStockData(fetcher, [], 120000)
   const stocks = data?.data || []
 
   return (
@@ -72,7 +51,10 @@ export default function BandarPage({ onStockClick }) {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold">Bandar Flow</h2>
-          <p className="text-sm text-gray-500 mt-1">Smart money detection from screener candidates</p>
+          <p className="text-sm text-gray-500 mt-1">
+            Smart money detection across all guru screeners
+            {stocks.length > 0 && <span className="text-gray-600"> — {stocks.length} stocks</span>}
+          </p>
         </div>
         <button
           onClick={refresh}
@@ -82,38 +64,12 @@ export default function BandarPage({ onStockClick }) {
         </button>
       </div>
 
-      {/* Template selector */}
-      <div className="flex flex-wrap gap-2">
-        {presetsLoading ? (
-          <div className="text-sm text-gray-500">Loading presets...</div>
-        ) : presets.length === 0 ? (
-          <div className="text-sm text-gray-500">No presets found. Ensure token is captured.</div>
-        ) : (
-          presets.map((p) => {
-            const id = String(p.id || p.template_id)
-            return (
-              <button
-                key={id}
-                onClick={() => setSelectedTemplate(id)}
-                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                  selectedTemplate === id
-                    ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                    : 'bg-gray-800 text-gray-400 hover:text-gray-200 border border-gray-700'
-                }`}
-              >
-                {p.name || p.title || `Template ${id}`}
-              </button>
-            )
-          })
-        )}
-      </div>
-
       {/* Results table */}
       <div className="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
         {error ? (
           <div className="p-4 text-red-400 text-sm bg-red-500/10 border-b border-red-500/20">{error}</div>
         ) : loading && !data ? (
-          <div className="p-8 text-center text-gray-500 text-sm">Loading bandar data...</div>
+          <div className="p-8 text-center text-gray-500 text-sm">Loading bandar data from all screeners...</div>
         ) : stocks.length === 0 ? (
           <div className="p-8 text-center text-gray-500 text-sm">No stocks found</div>
         ) : (
@@ -141,6 +97,7 @@ export default function BandarPage({ onStockClick }) {
                     <td className="py-2 px-4">
                       <div className="font-medium text-emerald-400">{s.symbol}</div>
                       <div className="text-xs text-gray-500 truncate max-w-[120px]">{s.name}</div>
+                      <ScreenerTags screeners={s.screeners} />
                     </td>
                     <td className="py-2 px-2 text-center">
                       <SignalBadge signal={s.bandar?.signal} />

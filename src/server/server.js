@@ -172,9 +172,9 @@ app.get('/api/screener/templates/:id', async (req, res) => {
 })
 
 // Bandar Flow
-app.get('/api/bandar-scan/:templateId', async (req, res) => {
+app.get('/api/bandar-scan', async (req, res) => {
   try {
-    res.json(await stockbit.fetchBandarScan(req.params.templateId))
+    res.json(await stockbit.fetchBandarScan())
   } catch (err) {
     res.status(500).json({ error: err.message })
   }
