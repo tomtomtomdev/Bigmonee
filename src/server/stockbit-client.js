@@ -27,7 +27,10 @@ async function stockbitFetch(endpoint, params = {}) {
 
   const cacheKey = url.toString()
   const cached = cache.get(cacheKey)
-  if (cached) return cached
+  if (cached) {
+    console.log(`[stockbit-client] ${url} → cache hit`)
+    return cached
+  }
 
   // Try per-endpoint captured request first, then global profile, then hardcoded fallback
   const captured = findCapturedRequest(endpoint)
@@ -61,14 +64,17 @@ async function stockbitFetch(endpoint, params = {}) {
     fetchOptions.body = body
   }
 
+  console.log(`[stockbit-client] ${method} ${url}`)
   const res = await fetch(url.toString(), fetchOptions)
 
   if (!res.ok) {
     const text = await res.text()
+    console.log(`[stockbit-client] ${method} ${url} → ${res.status} ERROR`)
     throw new Error(`Stockbit API ${res.status}: ${text.slice(0, 200)}`)
   }
 
   const data = await res.json()
+  console.log(`[stockbit-client] ${method} ${url} → ${res.status}`)
   cache.set(cacheKey, data)
   return data
 }
