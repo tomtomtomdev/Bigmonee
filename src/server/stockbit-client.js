@@ -393,16 +393,31 @@ export async function fetchScreenerTemplate(id) {
   const config = loadConfig()
   const endpoint = config.endpoints.screenerTemplate.replace('{id}', id)
   const raw = await stockbitFetch(endpoint, { limit: '25', type: 'TEMPLATE_TYPE_GURU' })
-  const list = raw?.data?.results || raw?.data?.stocks || raw?.data || []
-  if (!Array.isArray(list)) return { data: raw?.data || {} }
+
+  // Handle calcs[] format (guru screener templates)
+  const calcs = raw?.data?.calcs || []
+  if (calcs.length > 0) {
+    return {
+      data: calcs.map((c) => ({
+        symbol: c.company?.symbol || '',
+        company_name: c.company?.name || '',
+        metrics: (c.results || []).map((r) => ({
+          name: r.item,
+          value: r.display,
+        })),
+      })),
+      screenName: raw.data.screen_name || '',
+      screenDesc: raw.data.screen_desc || '',
+    }
+  }
+
+  // Fallback for other formats
+  const list = raw?.data?.results || raw?.data?.stocks || []
+  if (!Array.isArray(list)) return { data: [] }
   return {
     data: list.map((item) => ({
-      symbol: item.symbol || item.code || item.ticker || '',
+      symbol: item.symbol || item.code || '',
       company_name: item.company_name || item.name || '',
-      price: item.last_price ?? item.close ?? item.price ?? 0,
-      change_pct: item.change_percentage ?? item.percent_change ?? item.change_pct ?? 0,
-      value: item.value ?? item.volume ?? 0,
-      volume: item.volume ?? item.lot ?? 0,
     })),
   }
 }
