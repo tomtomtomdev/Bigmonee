@@ -3,6 +3,7 @@ import path from 'path'
 import { tokenManager } from './token-manager.js'
 import { cache } from './cache.js'
 import { getProfile } from './header-profile.js'
+import { findCapturedRequest } from './api-logger.js'
 
 const CONFIG_PATH = path.resolve('data/config.json')
 
@@ -28,19 +29,39 @@ async function stockbitFetch(endpoint, params = {}) {
   const cached = cache.get(cacheKey)
   if (cached) return cached
 
-  const profile = getProfile()
+  // Try per-endpoint captured request first, then global profile, then hardcoded fallback
+  const captured = findCapturedRequest(endpoint)
   let headers
-  if (profile) {
-    headers = { ...profile.headers, authorization: `Bearer ${token}`, host: url.hostname }
+  let body = undefined
+  let method = 'GET'
+
+  if (captured) {
+    headers = { ...captured.headers, authorization: `Bearer ${token}`, host: url.hostname }
+    // Remove per-request transport headers
+    for (const h of ['content-length', 'content-encoding', 'transfer-encoding', 'connection', 'keep-alive', 'proxy-connection', 'proxy-authorization']) {
+      delete headers[h]
+    }
+    body = captured.body || undefined
+    method = captured.method || 'GET'
   } else {
-    headers = {
-      Authorization: `Bearer ${token}`,
-      Accept: 'application/json',
-      'User-Agent': 'Stockbit-iOS/5.0',
+    const profile = getProfile()
+    if (profile) {
+      headers = { ...profile.headers, authorization: `Bearer ${token}`, host: url.hostname }
+    } else {
+      headers = {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'User-Agent': 'Stockbit-iOS/5.0',
+      }
     }
   }
 
-  const res = await fetch(url.toString(), { headers })
+  const fetchOptions = { method, headers }
+  if (body && method !== 'GET' && method !== 'HEAD') {
+    fetchOptions.body = body
+  }
+
+  const res = await fetch(url.toString(), fetchOptions)
 
   if (!res.ok) {
     const text = await res.text()

@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { getLatestExodusHeaders } from './api-logger.js'
 
 const PROFILE_PATH = path.resolve('data/header-profile.json')
 const MIN_UPDATE_INTERVAL_MS = 5 * 60 * 1000 // 5 minutes
@@ -52,6 +53,12 @@ export function updateProfile(headers) {
 }
 
 export function getProfile() {
+  if (!profile) {
+    const headers = getLatestExodusHeaders()
+    if (headers) {
+      updateProfile(headers)
+    }
+  }
   return profile
 }
 

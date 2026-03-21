@@ -8,6 +8,8 @@ const MAX_LOGS = 500
 
 let logs = []
 const logDetails = new Map()
+// Raw (unmasked) request data per URL path for replay by stockbit-client
+const capturedRequests = new Map()
 
 const SENSITIVE_HEADERS = ['authorization', 'cookie', 'set-cookie', 'x-api-key']
 
@@ -81,6 +83,19 @@ export function logRequest({ method, url, host, statusCode, contentType, respons
     responseBodyTruncated,
   })
 
+  // Store raw request data keyed by URL path (without query string) for replay
+  if (requestHeaders && host === 'api.stockbit.com') {
+    try {
+      const urlPath = new URL(url).pathname
+      capturedRequests.set(urlPath, {
+        headers: { ...requestHeaders },
+        body: requestBody || null,
+        method,
+        capturedAt: entry.timestamp,
+      })
+    } catch { /* invalid url */ }
+  }
+
   logs.unshift(entry)
   if (logs.length > MAX_LOGS) {
     const removed = logs.splice(MAX_LOGS)
@@ -104,6 +119,17 @@ export function getLogDetail(id) {
   if (!summary) return null
   const detail = logDetails.get(id) || {}
   return { ...summary, ...detail }
+}
+
+export function findCapturedRequest(urlPath) {
+  return capturedRequests.get(urlPath) || null
+}
+
+export function getLatestExodusHeaders() {
+  const entry = logs.find((l) => l.host === 'exodus.stockbit.com')
+  if (!entry) return null
+  const detail = logDetails.get(entry.id)
+  return detail?.requestHeaders || null
 }
 
 export function searchLogs({ query, method, statusCode } = {}) {
