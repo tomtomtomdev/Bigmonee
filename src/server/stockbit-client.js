@@ -299,6 +299,96 @@ export async function fetchScreenerPresets() {
   return stockbitFetch(config.endpoints.screenerPresets, { mobile: '1', parent_id: '32' })
 }
 
+export async function fetchBandarScan(templateId) {
+  const config = loadConfig()
+
+  // 1. Fetch screener template to get candidate stocks
+  const templateEndpoint = config.endpoints.screenerTemplate.replace('{id}', templateId)
+  const raw = await stockbitFetch(templateEndpoint, { limit: '15', type: 'TEMPLATE_TYPE_GURU' })
+
+  // Extract symbols from either calcs[] or flat array format
+  const calcs = raw?.data?.calcs || []
+  let symbols
+  if (calcs.length > 0) {
+    symbols = calcs.map((c) => ({
+      symbol: c.company?.symbol || '',
+      name: c.company?.name || '',
+    }))
+  } else {
+    const list = raw?.data?.results || raw?.data?.stocks || raw?.data || []
+    if (!Array.isArray(list)) return { data: [] }
+    symbols = list.map((item) => ({
+      symbol: item.symbol || item.code || item.ticker || '',
+      name: item.company_name || item.name || '',
+    }))
+  }
+
+  symbols = symbols.filter((s) => s.symbol).slice(0, 15)
+  if (symbols.length === 0) return { data: [] }
+
+  // 2. For each stock, fetch broker summary + foreign flow in parallel
+  const ep = (template, sym) => template.replace('{symbol}', sym)
+  const results = await Promise.all(
+    symbols.map(async ({ symbol, name }) => {
+      const [brokerResult, fdResult] = await Promise.allSettled([
+        stockbitFetch(ep(config.endpoints.stockBrokerSummary, symbol), {
+          investor_type: '1',
+          limit: '25',
+          market_board: '2',
+          period: 'BROKER_SUMMARY_PERIOD_LATEST',
+          transaction_type: '1',
+        }),
+        stockbitFetch(ep(config.endpoints.stockForeignDomestic, symbol), {
+          market_type: 'MARKET_TYPE_REGULAR',
+          period: 'PERIOD_RANGE_1D',
+        }),
+      ])
+
+      const brokerData = brokerResult.status === 'fulfilled' ? brokerResult.value?.data : null
+      const fdData = fdResult.status === 'fulfilled' ? fdResult.value?.data : null
+
+      const bandarDetector = brokerData?.bandar_detector || {}
+      const brokerSummary = brokerData?.broker_summary || {}
+      const fdSummary = fdData?.summary || {}
+
+      return {
+        symbol,
+        name,
+        bandar: {
+          signal: bandarDetector.broker_accdist || '-',
+          top1Pct: bandarDetector.top1?.percent ?? null,
+          top3Pct: bandarDetector.top3?.percent ?? null,
+          top5Pct: bandarDetector.top5?.percent ?? null,
+          totalBuyer: bandarDetector.total_buyer ?? 0,
+          totalSeller: bandarDetector.total_seller ?? 0,
+          avgPrice: bandarDetector.average ?? 0,
+        },
+        foreignFlow: {
+          netForeignRaw: fdSummary.net_foreign?.value?.raw ?? null,
+          netForeignFmt: fdSummary.net_foreign?.value?.formatted || '-',
+          netForeignLabel: fdSummary.net_foreign?.label || '',
+        },
+        topBuyers: (brokerSummary.brokers_buy || []).slice(0, 5).map((b) => ({
+          code: b.netbs_broker_code || '',
+          type: b.type || '',
+          value: parseFloat(b.bval) || 0,
+          lot: parseInt(b.blot) || 0,
+          avgPrice: parseFloat(b.netbs_buy_avg_price) || 0,
+        })),
+        topSellers: (brokerSummary.brokers_sell || []).slice(0, 5).map((s) => ({
+          code: s.netbs_broker_code || '',
+          type: s.type || '',
+          value: Math.abs(parseFloat(s.sval)) || 0,
+          lot: Math.abs(parseInt(s.slot)) || 0,
+          avgPrice: parseFloat(s.netbs_sell_avg_price) || 0,
+        })),
+      }
+    })
+  )
+
+  return { data: results }
+}
+
 export async function fetchScreenerTemplate(id) {
   const config = loadConfig()
   const endpoint = config.endpoints.screenerTemplate.replace('{id}', id)
