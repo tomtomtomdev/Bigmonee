@@ -28,6 +28,8 @@ export const api = {
     return apiFetch(`/api/top-brokers${qs ? `?${qs}` : ''}`)
   },
   getMarketSummary: () => apiFetch('/api/market-summary'),
+  getScreenerPresets: () => apiFetch('/api/screener/presets'),
+  getScreenerTemplate: (id) => apiFetch(`/api/screener/templates/${id}`),
   getDiscoveredEndpoints: () => apiFetch('/api/discovered-endpoints'),
   searchEndpoints: ({ q, method, status } = {}) => {
     const params = new URLSearchParams()

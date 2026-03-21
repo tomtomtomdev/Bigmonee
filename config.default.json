@@ -13,7 +13,9 @@
     "stockBrokerSummary": "/marketdetectors/{symbol}",
     "paywallIncrement": "/paywall/counter/increment",
     "paywallCheck": "/paywall/eligibility/check",
-    "marketSummary": "/v2/market/summary"
+    "marketSummary": "/v2/market/summary",
+    "screenerPresets": "/screener/preset",
+    "screenerTemplate": "/screener/templates/{id}"
   },
   "marketMoverFilterStocks": [
     "FILTER_STOCKS_TYPE_MAIN_BOARD",

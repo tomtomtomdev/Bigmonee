@@ -154,6 +154,23 @@ app.get('/api/market-summary', async (req, res) => {
   }
 })
 
+// Screener
+app.get('/api/screener/presets', async (req, res) => {
+  try {
+    res.json(await stockbit.fetchScreenerPresets())
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+app.get('/api/screener/templates/:id', async (req, res) => {
+  try {
+    res.json(await stockbit.fetchScreenerTemplate(req.params.id))
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
 // API Explorer
 app.get('/api/discovered-endpoints', (req, res) => {
   const { q, method, status } = req.query

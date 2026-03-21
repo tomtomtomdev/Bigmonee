@@ -293,3 +293,26 @@ export async function fetchMarketSummary() {
   const config = loadConfig()
   return stockbitFetch(config.endpoints.marketSummary)
 }
+
+export async function fetchScreenerPresets() {
+  const config = loadConfig()
+  return stockbitFetch(config.endpoints.screenerPresets, { mobile: '1', parent_id: '32' })
+}
+
+export async function fetchScreenerTemplate(id) {
+  const config = loadConfig()
+  const endpoint = config.endpoints.screenerTemplate.replace('{id}', id)
+  const raw = await stockbitFetch(endpoint, { limit: '25', type: 'TEMPLATE_TYPE_GURU' })
+  const list = raw?.data?.results || raw?.data?.stocks || raw?.data || []
+  if (!Array.isArray(list)) return { data: raw?.data || {} }
+  return {
+    data: list.map((item) => ({
+      symbol: item.symbol || item.code || item.ticker || '',
+      company_name: item.company_name || item.name || '',
+      price: item.last_price ?? item.close ?? item.price ?? 0,
+      change_pct: item.change_percentage ?? item.percent_change ?? item.change_pct ?? 0,
+      value: item.value ?? item.volume ?? 0,
+      volume: item.volume ?? item.lot ?? 0,
+    })),
+  }
+}
