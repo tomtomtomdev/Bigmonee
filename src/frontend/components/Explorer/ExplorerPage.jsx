@@ -41,7 +41,7 @@ export default function ExplorerPage() {
     return api.getDiscoveredEndpoints()
   }, [debouncedQuery, methodFilter, statusFilter])
 
-  const { data: logs, loading, error, refresh } = useStockData(fetcher, [], 10000)
+  const { data: logs, loading, error, refresh } = useStockData(fetcher, [debouncedQuery, methodFilter, statusFilter], 10000)
 
   const hasFilters = searchQuery || methodFilter || statusFilter
 
