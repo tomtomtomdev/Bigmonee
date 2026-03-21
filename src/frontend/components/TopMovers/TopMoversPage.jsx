@@ -3,7 +3,7 @@ import { useStockData } from '../../hooks/useStockData.js'
 import StockTable from './StockTable.jsx'
 import { TrendingUp, TrendingDown, DollarSign, BarChart } from 'lucide-react'
 
-export default function TopMoversPage() {
+export default function TopMoversPage({ onStockClick }) {
   const gainers = useStockData(() => api.getTopGainers(), [])
   const losers = useStockData(() => api.getTopLosers(), [])
   const value = useStockData(() => api.getTopValue(), [])
@@ -18,24 +18,28 @@ export default function TopMoversPage() {
           title="Top Gainers"
           icon={<TrendingUp size={18} className="text-emerald-400" />}
           color="emerald"
+          onStockClick={onStockClick}
           {...gainers}
         />
         <Panel
           title="Top Losers"
           icon={<TrendingDown size={18} className="text-red-400" />}
           color="red"
+          onStockClick={onStockClick}
           {...losers}
         />
         <Panel
           title="Top by Value"
           icon={<DollarSign size={18} className="text-blue-400" />}
           color="blue"
+          onStockClick={onStockClick}
           {...value}
         />
         <Panel
           title="Top by Volume"
           icon={<BarChart size={18} className="text-purple-400" />}
           color="purple"
+          onStockClick={onStockClick}
           {...volume}
         />
       </div>
@@ -43,7 +47,7 @@ export default function TopMoversPage() {
   )
 }
 
-function Panel({ title, icon, color, data, loading, error }) {
+function Panel({ title, icon, color, data, loading, error, onStockClick }) {
   const stocks = data?.data || []
 
   return (
@@ -57,7 +61,7 @@ function Panel({ title, icon, color, data, loading, error }) {
       ) : loading && !data ? (
         <div className="p-8 text-center text-gray-500 text-sm">Loading...</div>
       ) : (
-        <StockTable stocks={stocks} color={color} />
+        <StockTable stocks={stocks} color={color} onStockClick={onStockClick} />
       )}
     </div>
   )

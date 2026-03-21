@@ -124,6 +124,17 @@ app.get('/api/top-volume', async (req, res) => {
   }
 })
 
+// Stock Detail
+app.get('/api/stock/:symbol', async (req, res) => {
+  try {
+    const { symbol } = req.params
+    const { timeframe } = req.query
+    res.json(await stockbit.fetchStockDetail(symbol.toUpperCase(), { chartTimeframe: timeframe }))
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
 // Top Brokers
 app.get('/api/top-brokers', async (req, res) => {
   try {

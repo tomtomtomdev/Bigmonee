@@ -19,6 +19,10 @@ export const api = {
   getTopLosers: () => apiFetch('/api/top-losers'),
   getTopValue: () => apiFetch('/api/top-value'),
   getTopVolume: () => apiFetch('/api/top-volume'),
+  getStockDetail: (symbol, params = {}) => {
+    const qs = new URLSearchParams(params).toString()
+    return apiFetch(`/api/stock/${symbol}${qs ? `?${qs}` : ''}`)
+  },
   getTopBrokers: (params = {}) => {
     const qs = new URLSearchParams(params).toString()
     return apiFetch(`/api/top-brokers${qs ? `?${qs}` : ''}`)

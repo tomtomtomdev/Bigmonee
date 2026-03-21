@@ -193,6 +193,102 @@ export async function fetchTopBrokers({ period = 'TB_PERIOD_LAST_1_DAY', sort = 
   }
 }
 
+export async function fetchStockDetail(symbol, { chartTimeframe = 'today' } = {}) {
+  const config = loadConfig()
+  const ep = (template) => template.replace('{symbol}', symbol)
+
+  const [chart, info, keystats, orderbook, foreignDomestic, brokerSummary] = await Promise.allSettled([
+    stockbitFetch(ep(config.endpoints.stockChart), {
+      chart_type: 'PRICE_CHART_TYPE_LINE',
+      is_include_previous_historical: '1',
+      timeframe: chartTimeframe,
+    }),
+    stockbitFetch(ep(config.endpoints.stockInfo)),
+    stockbitFetch(ep(config.endpoints.stockKeystats), { year_limit: '10' }),
+    stockbitFetch(ep(config.endpoints.stockOrderbook), { limit: '50' }),
+    stockbitFetch(ep(config.endpoints.stockForeignDomestic), {
+      market_type: 'MARKET_TYPE_REGULAR',
+      period: 'PERIOD_RANGE_1D',
+    }),
+    stockbitFetch(ep(config.endpoints.stockBrokerSummary), {
+      investor_type: '1',
+      limit: '25',
+      market_board: '2',
+      period: 'BROKER_SUMMARY_PERIOD_LATEST',
+      transaction_type: '1',
+    }),
+  ])
+
+  const val = (r) => r.status === 'fulfilled' ? r.value : null
+
+  const infoData = val(info)?.data || {}
+  const keystatsData = val(keystats)?.data?.closure_fin_items_results || []
+  const orderbookData = val(orderbook)?.data || {}
+  const fdData = val(foreignDomestic)?.data || {}
+  const brokerData = val(brokerSummary)?.data || {}
+
+  return {
+    data: {
+      info: {
+        symbol: infoData.symbol || symbol,
+        name: infoData.name || '',
+        price: parseFloat(infoData.price) || 0,
+        change: parseFloat(infoData.change) || 0,
+        percent: infoData.percentage ?? 0,
+        previous: parseFloat(infoData.previous) || 0,
+        sector: infoData.sector || '',
+        subSector: infoData.sub_sector || '',
+        volume: infoData.volume || '0',
+        marketHour: infoData.market_hour || {},
+        formattedPrice: infoData.formatted_price || '',
+      },
+      chart: val(chart)?.data?.prices || [],
+      keystats: keystatsData.map((cat) => ({
+        category: cat.keystats_name,
+        items: cat.fin_name_results.map((r) => ({
+          name: r.fitem.name,
+          value: r.fitem.value,
+        })),
+      })),
+      orderbook: {
+        average: orderbookData.average ?? 0,
+        bid: (orderbookData.bid || []).map((b) => ({
+          price: parseFloat(b.price) || 0,
+          volume: parseInt(b.volume) || 0,
+          queNum: parseInt(b.que_num) || 0,
+        })),
+        ask: (orderbookData.offer || []).map((a) => ({
+          price: parseFloat(a.price) || 0,
+          volume: parseInt(a.volume) || 0,
+          queNum: parseInt(a.que_num) || 0,
+        })),
+      },
+      foreignDomestic: {
+        summary: fdData.summary || {},
+      },
+      brokerSummary: {
+        bandar: brokerData.bandar_detector || {},
+        topBuyers: (brokerData.broker_summary?.brokers_buy || []).slice(0, 10).map((b) => ({
+          code: b.netbs_broker_code || '',
+          type: b.type || '',
+          buyValue: parseFloat(b.bval) || 0,
+          sellValue: parseFloat(b.bvalv) || 0,
+          buyLot: parseInt(b.blot) || 0,
+          freq: parseInt(b.freq) || 0,
+        })),
+        topSellers: (brokerData.broker_summary?.brokers_sell || []).slice(0, 10).map((s) => ({
+          code: s.netbs_broker_code || '',
+          type: s.type || '',
+          sellValue: parseFloat(s.bval) || 0,
+          buyValue: parseFloat(s.bvalv) || 0,
+          sellLot: parseInt(s.blot) || 0,
+          freq: parseInt(s.freq) || 0,
+        })),
+      },
+    },
+  }
+}
+
 export async function fetchMarketSummary() {
   const config = loadConfig()
   return stockbitFetch(config.endpoints.marketSummary)

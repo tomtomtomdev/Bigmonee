@@ -5,6 +5,12 @@
     "ihsgInfo": "/emitten/IHSG/info",
     "marketMover": "/order-trade/market-mover",
     "topBroker": "/order-trade/broker/top",
+    "stockChart": "/charts/{symbol}/daily",
+    "stockInfo": "/emitten/{symbol}/info",
+    "stockKeystats": "/keystats/ratio/v1/{symbol}",
+    "stockOrderbook": "/company-price-feed/v2/orderbook/companies/{symbol}",
+    "stockForeignDomestic": "/findata-view/foreign-domestic/v1/chart-data/{symbol}",
+    "stockBrokerSummary": "/marketdetectors/{symbol}",
     "paywallIncrement": "/paywall/counter/increment",
     "paywallCheck": "/paywall/eligibility/check",
     "marketSummary": "/v2/market/summary"

@@ -1,6 +1,6 @@
 import { formatRupiah, formatPercent, formatCompact, changeColor } from '../../lib/formatters.js'
 
-export default function StockTable({ stocks }) {
+export default function StockTable({ stocks, onStockClick }) {
   if (!stocks || stocks.length === 0) {
     return <div className="p-6 text-center text-gray-500 text-sm">No data available</div>
   }
@@ -28,7 +28,10 @@ export default function StockTable({ stocks }) {
               <tr key={symbol || i} className="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
                 <td className="py-2 px-4 text-gray-500">{i + 1}</td>
                 <td className="py-2 px-2">
-                  <div className="font-medium">{symbol}</div>
+                  <div
+                    className={`font-medium ${onStockClick ? 'text-emerald-400 hover:text-emerald-300 cursor-pointer' : ''}`}
+                    onClick={() => onStockClick?.(symbol)}
+                  >{symbol}</div>
                   {s.company_name && (
                     <div className="text-xs text-gray-500 truncate max-w-[140px]">{s.company_name}</div>
                   )}

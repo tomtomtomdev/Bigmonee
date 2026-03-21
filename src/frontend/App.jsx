@@ -5,6 +5,7 @@ import SetupPage from './components/Setup/SetupPage.jsx'
 import IHSGPage from './components/IHSG/IHSGPage.jsx'
 import TopMoversPage from './components/TopMovers/TopMoversPage.jsx'
 import TopBrokerPage from './components/TopBroker/TopBrokerPage.jsx'
+import StockDetailPage from './components/StockDetail/StockDetailPage.jsx'
 import ExplorerPage from './components/Explorer/ExplorerPage.jsx'
 import { Activity, BarChart3, TrendingUp, Search, Wifi, WifiOff, Building2 } from 'lucide-react'
 
@@ -18,6 +19,7 @@ const TABS = [
 
 export default function App() {
   const [tab, setTab] = useState('setup')
+  const [selectedStock, setSelectedStock] = useState(null)
   const [status, setStatus] = useState(null)
   const { connected, lastEvent } = useWebSocket()
 
@@ -47,7 +49,7 @@ export default function App() {
           {TABS.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
-              onClick={() => setTab(id)}
+              onClick={() => { setTab(id); setSelectedStock(null) }}
               className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
                 tab === id
                   ? 'bg-gray-800 text-emerald-400 border-r-2 border-emerald-400'
@@ -79,11 +81,17 @@ export default function App() {
 
       {/* Main content */}
       <main className="flex-1 overflow-auto">
-        {tab === 'setup' && <SetupPage status={status} />}
-        {tab === 'ihsg' && <IHSGPage />}
-        {tab === 'movers' && <TopMoversPage />}
-        {tab === 'brokers' && <TopBrokerPage />}
-        {tab === 'explorer' && <ExplorerPage />}
+        {selectedStock ? (
+          <StockDetailPage symbol={selectedStock} onBack={() => setSelectedStock(null)} />
+        ) : (
+          <>
+            {tab === 'setup' && <SetupPage status={status} />}
+            {tab === 'ihsg' && <IHSGPage />}
+            {tab === 'movers' && <TopMoversPage onStockClick={setSelectedStock} />}
+            {tab === 'brokers' && <TopBrokerPage />}
+            {tab === 'explorer' && <ExplorerPage />}
+          </>
+        )}
       </main>
     </div>
   )
