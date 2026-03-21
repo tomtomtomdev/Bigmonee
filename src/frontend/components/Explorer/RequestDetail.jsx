@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { api } from '../../lib/api.js'
-import { X } from 'lucide-react'
+import { X, Copy, Check } from 'lucide-react'
 
 function HeaderTable({ headers }) {
   const entries = Object.entries(headers || {})
@@ -42,10 +42,24 @@ function BodySection({ body, truncated, label }) {
   )
 }
 
+function buildCurl(detail) {
+  const parts = ['curl']
+  if (detail.method !== 'GET') parts.push(`-X ${detail.method}`)
+  parts.push(`'${detail.url}'`)
+  for (const [key, value] of Object.entries(detail.requestHeaders || {})) {
+    parts.push(`-H '${key}: ${String(value).replace(/'/g, "'\\''")}'`)
+  }
+  if (detail.requestBody) {
+    parts.push(`-d '${detail.requestBody.replace(/'/g, "'\\''")}'`)
+  }
+  return parts.join(' \\\n  ')
+}
+
 export default function RequestDetail({ id, onClose }) {
   const [detail, setDetail] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     if (!id) return
@@ -86,9 +100,22 @@ export default function RequestDetail({ id, onClose }) {
           </span>
           {detail.statusCode}
         </h3>
-        <button onClick={onClose} className="p-1 text-gray-400 hover:text-gray-200 transition-colors">
-          <X size={16} />
-        </button>
+        <div className="flex items-center gap-1">
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(buildCurl(detail))
+              setCopied(true)
+              setTimeout(() => setCopied(false), 2000)
+            }}
+            className="p-1 text-gray-400 hover:text-gray-200 transition-colors"
+            title="Copy as cURL"
+          >
+            {copied ? <Check size={16} className="text-emerald-400" /> : <Copy size={16} />}
+          </button>
+          <button onClick={onClose} className="p-1 text-gray-400 hover:text-gray-200 transition-colors">
+            <X size={16} />
+          </button>
+        </div>
       </div>
 
       <div className="p-4 space-y-5">
