@@ -329,6 +329,34 @@ export async function fetchScreenerPresets() {
   }
 }
 
+function analyzePhase(latestBandar, monthBandar, foreignFlow, screeners) {
+  const latest = (latestBandar?.broker_accdist || '').toLowerCase()
+  const monthly = (monthBandar?.broker_accdist || '').toLowerCase()
+  const netForeign = foreignFlow?.net_foreign?.value?.raw ?? 0
+  const isForeignInflow = netForeign > 0
+  const screenerCount = screeners?.length || 0
+
+  const isLatestAcc = latest.includes('acc')
+  const isLatestDist = latest.includes('dist')
+  const isMonthlyAcc = monthly.includes('acc')
+  const isMonthlyDist = monthly.includes('dist')
+
+  if (latest === 'acc+') return { phase: 'Heavy Acc', confidence: 'high' }
+  if (isLatestAcc && isMonthlyDist) return { phase: 'Fake Acc', confidence: 'medium' }
+  if (isLatestDist && isMonthlyAcc) return { phase: 'Fake Dist', confidence: 'medium' }
+  if (isLatestAcc && isMonthlyAcc) {
+    if (isForeignInflow && screenerCount >= 2) return { phase: 'Strong Acc', confidence: 'high' }
+    return { phase: 'Acc', confidence: 'medium' }
+  }
+  if (isLatestDist && isMonthlyDist) {
+    if (!isForeignInflow && screenerCount === 0) return { phase: 'Strong Dist', confidence: 'high' }
+    return { phase: 'Dist', confidence: 'medium' }
+  }
+  if (isLatestAcc) return { phase: 'Acc', confidence: 'low' }
+  if (isLatestDist) return { phase: 'Dist', confidence: 'low' }
+  return { phase: 'Neutral', confidence: 'low' }
+}
+
 const BANDAR_TEMPLATE_IDS = ['77', '80', '92', '96', '97', '117', '101', '120']
 
 function extractSymbols(raw) {
@@ -400,12 +428,19 @@ export async function fetchBandarScan() {
 }
 
 async function enrichStock(config, ep, { symbol, name, screeners }) {
-  const [brokerResult, fdResult] = await Promise.allSettled([
+  const [brokerResult, broker1mResult, fdResult] = await Promise.allSettled([
     stockbitFetch(ep(config.endpoints.stockBrokerSummary, symbol), {
       investor_type: '1',
       limit: '25',
       market_board: '2',
       period: 'BROKER_SUMMARY_PERIOD_LATEST',
+      transaction_type: '1',
+    }),
+    stockbitFetch(ep(config.endpoints.stockBrokerSummary, symbol), {
+      investor_type: '1',
+      limit: '25',
+      market_board: '2',
+      period: 'BROKER_SUMMARY_PERIOD_LAST_1_MONTH',
       transaction_type: '1',
     }),
     stockbitFetch(ep(config.endpoints.stockForeignDomestic, symbol), {
@@ -415,9 +450,11 @@ async function enrichStock(config, ep, { symbol, name, screeners }) {
   ])
 
   const brokerData = brokerResult.status === 'fulfilled' ? brokerResult.value?.data : null
+  const broker1mData = broker1mResult.status === 'fulfilled' ? broker1mResult.value?.data : null
   const fdData = fdResult.status === 'fulfilled' ? fdResult.value?.data : null
 
   const bandarDetector = brokerData?.bandar_detector || {}
+  const bandar1mDetector = broker1mData?.bandar_detector || {}
   const brokerSummary = brokerData?.broker_summary || {}
   const fdSummary = fdData?.summary || {}
 
@@ -453,6 +490,7 @@ async function enrichStock(config, ep, { symbol, name, screeners }) {
       lot: Math.abs(parseInt(s.slot)) || 0,
       avgPrice: parseFloat(s.netbs_sell_avg_price) || 0,
     })),
+    phase: analyzePhase(bandarDetector, bandar1mDetector, fdSummary, screeners),
   }
 }
 

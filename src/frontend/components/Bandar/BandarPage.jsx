@@ -28,6 +28,28 @@ function BrokerBadges({ brokers, color }) {
   )
 }
 
+const PHASE_COLORS = {
+  'Heavy Acc': 'bg-emerald-500/20 text-emerald-300',
+  'Strong Acc': 'bg-emerald-500/15 text-emerald-400',
+  'Acc': 'bg-emerald-500/10 text-emerald-400',
+  'Fake Acc': 'bg-yellow-500/15 text-yellow-400',
+  'Fake Dist': 'bg-yellow-500/15 text-yellow-400',
+  'Dist': 'bg-red-500/10 text-red-400',
+  'Strong Dist': 'bg-red-500/15 text-red-300',
+  'Neutral': 'bg-gray-500/10 text-gray-500',
+}
+
+function PhaseBadge({ phase }) {
+  if (!phase?.phase) return <span className="text-gray-500 text-xs">-</span>
+  const cls = PHASE_COLORS[phase.phase] || PHASE_COLORS['Neutral']
+  const border = phase.confidence === 'high' ? 'ring-1 ring-current/20' : ''
+  return (
+    <span className={`px-2 py-0.5 rounded text-xs font-medium whitespace-nowrap ${cls} ${border}`}>
+      {phase.phase}
+    </span>
+  )
+}
+
 function ScreenerTags({ screeners }) {
   if (!screeners || screeners.length === 0) return null
   return (
@@ -79,6 +101,7 @@ export default function BandarPage({ onStockClick }) {
                 <tr className="text-gray-500 text-xs border-b border-gray-800">
                   <th className="text-left py-2 px-4">Symbol</th>
                   <th className="text-center py-2 px-2">#</th>
+                  <th className="text-center py-2 px-2">Phase</th>
                   <th className="text-center py-2 px-2">Signal</th>
                   <th className="text-right py-2 px-2">Top5%</th>
                   <th className="text-right py-2 px-2">Buyers</th>
@@ -102,6 +125,9 @@ export default function BandarPage({ onStockClick }) {
                     </td>
                     <td className="py-2 px-2 text-center font-mono text-xs text-yellow-400">
                       {s.screeners?.length || 0}
+                    </td>
+                    <td className="py-2 px-2 text-center">
+                      <PhaseBadge phase={s.phase} />
                     </td>
                     <td className="py-2 px-2 text-center">
                       <SignalBadge signal={s.bandar?.signal} />
