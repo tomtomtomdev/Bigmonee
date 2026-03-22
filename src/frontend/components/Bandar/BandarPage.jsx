@@ -78,6 +78,7 @@ export default function BandarPage({ onStockClick }) {
               <thead>
                 <tr className="text-gray-500 text-xs border-b border-gray-800">
                   <th className="text-left py-2 px-4">Symbol</th>
+                  <th className="text-center py-2 px-2">#</th>
                   <th className="text-center py-2 px-2">Signal</th>
                   <th className="text-right py-2 px-2">Top5%</th>
                   <th className="text-right py-2 px-2">Buyers</th>
@@ -98,6 +99,9 @@ export default function BandarPage({ onStockClick }) {
                       <div className="font-medium text-emerald-400">{s.symbol}</div>
                       <div className="text-xs text-gray-500 truncate max-w-[120px]">{s.name}</div>
                       <ScreenerTags screeners={s.screeners} />
+                    </td>
+                    <td className="py-2 px-2 text-center font-mono text-xs text-yellow-400">
+                      {s.screeners?.length || 0}
                     </td>
                     <td className="py-2 px-2 text-center">
                       <SignalBadge signal={s.bandar?.signal} />

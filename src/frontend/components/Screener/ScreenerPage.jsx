@@ -10,6 +10,8 @@ const FALLBACK_TEMPLATES = [
   { id: '96', name: 'Bandar Accumulation Uptrend' },
   { id: '97', name: 'Frequency Spike' },
   { id: '117', name: 'Insider Net Buy (3M - 1Y)' },
+  { id: '101', name: 'Guru Screener 101' },
+  { id: '120', name: 'Guru Screener 120' },
 ]
 
 function ScreenerTable({ stocks, onStockClick }) {

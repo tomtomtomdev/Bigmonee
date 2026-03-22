@@ -329,7 +329,7 @@ export async function fetchScreenerPresets() {
   }
 }
 
-const BANDAR_TEMPLATE_IDS = ['77', '80', '92', '96', '97', '117']
+const BANDAR_TEMPLATE_IDS = ['77', '80', '92', '96', '97', '117', '101', '120']
 
 function extractSymbols(raw) {
   const calcs = raw?.data?.calcs || []
@@ -380,7 +380,9 @@ export async function fetchBandarScan() {
     }
   })
 
-  const symbols = [...symbolMap.values()].slice(0, 30)
+  const symbols = [...symbolMap.values()]
+    .sort((a, b) => b.screeners.length - a.screeners.length)
+    .slice(0, 30)
   if (symbols.length === 0) return { data: [] }
 
   // 2. For each stock, fetch broker summary + foreign flow in parallel
