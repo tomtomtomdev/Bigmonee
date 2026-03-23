@@ -10,6 +10,7 @@ import ForeignDomesticSection from './ForeignDomesticSection.jsx'
 import BrokerSummarySection from './BrokerSummarySection.jsx'
 import SubsidiarySection from './SubsidiarySection.jsx'
 import CompanyProfileSection from './CompanyProfileSection.jsx'
+import InsiderTradingSection from './InsiderTradingSection.jsx'
 
 const TIMEFRAMES = [
   { value: 'today', label: '1D' },
@@ -112,6 +113,9 @@ export default function StockDetailPage({ symbol, onBack }) {
 
           {/* Company Profile */}
           <CompanyProfileSection profile={data?.data?.profile} />
+
+          {/* Insider Trading */}
+          <InsiderTradingSection insiderTrading={data?.data?.insiderTrading} />
 
           {/* Orderbook + Foreign/Domestic */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">

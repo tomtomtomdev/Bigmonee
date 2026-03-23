@@ -199,7 +199,7 @@ export async function fetchStockDetail(symbol, { chartTimeframe = 'today' } = {}
   const config = loadConfig()
   const ep = (template) => template.replace('{symbol}', symbol)
 
-  const [chart, info, keystats, orderbook, foreignDomestic, brokerSummary, subsidiary, profile] = await Promise.allSettled([
+  const [chart, info, keystats, orderbook, foreignDomestic, brokerSummary, subsidiary, profile, insider] = await Promise.allSettled([
     stockbitFetch(ep(config.endpoints.stockChart), {
       chart_type: 'PRICE_CHART_TYPE_LINE',
       is_include_previous_historical: '1',
@@ -221,6 +221,7 @@ export async function fetchStockDetail(symbol, { chartTimeframe = 'today' } = {}
     }),
     stockbitFetch(ep(config.endpoints.stockSubsidiary)),
     stockbitFetch(ep(config.endpoints.stockProfile)),
+    stockbitFetch(config.endpoints.insiderMajorHolder, { symbols: symbol, limit: '30', page: '1' }),
   ])
 
   const val = (r) => r.status === 'fulfilled' ? r.value : null
@@ -232,6 +233,7 @@ export async function fetchStockDetail(symbol, { chartTimeframe = 'today' } = {}
   const brokerData = val(brokerSummary)?.data || {}
   const subsidiaryData = val(subsidiary)?.data || {}
   const profileData = val(profile)?.data || {}
+  const insiderData = val(insider)?.data || {}
 
   return {
     data: {
@@ -345,6 +347,17 @@ export async function fetchStockDetail(symbol, { chartTimeframe = 'today' } = {}
         })),
         beneficiaries: (profileData.beneficiary || []).map((b) => b.name),
       },
+      insiderTrading: (insiderData.movement || []).map((m) => ({
+        name: m.name,
+        date: m.date,
+        action: m.action_type,
+        previous: m.previous?.value,
+        current: m.current?.value,
+        change: m.changes?.value,
+        changeShares: m.changes?.formatted_value,
+        price: m.price_formatted,
+        badges: m.badges || [],
+      })),
     },
   }
 }
