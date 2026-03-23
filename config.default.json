@@ -16,7 +16,8 @@
     "marketSummary": "/v2/market/summary",
     "screenerPresets": "/screener/preset",
     "screenerTemplate": "/screener/templates/{id}",
-    "stockSubsidiary": "/emitten-metadata/subsidiary/{symbol}"
+    "stockSubsidiary": "/emitten-metadata/subsidiary/{symbol}",
+    "stockProfile": "/emitten/{symbol}/profile"
   },
   "marketMoverFilterStocks": [
     "FILTER_STOCKS_TYPE_MAIN_BOARD",

@@ -199,7 +199,7 @@ export async function fetchStockDetail(symbol, { chartTimeframe = 'today' } = {}
   const config = loadConfig()
   const ep = (template) => template.replace('{symbol}', symbol)
 
-  const [chart, info, keystats, orderbook, foreignDomestic, brokerSummary, subsidiary] = await Promise.allSettled([
+  const [chart, info, keystats, orderbook, foreignDomestic, brokerSummary, subsidiary, profile] = await Promise.allSettled([
     stockbitFetch(ep(config.endpoints.stockChart), {
       chart_type: 'PRICE_CHART_TYPE_LINE',
       is_include_previous_historical: '1',
@@ -220,6 +220,7 @@ export async function fetchStockDetail(symbol, { chartTimeframe = 'today' } = {}
       transaction_type: '1',
     }),
     stockbitFetch(ep(config.endpoints.stockSubsidiary)),
+    stockbitFetch(ep(config.endpoints.stockProfile)),
   ])
 
   const val = (r) => r.status === 'fulfilled' ? r.value : null
@@ -230,6 +231,7 @@ export async function fetchStockDetail(symbol, { chartTimeframe = 'today' } = {}
   const fdData = val(foreignDomestic)?.data || {}
   const brokerData = val(brokerSummary)?.data || {}
   const subsidiaryData = val(subsidiary)?.data || {}
+  const profileData = val(profile)?.data || {}
 
   return {
     data: {
@@ -301,6 +303,47 @@ export async function fetchStockDetail(symbol, { chartTimeframe = 'today' } = {}
         currency: subsidiaryData.currency || '',
         period: subsidiaryData.last_updated_period || '',
         unit: subsidiaryData.unit || '',
+      },
+      profile: {
+        background: profileData.background || '',
+        address: (() => {
+          const a = (profileData.address || [])[0] || {}
+          return {
+            office: a.office || '',
+            phone: a.phone || '',
+            email: (a.email || [])[0] || '',
+            website: a.website || '',
+            fax: a.fax || '',
+          }
+        })(),
+        executives: {
+          presidentDirector: (profileData.key_executive?.president_director || []).map((e) => e.value),
+          directors: (profileData.key_executive?.director || []).map((e) => e.value),
+          commissioners: (profileData.key_executive?.commissioner || []).map((e) => e.value),
+          independentCommissioners: (profileData.key_executive?.independent_commissioner || []).map((e) => e.value),
+        },
+        shareholders: (profileData.shareholder || []).map((s) => ({
+          name: s.name,
+          percentage: s.percentage,
+          value: s.value,
+          badges: s.badges || [],
+        })),
+        history: {
+          date: profileData.history?.date || '',
+          price: profileData.history?.price || '',
+          shares: profileData.history?.shares || '',
+          amount: profileData.history?.amount || '',
+          board: profileData.history?.board || '',
+          freeFloat: profileData.history?.free_float || '',
+          underwriters: profileData.history?.underwriters || [],
+        },
+        shareholderTrend: (profileData.shareholder_numbers || []).map((s) => ({
+          date: s.shareholder_date,
+          total: s.total_share,
+          change: s.change,
+          changeFormatted: s.change_formatted,
+        })),
+        beneficiaries: (profileData.beneficiary || []).map((b) => b.name),
       },
     },
   }
