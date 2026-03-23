@@ -195,11 +195,29 @@ export async function fetchTopBrokers({ period = 'TB_PERIOD_LAST_1_DAY', sort = 
   }
 }
 
+function flattenAccounts(accounts, result = []) {
+  for (const a of accounts) {
+    if (!a.name && a.values.length === 0) continue // skip empty spacer rows
+    const isBold = a.name.includes('<b>')
+    const name = a.name.replace(/<\/?b>/g, '').trim()
+    if (name) result.push({ level: a.level, name, values: a.values, bold: isBold })
+    if (a.accounts?.length) flattenAccounts(a.accounts, result)
+  }
+  return result
+}
+
+function mapFinancial(res) {
+  const dt = res?.data?.data_tables
+  if (!dt) return { periods: [], accounts: [] }
+  return { periods: dt.periods || [], accounts: flattenAccounts(dt.accounts || []) }
+}
+
 export async function fetchStockDetail(symbol, { chartTimeframe = 'today' } = {}) {
   const config = loadConfig()
   const ep = (template) => template.replace('{symbol}', symbol)
 
-  const [chart, info, comparison, orderbook, foreignDomestic, brokerSummary, subsidiary, profile, insider] = await Promise.allSettled([
+  const finParams = { data_type: '1', is_percentage: '0', page: '1', statement_type: '2' }
+  const [chart, info, comparison, orderbook, foreignDomestic, brokerSummary, subsidiary, profile, insider, finIS, finBS, finCF] = await Promise.allSettled([
     stockbitFetch(ep(config.endpoints.stockChart), {
       chart_type: 'PRICE_CHART_TYPE_LINE',
       is_include_previous_historical: '1',
@@ -222,6 +240,9 @@ export async function fetchStockDetail(symbol, { chartTimeframe = 'today' } = {}
     stockbitFetch(ep(config.endpoints.stockSubsidiary)),
     stockbitFetch(ep(config.endpoints.stockProfile)),
     stockbitFetch(config.endpoints.insiderMajorHolder, { symbols: symbol, limit: '30', page: '1' }),
+    stockbitFetch(ep(config.endpoints.financials), { ...finParams, report_type: '1' }),
+    stockbitFetch(ep(config.endpoints.financials), { ...finParams, report_type: '2' }),
+    stockbitFetch(ep(config.endpoints.financials), { ...finParams, report_type: '3' }),
   ])
 
   const val = (r) => r.status === 'fulfilled' ? r.value : null
@@ -361,6 +382,11 @@ export async function fetchStockDetail(symbol, { chartTimeframe = 'today' } = {}
         price: m.price_formatted,
         badges: m.badges || [],
       })),
+      financials: {
+        incomeStatement: mapFinancial(val(finIS)),
+        balanceSheet: mapFinancial(val(finBS)),
+        cashFlow: mapFinancial(val(finCF)),
+      },
     },
   }
 }

@@ -19,7 +19,8 @@
     "stockSubsidiary": "/emitten-metadata/subsidiary/{symbol}",
     "stockProfile": "/emitten/{symbol}/profile",
     "insiderMajorHolder": "/insider/company/majorholder",
-    "comparisonRatios": "/comparison/v2/ratios"
+    "comparisonRatios": "/comparison/v2/ratios",
+    "financials": "/findata-view/v2/financials/{symbol}"
   },
   "marketMoverFilterStocks": [
     "FILTER_STOCKS_TYPE_MAIN_BOARD",

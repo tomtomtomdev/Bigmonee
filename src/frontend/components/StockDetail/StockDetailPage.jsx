@@ -11,6 +11,7 @@ import BrokerSummarySection from './BrokerSummarySection.jsx'
 import SubsidiarySection from './SubsidiarySection.jsx'
 import CompanyProfileSection from './CompanyProfileSection.jsx'
 import InsiderTradingSection from './InsiderTradingSection.jsx'
+import FinancialStatementsSection from './FinancialStatementsSection.jsx'
 
 const TIMEFRAMES = [
   { value: 'today', label: '1D' },
@@ -110,6 +111,9 @@ export default function StockDetailPage({ symbol, onBack }) {
 
           {/* Key Stats vs Industry & Sector */}
           <ComparisonRatiosSection comparison={data?.data?.comparison} />
+
+          {/* Financial Statements */}
+          <FinancialStatementsSection financials={data?.data?.financials} />
 
           {/* Company Profile */}
           <CompanyProfileSection profile={data?.data?.profile} />
