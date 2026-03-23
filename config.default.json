@@ -18,7 +18,8 @@
     "screenerTemplate": "/screener/templates/{id}",
     "stockSubsidiary": "/emitten-metadata/subsidiary/{symbol}",
     "stockProfile": "/emitten/{symbol}/profile",
-    "insiderMajorHolder": "/insider/company/majorholder"
+    "insiderMajorHolder": "/insider/company/majorholder",
+    "comparisonRatios": "/comparison/v2/ratios"
   },
   "marketMoverFilterStocks": [
     "FILTER_STOCKS_TYPE_MAIN_BOARD",

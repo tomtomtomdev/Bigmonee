@@ -199,14 +199,14 @@ export async function fetchStockDetail(symbol, { chartTimeframe = 'today' } = {}
   const config = loadConfig()
   const ep = (template) => template.replace('{symbol}', symbol)
 
-  const [chart, info, keystats, orderbook, foreignDomestic, brokerSummary, subsidiary, profile, insider] = await Promise.allSettled([
+  const [chart, info, comparison, orderbook, foreignDomestic, brokerSummary, subsidiary, profile, insider] = await Promise.allSettled([
     stockbitFetch(ep(config.endpoints.stockChart), {
       chart_type: 'PRICE_CHART_TYPE_LINE',
       is_include_previous_historical: '1',
       timeframe: chartTimeframe,
     }),
     stockbitFetch(ep(config.endpoints.stockInfo)),
-    stockbitFetch(ep(config.endpoints.stockKeystats), { year_limit: '10' }),
+    stockbitFetch(config.endpoints.comparisonRatios, { symbol }),
     stockbitFetch(ep(config.endpoints.stockOrderbook), { limit: '50' }),
     stockbitFetch(ep(config.endpoints.stockForeignDomestic), {
       market_type: 'MARKET_TYPE_REGULAR',
@@ -227,7 +227,7 @@ export async function fetchStockDetail(symbol, { chartTimeframe = 'today' } = {}
   const val = (r) => r.status === 'fulfilled' ? r.value : null
 
   const infoData = val(info)?.data || {}
-  const keystatsData = val(keystats)?.data?.closure_fin_items_results || []
+  const comparisonData = val(comparison)?.data || {}
   const orderbookData = val(orderbook)?.data || {}
   const fdData = val(foreignDomestic)?.data || {}
   const brokerData = val(brokerSummary)?.data || {}
@@ -251,13 +251,16 @@ export async function fetchStockDetail(symbol, { chartTimeframe = 'today' } = {}
         formattedPrice: infoData.formatted_price || '',
       },
       chart: val(chart)?.data?.prices || [],
-      keystats: keystatsData.map((cat) => ({
-        category: cat.keystats_name,
-        items: cat.fin_name_results.map((r) => ({
-          name: r.fitem.name,
-          value: r.fitem.value,
+      comparison: {
+        symbols: comparisonData.symbols || [],
+        groups: (comparisonData.metric_groups || []).map((g) => ({
+          name: g.metric_group_name,
+          metrics: g.metric.map((m) => ({
+            name: m.fitem_name,
+            ratios: Object.fromEntries(m.ratios.map((r) => [r.symbol, r.value])),
+          })),
         })),
-      })),
+      },
       orderbook: {
         average: orderbookData.average ?? 0,
         bid: (orderbookData.bid || []).map((b) => ({

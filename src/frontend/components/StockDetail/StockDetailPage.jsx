@@ -4,7 +4,7 @@ import { useStockData } from '../../hooks/useStockData.js'
 import { formatRupiah, formatPercent, changeColor } from '../../lib/formatters.js'
 import { ArrowLeft, RefreshCw } from 'lucide-react'
 import StockChart from './StockChart.jsx'
-import KeyStatsSection from './KeyStatsSection.jsx'
+import ComparisonRatiosSection from './ComparisonRatiosSection.jsx'
 import OrderbookSection from './OrderbookSection.jsx'
 import ForeignDomesticSection from './ForeignDomesticSection.jsx'
 import BrokerSummarySection from './BrokerSummarySection.jsx'
@@ -108,8 +108,8 @@ export default function StockDetailPage({ symbol, onBack }) {
             <StockChart data={chart} />
           </div>
 
-          {/* Key Stats */}
-          <KeyStatsSection keystats={data?.data?.keystats} />
+          {/* Key Stats vs Industry & Sector */}
+          <ComparisonRatiosSection comparison={data?.data?.comparison} />
 
           {/* Company Profile */}
           <CompanyProfileSection profile={data?.data?.profile} />
