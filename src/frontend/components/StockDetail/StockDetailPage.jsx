@@ -8,6 +8,7 @@ import KeyStatsSection from './KeyStatsSection.jsx'
 import OrderbookSection from './OrderbookSection.jsx'
 import ForeignDomesticSection from './ForeignDomesticSection.jsx'
 import BrokerSummarySection from './BrokerSummarySection.jsx'
+import SubsidiarySection from './SubsidiarySection.jsx'
 
 const TIMEFRAMES = [
   { value: 'today', label: '1D' },
@@ -116,6 +117,9 @@ export default function StockDetailPage({ symbol, onBack }) {
 
           {/* Broker Summary */}
           <BrokerSummarySection brokerSummary={data?.data?.brokerSummary} />
+
+          {/* Subsidiaries */}
+          <SubsidiarySection subsidiaries={data?.data?.subsidiaries} />
         </>
       )}
     </div>

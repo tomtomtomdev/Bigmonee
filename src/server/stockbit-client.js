@@ -199,7 +199,7 @@ export async function fetchStockDetail(symbol, { chartTimeframe = 'today' } = {}
   const config = loadConfig()
   const ep = (template) => template.replace('{symbol}', symbol)
 
-  const [chart, info, keystats, orderbook, foreignDomestic, brokerSummary] = await Promise.allSettled([
+  const [chart, info, keystats, orderbook, foreignDomestic, brokerSummary, subsidiary] = await Promise.allSettled([
     stockbitFetch(ep(config.endpoints.stockChart), {
       chart_type: 'PRICE_CHART_TYPE_LINE',
       is_include_previous_historical: '1',
@@ -219,6 +219,7 @@ export async function fetchStockDetail(symbol, { chartTimeframe = 'today' } = {}
       period: 'BROKER_SUMMARY_PERIOD_LATEST',
       transaction_type: '1',
     }),
+    stockbitFetch(ep(config.endpoints.stockSubsidiary)),
   ])
 
   const val = (r) => r.status === 'fulfilled' ? r.value : null
@@ -228,6 +229,7 @@ export async function fetchStockDetail(symbol, { chartTimeframe = 'today' } = {}
   const orderbookData = val(orderbook)?.data || {}
   const fdData = val(foreignDomestic)?.data || {}
   const brokerData = val(brokerSummary)?.data || {}
+  const subsidiaryData = val(subsidiary)?.data || {}
 
   return {
     data: {
@@ -286,6 +288,19 @@ export async function fetchStockDetail(symbol, { chartTimeframe = 'today' } = {}
           sellLot: parseInt(s.blot) || 0,
           freq: parseInt(s.freq) || 0,
         })),
+      },
+      subsidiaries: {
+        items: (subsidiaryData.subsidiaries || []).map((s) => ({
+          name: s.company_name,
+          business: s.business_type,
+          location: s.location,
+          year: s.commercial_year,
+          assets: s.total_assets,
+          ownership: s.percentage,
+        })),
+        currency: subsidiaryData.currency || '',
+        period: subsidiaryData.last_updated_period || '',
+        unit: subsidiaryData.unit || '',
       },
     },
   }
