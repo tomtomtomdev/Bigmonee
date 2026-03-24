@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useWebSocket } from './hooks/useWebSocket.js'
 import { api } from './lib/api.js'
+import TradingPage from './components/Trading/TradingPage.jsx'
 import SetupPage from './components/Setup/SetupPage.jsx'
 import IHSGPage from './components/IHSG/IHSGPage.jsx'
 import TopMoversPage from './components/TopMovers/TopMoversPage.jsx'
@@ -12,9 +13,10 @@ import BandarPage from './components/Bandar/BandarPage.jsx'
 import InsiderFeedPage from './components/InsiderFeed/InsiderFeedPage.jsx'
 import IndexPage from './components/Index/IndexPage.jsx'
 import SectorPage from './components/Sector/SectorPage.jsx'
-import { Activity, BarChart3, TrendingUp, Search, Wifi, WifiOff, Building2, Filter, Eye, List, PieChart, ShieldAlert } from 'lucide-react'
+import { Activity, BarChart3, TrendingUp, Search, Wifi, WifiOff, Building2, Filter, Eye, List, PieChart, ShieldAlert, Wallet } from 'lucide-react'
 
 const TABS = [
+  { id: 'trading', label: 'Trading', icon: Wallet },
   { id: 'setup', label: 'Setup', icon: Activity },
   { id: 'ihsg', label: 'IHSG', icon: TrendingUp },
   { id: 'movers', label: 'Top Movers', icon: BarChart3 },
@@ -95,6 +97,7 @@ export default function App() {
           <StockDetailPage symbol={selectedStock} onBack={() => setSelectedStock(null)} />
         ) : (
           <>
+            {tab === 'trading' && <TradingPage onStockClick={setSelectedStock} />}
             {tab === 'setup' && <SetupPage status={status} />}
             {tab === 'ihsg' && <IHSGPage />}
             {tab === 'movers' && <TopMoversPage onStockClick={setSelectedStock} />}

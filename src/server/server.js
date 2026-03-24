@@ -10,6 +10,9 @@ import { cache } from './cache.js'
 import { getLogs, getLogDetail, searchLogs, clearLogs } from './api-logger.js'
 import * as stockbit from './stockbit-client.js'
 import { getProfile, clearProfile } from './header-profile.js'
+import { loadPortfolio, resetPortfolio, updateSettings } from './virtual-portfolio.js'
+import { scanConviction } from './conviction-scanner.js'
+import { runTradeEngine, getPortfolioWithPrices } from './trade-engine.js'
 
 // Load config
 const CONFIG_PATH = path.resolve('data/config.json')
@@ -175,6 +178,52 @@ app.get('/api/screener/templates/:id', async (req, res) => {
 app.get('/api/bandar-scan', async (req, res) => {
   try {
     res.json(await stockbit.fetchBandarScan())
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+// Trading Platform
+app.get('/api/portfolio', async (req, res) => {
+  try {
+    res.json(await getPortfolioWithPrices())
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+app.get('/api/portfolio/trades', (req, res) => {
+  const portfolio = loadPortfolio()
+  res.json(portfolio.trades.slice().reverse())
+})
+
+app.put('/api/portfolio/settings', express.json(), (req, res) => {
+  try {
+    res.json(updateSettings(req.body))
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+app.post('/api/portfolio/reset', express.json(), (req, res) => {
+  try {
+    res.json(resetPortfolio(req.body?.initialCash))
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+app.get('/api/conviction-scan', async (req, res) => {
+  try {
+    res.json(await scanConviction())
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+app.post('/api/portfolio/run-engine', async (req, res) => {
+  try {
+    res.json(await runTradeEngine())
   } catch (err) {
     res.status(500).json({ error: err.message })
   }

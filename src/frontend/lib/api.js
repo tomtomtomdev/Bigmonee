@@ -44,6 +44,12 @@ export const api = {
   getEndpointDetail: (id) => apiFetch(`/api/discovered-endpoints/${id}`),
   getHeaderProfile: () => apiFetch('/api/header-profile'),
   deleteHeaderProfile: () => apiFetch('/api/header-profile', { method: 'DELETE' }),
+  getPortfolio: () => apiFetch('/api/portfolio'),
+  getPortfolioTrades: () => apiFetch('/api/portfolio/trades'),
+  updatePortfolioSettings: (settings) => apiFetch('/api/portfolio/settings', { method: 'PUT', body: JSON.stringify(settings) }),
+  resetPortfolio: (initialCash) => apiFetch('/api/portfolio/reset', { method: 'POST', body: JSON.stringify({ initialCash }) }),
+  getConvictionScan: () => apiFetch('/api/conviction-scan'),
+  runTradeEngine: () => apiFetch('/api/portfolio/run-engine', { method: 'POST' }),
   getInsiderFeed: (periodType) => apiFetch(`/api/insider-feed?period_type=${periodType}`),
   getBrokerActivity: (params) => {
     const qs = new URLSearchParams(params).toString()
