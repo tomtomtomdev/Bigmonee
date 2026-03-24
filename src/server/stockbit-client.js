@@ -396,6 +396,38 @@ export async function fetchMarketSummary() {
   return stockbitFetch(config.endpoints.marketSummary)
 }
 
+export async function fetchIndexList() {
+  const config = loadConfig()
+  const res = await stockbitFetch(config.endpoints.indexList)
+  const mapIdx = (arr) => (arr || []).map((i) => ({
+    id: i.id,
+    parent: i.parent,
+    symbol: i.symbol,
+    name: i.name,
+    percent: parseFloat(i.percent) || 0,
+    change: parseFloat(i.change) || 0,
+    last: parseFloat(i.last) || 0,
+  }))
+  return { main: mapIdx(res?.data?.main), all: mapIdx(res?.data?.all) }
+}
+
+export async function fetchIndexCompanies(parent, id) {
+  const config = loadConfig()
+  const endpoint = config.endpoints.indexCompanies
+    .replace('{parent}', parent)
+    .replace('{id}', id)
+  const res = await stockbitFetch(endpoint, { sector: parent, subsector: id })
+  return (res?.data || []).map((c) => ({
+    symbol: c.symbol,
+    name: c.name,
+    price: c.formatted_price || c.last,
+    change: c.change,
+    percent: c.percent,
+    volume: c.volume,
+    marketCap: c.marketcap,
+  }))
+}
+
 async function screenerPaywallGate() {
   const config = loadConfig()
   await stockbitFetch(config.endpoints.paywallIncrement, {}, {

@@ -180,6 +180,23 @@ app.get('/api/bandar-scan', async (req, res) => {
   }
 })
 
+// Indexes
+app.get('/api/indexes', async (req, res) => {
+  try {
+    res.json(await stockbit.fetchIndexList())
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+app.get('/api/indexes/:parent/:id/companies', async (req, res) => {
+  try {
+    res.json(await stockbit.fetchIndexCompanies(req.params.parent, req.params.id))
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
 // API Explorer
 app.get('/api/discovered-endpoints', (req, res) => {
   const { q, method, status } = req.query

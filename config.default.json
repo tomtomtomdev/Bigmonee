@@ -20,7 +20,9 @@
     "stockProfile": "/emitten/{symbol}/profile",
     "insiderMajorHolder": "/insider/company/majorholder",
     "comparisonRatios": "/comparison/v2/ratios",
-    "financials": "/findata-view/v2/financials/{symbol}"
+    "financials": "/findata-view/v2/financials/{symbol}",
+    "indexList": "/emitten/indexes/mobile",
+    "indexCompanies": "/emitten/v3/sector/{parent}/subsector/{id}/company"
   },
   "marketMoverFilterStocks": [
     "FILTER_STOCKS_TYPE_MAIN_BOARD",
