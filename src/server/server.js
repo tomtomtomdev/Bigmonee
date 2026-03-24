@@ -180,6 +180,19 @@ app.get('/api/bandar-scan', async (req, res) => {
   }
 })
 
+// Broker Activity
+app.get('/api/broker-activity', async (req, res) => {
+  try {
+    const { broker_code, from, to, investor_type, transaction_type } = req.query
+    if (!broker_code || !from) return res.status(400).json({ error: 'broker_code and from are required' })
+    res.json(await stockbit.fetchBrokerActivity({
+      brokerCode: broker_code, from, to, investorType: investor_type, transactionType: transaction_type,
+    }))
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
 // Sectors
 app.get('/api/sectors', async (req, res) => {
   try {

@@ -44,6 +44,10 @@ export const api = {
   getEndpointDetail: (id) => apiFetch(`/api/discovered-endpoints/${id}`),
   getHeaderProfile: () => apiFetch('/api/header-profile'),
   deleteHeaderProfile: () => apiFetch('/api/header-profile', { method: 'DELETE' }),
+  getBrokerActivity: (params) => {
+    const qs = new URLSearchParams(params).toString()
+    return apiFetch(`/api/broker-activity?${qs}`)
+  },
   getSectors: () => apiFetch('/api/sectors'),
   getIndexes: () => apiFetch('/api/indexes'),
   getIndexCompanies: (parent, id) => apiFetch(`/api/indexes/${parent}/${id}/companies`),

@@ -396,6 +396,29 @@ export async function fetchMarketSummary() {
   return stockbitFetch(config.endpoints.marketSummary)
 }
 
+export async function fetchBrokerActivity({ brokerCode, from, to, investorType = 'INVESTOR_TYPE_ALL', transactionType = 'TRANSACTION_TYPE_NET' }) {
+  const config = loadConfig()
+  const res = await stockbitFetch(config.endpoints.brokerActivity, {
+    broker_code: brokerCode,
+    from,
+    to: to || from,
+    investor_type: investorType,
+    transaction_type: transactionType,
+    limit: '25',
+    page: '1',
+    market_board: 'MARKET_TYPE_REGULER',
+  })
+  const tx = res?.data?.broker_activity_transaction || {}
+  const mapItems = (arr) => (arr || []).map((b) => ({
+    stock: b.stock_code,
+    value: b.value,
+    lot: b.lot,
+    avgPrice: Math.round(b.avg_price),
+    freq: b.freq,
+  }))
+  return { buys: mapItems(tx.brokers_buy), sells: mapItems(tx.brokers_sell) }
+}
+
 export async function fetchSectorList() {
   const config = loadConfig()
   const res = await stockbitFetch(config.endpoints.sectorCatalog, { setprice: '1', sortby: 'pchange' })

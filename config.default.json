@@ -23,7 +23,8 @@
     "financials": "/findata-view/v2/financials/{symbol}",
     "indexList": "/emitten/indexes/mobile",
     "indexCompanies": "/emitten/v3/sector/{parent}/subsector/{id}/company",
-    "sectorCatalog": "/emitten/company/catalog"
+    "sectorCatalog": "/emitten/company/catalog",
+    "brokerActivity": "/order-trade/broker/activity"
   },
   "marketMoverFilterStocks": [
     "FILTER_STOCKS_TYPE_MAIN_BOARD",
