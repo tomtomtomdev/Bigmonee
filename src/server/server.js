@@ -180,6 +180,15 @@ app.get('/api/bandar-scan', async (req, res) => {
   }
 })
 
+// Insider Feed
+app.get('/api/insider-feed', async (req, res) => {
+  try {
+    res.json(await stockbit.fetchInsiderFeed(req.query.period_type))
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
 // Broker Activity
 app.get('/api/broker-activity', async (req, res) => {
   try {

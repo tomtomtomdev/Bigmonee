@@ -396,6 +396,27 @@ export async function fetchMarketSummary() {
   return stockbitFetch(config.endpoints.marketSummary)
 }
 
+export async function fetchInsiderFeed(periodType = 'PERIOD_TYPE_1_MONTH') {
+  const config = loadConfig()
+  const res = await stockbitFetch(config.endpoints.insiderMajorHolder, {
+    limit: '30', page: '1', period_type: periodType,
+  })
+  return (res?.data?.movement || []).map((m) => ({
+    name: m.name,
+    symbol: m.symbol,
+    date: m.date,
+    action: m.action_type,
+    previous: m.previous?.value,
+    previousPct: m.previous?.percentage,
+    current: m.current?.value,
+    currentPct: m.current?.percentage,
+    change: m.changes?.value,
+    changePct: m.changes?.percentage,
+    price: m.price_formatted,
+    badges: m.badges || [],
+  }))
+}
+
 export async function fetchBrokerActivity({ brokerCode, from, to, investorType = 'INVESTOR_TYPE_ALL', transactionType = 'TRANSACTION_TYPE_NET' }) {
   const config = loadConfig()
   const res = await stockbitFetch(config.endpoints.brokerActivity, {

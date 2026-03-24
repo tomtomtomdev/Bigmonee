@@ -44,6 +44,7 @@ export const api = {
   getEndpointDetail: (id) => apiFetch(`/api/discovered-endpoints/${id}`),
   getHeaderProfile: () => apiFetch('/api/header-profile'),
   deleteHeaderProfile: () => apiFetch('/api/header-profile', { method: 'DELETE' }),
+  getInsiderFeed: (periodType) => apiFetch(`/api/insider-feed?period_type=${periodType}`),
   getBrokerActivity: (params) => {
     const qs = new URLSearchParams(params).toString()
     return apiFetch(`/api/broker-activity?${qs}`)
