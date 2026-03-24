@@ -2,9 +2,9 @@ import { useState, useCallback } from 'react'
 import { api } from '../../lib/api.js'
 import { useStockData } from '../../hooks/useStockData.js'
 import { formatRupiah, formatCompact, formatPercent, changeColor } from '../../lib/formatters.js'
-import { RefreshCw, Play, RotateCcw, Settings, Zap } from 'lucide-react'
+import { RefreshCw, Play, RotateCcw, Settings, Zap, Camera, TrendingUp, TrendingDown, Minus } from 'lucide-react'
 
-function ScoreBar({ score, max = 6 }) {
+function ScoreBar({ score, max = 8 }) {
   const pct = (score / max) * 100
   const color = score >= 4 ? 'bg-emerald-400' : score >= 3 ? 'bg-yellow-400' : 'bg-gray-500'
   return (
@@ -91,6 +91,7 @@ function ConvictionTable({ signals, threshold, onStockClick }) {
             <th className="text-left py-2 px-3">Symbol</th>
             <th className="text-left py-2 px-3">Score</th>
             <th className="text-left py-2 px-3">Phase</th>
+            <th className="text-center py-2 px-3">Momentum</th>
             <th className="text-left py-2 px-3">Insider</th>
             <th className="text-right py-2 px-3">Foreign</th>
             <th className="text-center py-2 px-3">Screeners</th>
@@ -110,6 +111,16 @@ function ConvictionTable({ signals, threshold, onStockClick }) {
                   s.phase.includes('Dist') ? 'bg-red-500/10 text-red-400' :
                   'bg-gray-700 text-gray-400'
                 }`}>{s.phase || '-'}</span>
+              </td>
+              <td className="py-2 px-3 text-center">
+                {s.momentum ? (
+                  <div className="flex items-center justify-center gap-1">
+                    {s.momentum.total > 0 ? <TrendingUp size={12} className="text-emerald-400" /> :
+                     s.momentum.total < 0 ? <TrendingDown size={12} className="text-red-400" /> :
+                     <Minus size={12} className="text-gray-500" />}
+                    {s.momentum.daysSeen > 0 && <span className="text-[10px] text-gray-500">{s.momentum.daysSeen}d</span>}
+                  </div>
+                ) : <span className="text-gray-600 text-[10px]">-</span>}
               </td>
               <td className="py-2 px-3 text-gray-400 truncate max-w-[120px]">{s.insider?.name || '-'}</td>
               <td className={`py-2 px-3 text-right font-mono ${changeColor(s.foreignFlowRaw)}`}>{s.foreignFlow}</td>
@@ -180,7 +191,7 @@ function SettingsPanel({ settings, onSave, onReset }) {
       <h3 className="text-sm font-semibold text-gray-200 flex items-center gap-2"><Settings size={14} /> Settings</h3>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {[
-          { key: 'convictionThreshold', label: 'Min Conviction', min: 1, max: 6 },
+          { key: 'convictionThreshold', label: 'Min Conviction', min: 1, max: 8 },
           { key: 'maxPositions', label: 'Max Positions', min: 1, max: 20 },
           { key: 'maxPositionPct', label: 'Max Position %', min: 5, max: 50 },
           { key: 'stopLossPct', label: 'Stop Loss %', min: -50, max: -1 },
@@ -226,12 +237,26 @@ export default function TradingPage({ onStockClick }) {
   const [signals, setSignals] = useState(null)
   const [scanning, setScanning] = useState(false)
   const [running, setRunning] = useState(false)
+  const [collecting, setCollecting] = useState(false)
   const [engineResult, setEngineResult] = useState(null)
+  const [snapshotCount, setSnapshotCount] = useState(null)
+
+  async function handleCollectSnapshot() {
+    setCollecting(true)
+    try {
+      await api.collectSnapshot()
+      const dates = await api.getSnapshots()
+      setSnapshotCount(dates.length)
+    } catch { /* ignore */ }
+    setCollecting(false)
+  }
 
   async function handleScan() {
     setScanning(true)
     try {
       setSignals(await api.getConvictionScan())
+      const dates = await api.getSnapshots()
+      setSnapshotCount(dates.length)
     } catch { /* ignore */ }
     setScanning(false)
   }
@@ -253,7 +278,7 @@ export default function TradingPage({ onStockClick }) {
   }
 
   async function handleReset() {
-    await api.resetPortfolio(10_000_000)
+    await api.resetPortfolio(100_000_000)
     refreshPortfolio()
     refreshTrades()
     setSignals(null)
@@ -265,9 +290,14 @@ export default function TradingPage({ onStockClick }) {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold">Virtual Trading</h2>
-          <p className="text-sm text-gray-500 mt-1">Conviction-based paper trading with 10M IDR</p>
+          <p className="text-sm text-gray-500 mt-1">Conviction-based paper trading with 100M IDR</p>
         </div>
         <div className="flex items-center gap-2">
+          <button onClick={handleCollectSnapshot} disabled={collecting}
+            className="flex items-center gap-2 px-4 py-1.5 rounded-lg text-sm font-medium bg-purple-500/20 text-purple-400 border border-purple-500/30 hover:bg-purple-500/30 disabled:opacity-50">
+            {collecting ? <RefreshCw size={14} className="animate-spin" /> : <Camera size={14} />}
+            Snapshot{snapshotCount != null ? ` (${snapshotCount}d)` : ''}
+          </button>
           <button onClick={handleScan} disabled={scanning}
             className="flex items-center gap-2 px-4 py-1.5 rounded-lg text-sm font-medium bg-blue-500/20 text-blue-400 border border-blue-500/30 hover:bg-blue-500/30 disabled:opacity-50">
             {scanning ? <RefreshCw size={14} className="animate-spin" /> : <Zap size={14} />}

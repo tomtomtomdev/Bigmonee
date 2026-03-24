@@ -49,6 +49,9 @@ export const api = {
   updatePortfolioSettings: (settings) => apiFetch('/api/portfolio/settings', { method: 'PUT', body: JSON.stringify(settings) }),
   resetPortfolio: (initialCash) => apiFetch('/api/portfolio/reset', { method: 'POST', body: JSON.stringify({ initialCash }) }),
   getConvictionScan: () => apiFetch('/api/conviction-scan'),
+  collectSnapshot: () => apiFetch('/api/snapshots/collect', { method: 'POST' }),
+  getSnapshots: () => apiFetch('/api/snapshots'),
+  getMomentum: () => apiFetch('/api/momentum'),
   runTradeEngine: () => apiFetch('/api/portfolio/run-engine', { method: 'POST' }),
   getInsiderFeed: (periodType) => apiFetch(`/api/insider-feed?period_type=${periodType}`),
   getBrokerActivity: (params) => {

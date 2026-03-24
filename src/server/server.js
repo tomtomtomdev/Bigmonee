@@ -13,6 +13,8 @@ import { getProfile, clearProfile } from './header-profile.js'
 import { loadPortfolio, resetPortfolio, updateSettings } from './virtual-portfolio.js'
 import { scanConviction } from './conviction-scanner.js'
 import { runTradeEngine, getPortfolioWithPrices } from './trade-engine.js'
+import { collectSnapshot, loadSnapshot, getSnapshotDates } from './snapshot-collector.js'
+import { calculateMomentum } from './momentum.js'
 
 // Load config
 const CONFIG_PATH = path.resolve('data/config.json')
@@ -229,6 +231,33 @@ app.post('/api/portfolio/run-engine', async (req, res) => {
   }
 })
 
+// Snapshots & Momentum
+app.post('/api/snapshots/collect', async (req, res) => {
+  try {
+    res.json(await collectSnapshot())
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+app.get('/api/snapshots', (req, res) => {
+  res.json(getSnapshotDates())
+})
+
+app.get('/api/snapshots/:date', (req, res) => {
+  const snapshot = loadSnapshot(req.params.date)
+  if (!snapshot) return res.status(404).json({ error: 'Snapshot not found' })
+  res.json(snapshot)
+})
+
+app.get('/api/momentum', (req, res) => {
+  try {
+    res.json(calculateMomentum(7))
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
 // Insider Feed
 app.get('/api/insider-feed', async (req, res) => {
   try {
@@ -354,6 +383,19 @@ server.listen(BACKEND_PORT, () => {
   console.log(`[server] Backend API on http://localhost:${BACKEND_PORT}`)
   console.log(`[server] Cert download: http://${LOCAL_IP}:${BACKEND_PORT}/api/cert`)
 })
+
+// Auto-collect snapshots every 4 hours during market hours (09:00-16:00 WIB = UTC+7)
+setInterval(async () => {
+  const hour = new Date().getUTCHours() + 7 // WIB
+  if (hour >= 9 && hour <= 16 && tokenManager.getToken()) {
+    try {
+      await collectSnapshot()
+      console.log('[snapshot] Auto-collected daily snapshot')
+    } catch (err) {
+      console.log('[snapshot] Auto-collect failed:', err.message)
+    }
+  }
+}, 4 * 60 * 60 * 1000) // every 4 hours
 
 // Start MITM proxy
 createProxy(PROXY_PORT)

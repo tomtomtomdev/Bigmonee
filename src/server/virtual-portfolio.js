@@ -13,8 +13,8 @@ const DEFAULT_SETTINGS = {
 }
 
 const DEFAULT_PORTFOLIO = {
-  cash: 10_000_000,
-  initialCash: 10_000_000,
+  cash: 100_000_000,
+  initialCash: 100_000_000,
   positions: [],
   trades: [],
   settings: { ...DEFAULT_SETTINGS },
@@ -92,7 +92,7 @@ export function executeSell(portfolio, { symbol, shares, price, reason }) {
   return { ok: true }
 }
 
-export function resetPortfolio(initialCash = 10_000_000) {
+export function resetPortfolio(initialCash = 100_000_000) {
   const portfolio = {
     ...DEFAULT_PORTFOLIO,
     cash: initialCash,

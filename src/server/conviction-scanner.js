@@ -1,4 +1,5 @@
 import { fetchBandarScan, fetchInsiderFeed } from './stockbit-client.js'
+import { calculateMomentum } from './momentum.js'
 
 const INSTITUTIONAL_BROKERS = ['ML', 'CS', 'UB', 'YP', 'KZ', 'CG', 'BK', 'GS', 'JP', 'MS']
 
@@ -10,6 +11,10 @@ export async function scanConviction() {
 
   const stocks = bandarStocks.status === 'fulfilled' ? bandarStocks.value : []
   const insiders = insiderMovements.status === 'fulfilled' ? insiderMovements.value : []
+
+  // Load momentum data (non-blocking, returns {} if no snapshots)
+  let momentumData = {}
+  try { momentumData = calculateMomentum(7) } catch { /* no snapshots yet */ }
 
   // Index insider buys by symbol for quick lookup
   const insiderBuyMap = {}
@@ -25,6 +30,7 @@ export async function scanConviction() {
     const signals = []
     const phase = stock.phase?.phase || ''
     const confidence = stock.phase?.confidence || ''
+    const momentum = momentumData[stock.symbol] || null
 
     // Bandar phase scoring
     if (phase === 'Heavy Acc') { score += 2; signals.push('bandar:Heavy Acc') }
@@ -58,10 +64,28 @@ export async function scanConviction() {
       signals.push(`broker:${inst.join(',')}`)
     }
 
+    // Screener momentum (+1 rising, -1 falling)
+    if (momentum?.screenerMomentum > 0) {
+      score += 1
+      signals.push('momentum:rising')
+    } else if (momentum?.screenerMomentum < 0) {
+      score -= 1
+      signals.push('momentum:falling')
+    }
+
+    // Phase momentum (+1 improving, -1 degrading)
+    if (momentum?.phaseMomentum > 0) {
+      score += 1
+      signals.push('phase:improving')
+    } else if (momentum?.phaseMomentum < 0) {
+      score -= 1
+      signals.push('phase:degrading')
+    }
+
     return {
       symbol: stock.symbol,
       name: stock.name,
-      score,
+      score: Math.max(0, score),
       signals,
       phase,
       confidence,
@@ -71,6 +95,12 @@ export async function scanConviction() {
       foreignFlowRaw: stock.foreignFlow?.netForeignRaw || 0,
       insider: insiderBuys?.[0] || null,
       topBuyers: (stock.topBuyers || []).slice(0, 3),
+      momentum: momentum ? {
+        screener: momentum.screenerMomentum,
+        phase: momentum.phaseMomentum,
+        total: momentum.totalMomentum,
+        daysSeen: momentum.daysSeen,
+      } : null,
     }
   })
 
