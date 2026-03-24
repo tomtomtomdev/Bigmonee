@@ -227,6 +227,134 @@ function SettingsPanel({ settings, onSave, onReset }) {
   )
 }
 
+function BacktestPanel({ onStockClick }) {
+  const [result, setResult] = useState(null)
+  const [running, setRunning] = useState(false)
+  const [loaded, setLoaded] = useState(false)
+
+  async function loadLatest() {
+    try {
+      const r = await api.getLatestBacktest()
+      if (r) setResult(r)
+    } catch { /* ignore */ }
+    setLoaded(true)
+  }
+
+  if (!loaded) { loadLatest(); }
+
+  async function handleRun() {
+    setRunning(true)
+    try {
+      const r = await api.runBacktest()
+      setResult(r)
+    } catch { /* ignore */ }
+    setRunning(false)
+  }
+
+  const s = result?.summary
+
+  return (
+    <div className="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+      <div className="px-4 py-3 border-b border-gray-800 flex items-center justify-between">
+        <h3 className="text-sm font-semibold text-gray-200">Backtest</h3>
+        <div className="flex items-center gap-2">
+          {result?.ranAt && <span className="text-[10px] text-gray-500">Last run: {new Date(result.ranAt).toLocaleString()}</span>}
+          <button onClick={handleRun} disabled={running}
+            className="flex items-center gap-2 px-3 py-1 rounded-lg text-xs font-medium bg-purple-500/20 text-purple-400 border border-purple-500/30 hover:bg-purple-500/30 disabled:opacity-50">
+            {running ? <RefreshCw size={12} className="animate-spin" /> : <Play size={12} />}
+            {running ? 'Running...' : 'Run Backtest'}
+          </button>
+        </div>
+      </div>
+
+      {result?.error ? (
+        <div className="p-4 text-yellow-400 text-sm">{result.error}</div>
+      ) : s ? (
+        <div className="p-4 space-y-4">
+          {/* Summary Cards */}
+          <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
+            {[
+              { label: 'Return', value: formatPercent(s.totalReturnPct), color: changeColor(s.totalReturnPct) },
+              { label: 'Win Rate', value: `${s.winRate}%`, color: s.winRate >= 50 ? 'text-emerald-400' : 'text-red-400' },
+              { label: 'Avg Win', value: formatPercent(s.avgWinPct), color: 'text-emerald-400' },
+              { label: 'Avg Loss', value: formatPercent(s.avgLossPct), color: 'text-red-400' },
+              { label: 'Max DD', value: formatPercent(s.maxDrawdown), color: 'text-red-400' },
+              { label: 'Profit Factor', value: s.profitFactor === Infinity ? '∞' : String(s.profitFactor), color: s.profitFactor >= 1 ? 'text-emerald-400' : 'text-red-400' },
+              { label: 'Trades', value: String(s.totalTrades), color: 'text-gray-200' },
+              { label: 'Days', value: String(s.daysSimulated), color: 'text-gray-200' },
+            ].map((item) => (
+              <div key={item.label} className="text-center">
+                <div className="text-[10px] text-gray-500 uppercase">{item.label}</div>
+                <div className={`text-sm font-mono font-semibold ${item.color}`}>{item.value}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Signal Performance */}
+          {result.signalPerformance && Object.keys(result.signalPerformance).length > 0 && (
+            <div>
+              <h4 className="text-xs font-semibold text-gray-400 mb-2">Signal Performance</h4>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                {Object.entries(result.signalPerformance)
+                  .sort(([,a], [,b]) => b.avgReturn - a.avgReturn)
+                  .map(([signal, stats]) => (
+                  <div key={signal} className="bg-gray-800/50 rounded-lg px-3 py-2">
+                    <div className="text-[10px] text-gray-400 truncate">{signal}</div>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className={`text-xs font-mono ${stats.winRate >= 50 ? 'text-emerald-400' : 'text-red-400'}`}>{stats.winRate}% win</span>
+                      <span className={`text-xs font-mono ${changeColor(stats.avgReturn)}`}>{formatPercent(stats.avgReturn)}</span>
+                      <span className="text-[10px] text-gray-500">{stats.trades}t</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Trade List */}
+          {result.trades?.length > 0 && (
+            <div>
+              <h4 className="text-xs font-semibold text-gray-400 mb-2">Trades ({result.trades.length})</h4>
+              <div className="overflow-auto max-h-[250px]">
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="text-gray-500 border-b border-gray-800 bg-gray-900/50 sticky top-0">
+                      <th className="text-left py-1.5 px-2">Symbol</th>
+                      <th className="text-left py-1.5 px-2">Entry</th>
+                      <th className="text-right py-1.5 px-2">Entry $</th>
+                      <th className="text-left py-1.5 px-2">Exit</th>
+                      <th className="text-right py-1.5 px-2">Exit $</th>
+                      <th className="text-right py-1.5 px-2">Return</th>
+                      <th className="text-center py-1.5 px-2">Conv</th>
+                      <th className="text-left py-1.5 px-2">Reason</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {result.trades.map((t, i) => (
+                      <tr key={i} onClick={() => onStockClick(t.symbol)} className="border-b border-gray-800/50 hover:bg-gray-800/30 cursor-pointer">
+                        <td className="py-1.5 px-2 font-medium text-gray-200">{t.symbol}</td>
+                        <td className="py-1.5 px-2 text-gray-400">{t.entry}</td>
+                        <td className="py-1.5 px-2 text-right font-mono text-gray-300">{t.entryPrice?.toLocaleString()}</td>
+                        <td className="py-1.5 px-2 text-gray-400">{t.exit}</td>
+                        <td className="py-1.5 px-2 text-right font-mono text-gray-300">{t.exitPrice?.toLocaleString()}</td>
+                        <td className={`py-1.5 px-2 text-right font-mono font-medium ${changeColor(t.returnPct)}`}>{formatPercent(t.returnPct)}</td>
+                        <td className="py-1.5 px-2 text-center"><ScoreBar score={t.conviction} /></td>
+                        <td className="py-1.5 px-2 text-gray-400 truncate max-w-[120px]">{t.exitReason}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="p-4 text-gray-500 text-sm text-center">No backtest results. Collect daily snapshots and run a backtest.</div>
+      )}
+    </div>
+  )
+}
+
 export default function TradingPage({ onStockClick }) {
   const portfolioFetcher = useCallback(() => api.getPortfolio(), [])
   const { data: portfolio, loading: portfolioLoading, refresh: refreshPortfolio } = useStockData(portfolioFetcher, [], 30000)
@@ -348,6 +476,9 @@ export default function TradingPage({ onStockClick }) {
         </div>
         <TradesTable trades={trades} />
       </div>
+
+      {/* Backtest */}
+      <BacktestPanel onStockClick={onStockClick} />
 
       {/* Settings */}
       <SettingsPanel settings={portfolio?.settings} onSave={handleSaveSettings} onReset={handleReset} />

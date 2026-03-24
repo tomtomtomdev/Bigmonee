@@ -15,6 +15,7 @@ import { scanConviction } from './conviction-scanner.js'
 import { runTradeEngine, getPortfolioWithPrices } from './trade-engine.js'
 import { collectSnapshot, loadSnapshot, getSnapshotDates } from './snapshot-collector.js'
 import { calculateMomentum } from './momentum.js'
+import { runBacktest, getLatestResult } from './backtest-engine.js'
 
 // Load config
 const CONFIG_PATH = path.resolve('data/config.json')
@@ -229,6 +230,21 @@ app.post('/api/portfolio/run-engine', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message })
   }
+})
+
+// Backtest
+app.post('/api/backtest', async (req, res) => {
+  try {
+    res.json(await runBacktest(req.body || {}))
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+app.get('/api/backtest/latest', (req, res) => {
+  const result = getLatestResult()
+  if (!result) return res.json(null)
+  res.json(result)
 })
 
 // Snapshots & Momentum
