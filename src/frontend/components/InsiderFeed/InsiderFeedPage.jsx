@@ -5,10 +5,7 @@ import { changeColor } from '../../lib/formatters.js'
 import { RefreshCw } from 'lucide-react'
 
 const PERIODS = [
-  { value: 'PERIOD_TYPE_1_WEEK', label: '1W' },
   { value: 'PERIOD_TYPE_1_MONTH', label: '1M' },
-  { value: 'PERIOD_TYPE_3_MONTHS', label: '3M' },
-  { value: 'PERIOD_TYPE_6_MONTHS', label: '6M' },
   { value: 'PERIOD_TYPE_1_YEAR', label: '1Y' },
 ]
 

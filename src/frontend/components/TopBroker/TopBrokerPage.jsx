@@ -7,7 +7,6 @@ import { RefreshCw } from 'lucide-react'
 
 const PERIODS = [
   { value: 'TB_PERIOD_LAST_1_DAY', label: '1D' },
-  { value: 'TB_PERIOD_LAST_1_WEEK', label: '1W' },
   { value: 'TB_PERIOD_LAST_1_MONTH', label: '1M' },
 ]
 
