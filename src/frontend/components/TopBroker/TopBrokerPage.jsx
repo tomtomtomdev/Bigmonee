@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react'
 import { api } from '../../lib/api.js'
 import { useStockData } from '../../hooks/useStockData.js'
 import BrokerTable from './BrokerTable.jsx'
+import BrokerActivityDetail from './BrokerActivityDetail.jsx'
 import { RefreshCw } from 'lucide-react'
 
 const PERIODS = [
@@ -16,9 +17,10 @@ const SORTS = [
   { value: 'TB_SORT_BY_TOTAL_FREQUENCY', label: 'Frequency' },
 ]
 
-export default function TopBrokerPage() {
+export default function TopBrokerPage({ onStockClick }) {
   const [period, setPeriod] = useState('TB_PERIOD_LAST_1_DAY')
   const [sort, setSort] = useState('TB_SORT_BY_TOTAL_VALUE')
+  const [selectedBroker, setSelectedBroker] = useState(null)
 
   const fetcher = useCallback(
     () => api.getTopBrokers({ period, sort }),
@@ -28,6 +30,16 @@ export default function TopBrokerPage() {
   const { data, loading, error, refresh } = useStockData(fetcher, [period, sort])
   const brokers = data?.data?.list || []
   const date = data?.data?.date
+
+  if (selectedBroker) {
+    return (
+      <BrokerActivityDetail
+        brokerCode={selectedBroker}
+        onBack={() => setSelectedBroker(null)}
+        onStockClick={onStockClick}
+      />
+    )
+  }
 
   return (
     <div className="p-6 space-y-4">
@@ -89,7 +101,7 @@ export default function TopBrokerPage() {
         ) : loading && !data ? (
           <div className="p-8 text-center text-gray-500 text-sm">Loading...</div>
         ) : (
-          <BrokerTable brokers={brokers} />
+          <BrokerTable brokers={brokers} onBrokerClick={setSelectedBroker} />
         )}
       </div>
     </div>

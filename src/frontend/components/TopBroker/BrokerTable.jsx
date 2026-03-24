@@ -6,7 +6,7 @@ const GROUP_BADGE = {
   BROKER_GROUP_GOVERNMENT: { label: 'Gov', cls: 'bg-yellow-500/20 text-yellow-400' },
 }
 
-export default function BrokerTable({ brokers }) {
+export default function BrokerTable({ brokers, onBrokerClick }) {
   if (!brokers || brokers.length === 0) {
     return <div className="p-6 text-center text-gray-500 text-sm">No data available</div>
   }
@@ -31,7 +31,7 @@ export default function BrokerTable({ brokers }) {
           {brokers.map((b, i) => {
             const badge = GROUP_BADGE[b.group] || { label: b.group, cls: 'bg-gray-500/20 text-gray-400' }
             return (
-              <tr key={b.code || i} className="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
+              <tr key={b.code || i} onClick={() => onBrokerClick?.(b.code)} className="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors cursor-pointer">
                 <td className="py-2 px-4 text-gray-500">{i + 1}</td>
                 <td className="py-2 px-2 font-semibold">{b.code}</td>
                 <td className="py-2 px-2 text-gray-300 truncate max-w-[200px]">{b.name}</td>

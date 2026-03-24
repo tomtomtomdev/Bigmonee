@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { api } from '../../lib/api.js'
 import { formatCompact } from '../../lib/formatters.js'
-import { RefreshCw, Search } from 'lucide-react'
+import { ArrowLeft, RefreshCw } from 'lucide-react'
 
 const TX_TYPES = [
   { value: 'TRANSACTION_TYPE_NET', label: 'Net' },
@@ -9,8 +9,11 @@ const TX_TYPES = [
   { value: 'TRANSACTION_TYPE_SELL', label: 'Sell' },
 ]
 
-function today() {
-  return new Date().toISOString().slice(0, 10)
+function lastMonth() {
+  const to = new Date()
+  const from = new Date()
+  from.setMonth(from.getMonth() - 1)
+  return { from: from.toISOString().slice(0, 10), to: to.toISOString().slice(0, 10) }
 }
 
 function ActivityTable({ title, items, color, onStockClick }) {
@@ -18,7 +21,7 @@ function ActivityTable({ title, items, color, onStockClick }) {
 
   return (
     <div className="flex-1 bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
-      <div className={`px-4 py-2.5 border-b border-gray-800`}>
+      <div className="px-4 py-2.5 border-b border-gray-800">
         <h3 className={`text-sm font-semibold ${color}`}>{title} ({items.length})</h3>
       </div>
       <div className="overflow-auto">
@@ -53,23 +56,23 @@ function ActivityTable({ title, items, color, onStockClick }) {
   )
 }
 
-export default function BrokerActivityPage({ onStockClick }) {
-  const [brokerCode, setBrokerCode] = useState('')
-  const [date, setDate] = useState(today())
+export default function BrokerActivityDetail({ brokerCode, onBack, onStockClick }) {
+  const defaults = lastMonth()
+  const [fromDate, setFromDate] = useState(defaults.from)
+  const [toDate, setToDate] = useState(defaults.to)
   const [txType, setTxType] = useState('TRANSACTION_TYPE_NET')
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
-  async function search() {
-    if (!brokerCode.trim()) return
+  async function fetchData() {
     setLoading(true)
     setError(null)
     try {
       const result = await api.getBrokerActivity({
-        broker_code: brokerCode.trim().toUpperCase(),
-        from: date,
-        to: date,
+        broker_code: brokerCode,
+        from: fromDate,
+        to: toDate,
         transaction_type: txType,
       })
       setData(result)
@@ -80,33 +83,33 @@ export default function BrokerActivityPage({ onStockClick }) {
     }
   }
 
-  function handleKeyDown(e) {
-    if (e.key === 'Enter') search()
-  }
+  useEffect(() => { fetchData() }, [brokerCode])
 
   return (
     <div className="p-6 h-full flex flex-col">
-      <div className="mb-4">
-        <h2 className="text-2xl font-bold">Broker Activity</h2>
-        <p className="text-sm text-gray-500 mt-1">View stocks a broker has been buying and selling</p>
+      <div className="flex items-center gap-4 mb-4">
+        <button onClick={onBack} className="p-2 text-gray-400 hover:text-gray-200 transition-colors rounded-lg hover:bg-gray-800">
+          <ArrowLeft size={20} />
+        </button>
+        <div className="flex-1">
+          <h2 className="text-2xl font-bold">Broker {brokerCode}</h2>
+          <p className="text-sm text-gray-500 mt-0.5">Stock activity for this broker</p>
+        </div>
+        <button onClick={fetchData} className="p-2 text-gray-400 hover:text-gray-200 transition-colors">
+          <RefreshCw size={18} className={loading ? 'animate-spin' : ''} />
+        </button>
       </div>
 
       {/* Controls */}
       <div className="flex items-center gap-3 mb-4 flex-wrap">
-        <input
-          type="text"
-          value={brokerCode}
-          onChange={(e) => setBrokerCode(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Broker code (e.g. XL)"
-          className="w-36 px-3 py-1.5 text-sm bg-gray-800 border border-gray-700 rounded-lg text-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-500 uppercase"
-        />
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="px-3 py-1.5 text-sm bg-gray-800 border border-gray-700 rounded-lg text-gray-200 focus:outline-none focus:border-gray-500"
-        />
+        <div className="flex items-center gap-2 text-sm text-gray-400">
+          <span>From</span>
+          <input type="date" value={fromDate} onChange={(e) => setFromDate(e.target.value)}
+            className="px-3 py-1.5 text-sm bg-gray-800 border border-gray-700 rounded-lg text-gray-200 focus:outline-none focus:border-gray-500" />
+          <span>To</span>
+          <input type="date" value={toDate} onChange={(e) => setToDate(e.target.value)}
+            className="px-3 py-1.5 text-sm bg-gray-800 border border-gray-700 rounded-lg text-gray-200 focus:outline-none focus:border-gray-500" />
+        </div>
         <div className="flex gap-1">
           {TX_TYPES.map((t) => (
             <button
@@ -123,12 +126,11 @@ export default function BrokerActivityPage({ onStockClick }) {
           ))}
         </div>
         <button
-          onClick={search}
-          disabled={loading || !brokerCode.trim()}
+          onClick={fetchData}
+          disabled={loading}
           className="flex items-center gap-2 px-4 py-1.5 rounded-lg text-sm font-medium bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/30 transition-colors disabled:opacity-50"
         >
-          {loading ? <RefreshCw size={14} className="animate-spin" /> : <Search size={14} />}
-          Search
+          Apply
         </button>
       </div>
 
@@ -136,19 +138,14 @@ export default function BrokerActivityPage({ onStockClick }) {
         <div className="text-red-400 text-sm bg-red-500/10 border border-red-500/20 rounded-lg p-3 mb-4">{error}</div>
       )}
 
-      {/* Results */}
-      {data && (
+      {data ? (
         <div className="flex-1 flex gap-4 min-h-0">
           <ActivityTable title="Top Buys" items={data.buys} color="text-emerald-400" onStockClick={onStockClick} />
           <ActivityTable title="Top Sells" items={data.sells} color="text-red-400" onStockClick={onStockClick} />
         </div>
-      )}
-
-      {!data && !loading && (
-        <div className="flex-1 flex items-center justify-center text-gray-500">
-          Enter a broker code and date to search
-        </div>
-      )}
+      ) : loading ? (
+        <div className="flex-1 flex items-center justify-center text-gray-500">Loading...</div>
+      ) : null}
     </div>
   )
 }
