@@ -44,6 +44,7 @@ export const api = {
   getEndpointDetail: (id) => apiFetch(`/api/discovered-endpoints/${id}`),
   getHeaderProfile: () => apiFetch('/api/header-profile'),
   deleteHeaderProfile: () => apiFetch('/api/header-profile', { method: 'DELETE' }),
+  getSectors: () => apiFetch('/api/sectors'),
   getIndexes: () => apiFetch('/api/indexes'),
   getIndexCompanies: (parent, id) => apiFetch(`/api/indexes/${parent}/${id}/companies`),
   getConfig: () => apiFetch('/api/config'),

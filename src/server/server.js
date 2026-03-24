@@ -180,6 +180,15 @@ app.get('/api/bandar-scan', async (req, res) => {
   }
 })
 
+// Sectors
+app.get('/api/sectors', async (req, res) => {
+  try {
+    res.json(await stockbit.fetchSectorList())
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
 // Indexes
 app.get('/api/indexes', async (req, res) => {
   try {

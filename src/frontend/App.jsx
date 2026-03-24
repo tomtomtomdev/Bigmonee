@@ -10,7 +10,8 @@ import ExplorerPage from './components/Explorer/ExplorerPage.jsx'
 import ScreenerPage from './components/Screener/ScreenerPage.jsx'
 import BandarPage from './components/Bandar/BandarPage.jsx'
 import IndexPage from './components/Index/IndexPage.jsx'
-import { Activity, BarChart3, TrendingUp, Search, Wifi, WifiOff, Building2, Filter, Eye, List } from 'lucide-react'
+import SectorPage from './components/Sector/SectorPage.jsx'
+import { Activity, BarChart3, TrendingUp, Search, Wifi, WifiOff, Building2, Filter, Eye, List, PieChart } from 'lucide-react'
 
 const TABS = [
   { id: 'setup', label: 'Setup', icon: Activity },
@@ -19,6 +20,7 @@ const TABS = [
   { id: 'brokers', label: 'Top Brokers', icon: Building2 },
   { id: 'screener', label: 'Screener', icon: Filter },
   { id: 'bandar', label: 'Bandar Flow', icon: Eye },
+  { id: 'sectors', label: 'Sectors', icon: PieChart },
   { id: 'indexes', label: 'Indexes', icon: List },
   { id: 'explorer', label: 'API Explorer', icon: Search },
 ]
@@ -97,6 +99,7 @@ export default function App() {
             {tab === 'brokers' && <TopBrokerPage />}
             {tab === 'screener' && <ScreenerPage onStockClick={setSelectedStock} />}
             {tab === 'bandar' && <BandarPage onStockClick={setSelectedStock} />}
+            {tab === 'sectors' && <SectorPage onStockClick={setSelectedStock} />}
             {tab === 'indexes' && <IndexPage onStockClick={setSelectedStock} />}
             {tab === 'explorer' && <ExplorerPage />}
           </>

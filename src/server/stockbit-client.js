@@ -396,6 +396,21 @@ export async function fetchMarketSummary() {
   return stockbitFetch(config.endpoints.marketSummary)
 }
 
+export async function fetchSectorList() {
+  const config = loadConfig()
+  const res = await stockbitFetch(config.endpoints.sectorCatalog, { setprice: '1', sortby: 'pchange' })
+  return (res?.data?.pchange_info || []).map((s) => ({
+    id: s.id,
+    symbol: s.symbol,
+    name: s.symbol_2 || s.symbol,
+    icon: s.icon || '',
+    last: s.last,
+    previous: s.previous,
+    change: s.change,
+    percent: s.percent,
+  }))
+}
+
 export async function fetchIndexList() {
   const config = loadConfig()
   const res = await stockbitFetch(config.endpoints.indexList)
