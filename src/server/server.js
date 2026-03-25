@@ -400,18 +400,35 @@ server.listen(BACKEND_PORT, () => {
   console.log(`[server] Cert download: http://${LOCAL_IP}:${BACKEND_PORT}/api/cert`)
 })
 
-// Auto-collect snapshots every 4 hours during market hours (09:00-16:00 WIB = UTC+7)
+// Auto-collect snapshots at market open (09:15 WIB) and close (16:15 WIB)
+// Checks every 15 minutes, only collects once per target hour per day
+const snapshotTracker = { lastDate: null, collectedHours: new Set() }
+
 setInterval(async () => {
-  const hour = new Date().getUTCHours() + 7 // WIB
-  if (hour >= 9 && hour <= 16 && tokenManager.getToken()) {
+  if (!tokenManager.getToken()) return
+  const now = new Date()
+  const wib = new Date(now.getTime() + 7 * 60 * 60 * 1000) // UTC to WIB
+  const hour = wib.getUTCHours()
+  const date = wib.toISOString().slice(0, 10)
+
+  // Reset tracker on new day
+  if (snapshotTracker.lastDate !== date) {
+    snapshotTracker.lastDate = date
+    snapshotTracker.collectedHours.clear()
+  }
+
+  // Collect at 09:xx and 16:xx WIB, once per hour per day
+  if ((hour === 9 || hour === 16) && !snapshotTracker.collectedHours.has(hour)) {
+    snapshotTracker.collectedHours.add(hour)
     try {
       await collectSnapshot()
-      console.log('[snapshot] Auto-collected daily snapshot')
+      console.log(`[snapshot] Auto-collected at ${hour}:xx WIB (${date})`)
     } catch (err) {
-      console.log('[snapshot] Auto-collect failed:', err.message)
+      console.log(`[snapshot] Auto-collect failed at ${hour}:xx WIB:`, err.message)
+      snapshotTracker.collectedHours.delete(hour) // retry next interval
     }
   }
-}, 4 * 60 * 60 * 1000) // every 4 hours
+}, 15 * 60 * 1000) // check every 15 minutes
 
 // Start MITM proxy
 createProxy(PROXY_PORT)
