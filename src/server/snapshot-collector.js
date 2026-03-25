@@ -18,7 +18,8 @@ export async function collectSnapshot() {
   const date = today()
   const filePath = path.join(SNAPSHOTS_DIR, `${date}.json`)
 
-  const stocks = await fetchBandarScan()
+  const res = await fetchBandarScan()
+  const stocks = res?.data || res || []
 
   const snapshot = {
     date,

@@ -11,7 +11,7 @@ import { getLogs, getLogDetail, searchLogs, clearLogs } from './api-logger.js'
 import * as stockbit from './stockbit-client.js'
 import { getProfile, clearProfile } from './header-profile.js'
 import { loadPortfolio, resetPortfolio, updateSettings } from './virtual-portfolio.js'
-import { scanConviction } from './conviction-scanner.js'
+import { scanConviction, getLatestScan } from './conviction-scanner.js'
 import { runTradeEngine, getPortfolioWithPrices } from './trade-engine.js'
 import { collectSnapshot, loadSnapshot, getSnapshotDates } from './snapshot-collector.js'
 import { calculateMomentum } from './momentum.js'
@@ -224,6 +224,12 @@ app.get('/api/conviction-scan', async (req, res) => {
   }
 })
 
+app.get('/api/conviction-scan/latest', (req, res) => {
+  const result = getLatestScan()
+  if (!result) return res.json(null)
+  res.json(result)
+})
+
 app.post('/api/portfolio/run-engine', async (req, res) => {
   try {
     res.json(await runTradeEngine())
@@ -400,9 +406,9 @@ server.listen(BACKEND_PORT, () => {
   console.log(`[server] Cert download: http://${LOCAL_IP}:${BACKEND_PORT}/api/cert`)
 })
 
-// Auto-collect snapshots at market open (09:15 WIB) and close (16:15 WIB)
-// Checks every 15 minutes, only collects once per target hour per day
-const snapshotTracker = { lastDate: null, collectedHours: new Set() }
+// Auto-scheduler: snapshots, conviction scan, trade engine
+// Checks every 15 minutes, deduplicates per task per hour per day
+const autoTracker = { lastDate: null, completed: new Set() }
 
 setInterval(async () => {
   if (!tokenManager.getToken()) return
@@ -412,20 +418,50 @@ setInterval(async () => {
   const date = wib.toISOString().slice(0, 10)
 
   // Reset tracker on new day
-  if (snapshotTracker.lastDate !== date) {
-    snapshotTracker.lastDate = date
-    snapshotTracker.collectedHours.clear()
+  if (autoTracker.lastDate !== date) {
+    autoTracker.lastDate = date
+    autoTracker.completed.clear()
   }
 
-  // Collect at 09:xx and 16:xx WIB, once per hour per day
-  if ((hour === 9 || hour === 16) && !snapshotTracker.collectedHours.has(hour)) {
-    snapshotTracker.collectedHours.add(hour)
-    try {
-      await collectSnapshot()
-      console.log(`[snapshot] Auto-collected at ${hour}:xx WIB (${date})`)
-    } catch (err) {
-      console.log(`[snapshot] Auto-collect failed at ${hour}:xx WIB:`, err.message)
-      snapshotTracker.collectedHours.delete(hour) // retry next interval
+  const task = (name) => `${name}:${hour}`
+  const done = (name) => autoTracker.completed.has(task(name))
+  const mark = (name) => autoTracker.completed.add(task(name))
+
+  // 09:xx WIB — Market open: snapshot → conviction scan → trade engine
+  if (hour === 9) {
+    if (!done('snapshot')) {
+      try { await collectSnapshot(); mark('snapshot'); console.log(`[auto] 09:xx snapshot collected (${date})`) }
+      catch (err) { console.log(`[auto] 09:xx snapshot failed:`, err.message) }
+    }
+    if (!done('scan') && done('snapshot')) {
+      try { await scanConviction(); mark('scan'); console.log(`[auto] 09:xx conviction scan complete (${date})`) }
+      catch (err) { console.log(`[auto] 09:xx scan failed:`, err.message) }
+    }
+    if (!done('engine') && done('scan')) {
+      try {
+        const result = await runTradeEngine()
+        mark('engine')
+        const actions = result.actions?.length || 0
+        console.log(`[auto] 09:xx trade engine executed ${actions} action(s) (${date})`)
+      } catch (err) { console.log(`[auto] 09:xx engine failed:`, err.message) }
+    }
+  }
+
+  // 12:xx WIB — Midday: conviction scan only (review, no trading)
+  if (hour === 12 && !done('scan-mid')) {
+    try { await scanConviction(); mark('scan-mid'); console.log(`[auto] 12:xx midday scan complete (${date})`) }
+    catch (err) { console.log(`[auto] 12:xx scan failed:`, err.message) }
+  }
+
+  // 16:xx WIB — Market close: snapshot + conviction scan (for next-day planning)
+  if (hour === 16) {
+    if (!done('snapshot-close')) {
+      try { await collectSnapshot(); mark('snapshot-close'); console.log(`[auto] 16:xx close snapshot collected (${date})`) }
+      catch (err) { console.log(`[auto] 16:xx snapshot failed:`, err.message) }
+    }
+    if (!done('scan-close') && done('snapshot-close')) {
+      try { await scanConviction(); mark('scan-close'); console.log(`[auto] 16:xx close scan complete (${date})`) }
+      catch (err) { console.log(`[auto] 16:xx scan failed:`, err.message) }
     }
   }
 }, 15 * 60 * 1000) // check every 15 minutes

@@ -1,6 +1,9 @@
+import fs from 'fs'
+import path from 'path'
 import { fetchBandarScan, fetchInsiderFeed } from './stockbit-client.js'
 import { calculateMomentum } from './momentum.js'
 
+const SCAN_RESULT_PATH = path.resolve('data/conviction-scan.json')
 const INSTITUTIONAL_BROKERS = ['ML', 'CS', 'UB', 'YP', 'KZ', 'CG', 'BK', 'GS', 'JP', 'MS']
 
 export async function scanConviction() {
@@ -9,7 +12,8 @@ export async function scanConviction() {
     fetchInsiderFeed('PERIOD_TYPE_1_MONTH'),
   ])
 
-  const stocks = bandarStocks.status === 'fulfilled' ? bandarStocks.value : []
+  const bandarResult = bandarStocks.status === 'fulfilled' ? bandarStocks.value : {}
+  const stocks = bandarResult?.data || bandarResult || []
   const insiders = insiderMovements.status === 'fulfilled' ? insiderMovements.value : []
 
   // Load momentum data (non-blocking, returns {} if no snapshots)
@@ -105,5 +109,18 @@ export async function scanConviction() {
   })
 
   scored.sort((a, b) => b.score - a.score)
+
+  // Persist latest scan result
+  const result = { scannedAt: new Date().toISOString(), stocks: scored }
+  try { fs.writeFileSync(SCAN_RESULT_PATH, JSON.stringify(result, null, 2)) } catch { /* ignore */ }
+
   return scored
+}
+
+export function getLatestScan() {
+  try {
+    return JSON.parse(fs.readFileSync(SCAN_RESULT_PATH, 'utf-8'))
+  } catch {
+    return null
+  }
 }

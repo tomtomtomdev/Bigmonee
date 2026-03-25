@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { api } from '../../lib/api.js'
 import { useStockData } from '../../hooks/useStockData.js'
 import { formatRupiah, formatCompact, formatPercent, changeColor } from '../../lib/formatters.js'
@@ -363,11 +363,20 @@ export default function TradingPage({ onStockClick }) {
   const { data: trades, refresh: refreshTrades } = useStockData(tradesFetcher, [], 30000)
 
   const [signals, setSignals] = useState(null)
+  const [scanTime, setScanTime] = useState(null)
   const [scanning, setScanning] = useState(false)
   const [running, setRunning] = useState(false)
   const [collecting, setCollecting] = useState(false)
   const [engineResult, setEngineResult] = useState(null)
   const [snapshotCount, setSnapshotCount] = useState(null)
+
+  // Load cached scan + snapshot count on mount
+  useEffect(() => {
+    api.getLatestConvictionScan().then((r) => {
+      if (r?.stocks) { setSignals(r.stocks); setScanTime(r.scannedAt) }
+    }).catch(() => {})
+    api.getSnapshots().then((dates) => setSnapshotCount(dates.length)).catch(() => {})
+  }, [])
 
   async function handleCollectSnapshot() {
     setCollecting(true)
@@ -464,7 +473,10 @@ export default function TradingPage({ onStockClick }) {
       <div className="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
         <div className="px-4 py-3 border-b border-gray-800 flex items-center justify-between">
           <h3 className="text-sm font-semibold text-gray-200">Conviction Signals</h3>
-          {signals && <span className="text-xs text-gray-500">{signals.length} stocks scored</span>}
+          <div className="flex items-center gap-3">
+            {scanTime && <span className="text-[10px] text-gray-500">Scanned: {new Date(scanTime).toLocaleString()}</span>}
+            {signals && <span className="text-xs text-gray-500">{signals.length} stocks scored</span>}
+          </div>
         </div>
         <ConvictionTable signals={signals} threshold={portfolio?.settings?.convictionThreshold || 3} onStockClick={onStockClick} />
       </div>

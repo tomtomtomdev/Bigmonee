@@ -49,6 +49,7 @@ export const api = {
   updatePortfolioSettings: (settings) => apiFetch('/api/portfolio/settings', { method: 'PUT', body: JSON.stringify(settings) }),
   resetPortfolio: (initialCash) => apiFetch('/api/portfolio/reset', { method: 'POST', body: JSON.stringify({ initialCash }) }),
   getConvictionScan: () => apiFetch('/api/conviction-scan'),
+  getLatestConvictionScan: () => apiFetch('/api/conviction-scan/latest'),
   runBacktest: (settings) => apiFetch('/api/backtest', { method: 'POST', body: JSON.stringify(settings || {}) }),
   getLatestBacktest: () => apiFetch('/api/backtest/latest'),
   collectSnapshot: () => apiFetch('/api/snapshots/collect', { method: 'POST' }),
