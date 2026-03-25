@@ -232,7 +232,7 @@ app.get('/api/conviction-scan/latest', (req, res) => {
 
 app.post('/api/portfolio/run-engine', async (req, res) => {
   try {
-    res.json(await runTradeEngine())
+    res.json(await runTradeEngine({ force: true }))
   } catch (err) {
     res.status(500).json({ error: err.message })
   }
@@ -433,13 +433,14 @@ setInterval(async () => {
       try { await collectSnapshot(); mark('snapshot'); console.log(`[auto] 09:xx snapshot collected (${date})`) }
       catch (err) { console.log(`[auto] 09:xx snapshot failed:`, err.message) }
     }
+    let scanResult = null
     if (!done('scan') && done('snapshot')) {
-      try { await scanConviction(); mark('scan'); console.log(`[auto] 09:xx conviction scan complete (${date})`) }
+      try { scanResult = await scanConviction(); mark('scan'); console.log(`[auto] 09:xx conviction scan complete (${date})`) }
       catch (err) { console.log(`[auto] 09:xx scan failed:`, err.message) }
     }
     if (!done('engine') && done('scan')) {
       try {
-        const result = await runTradeEngine()
+        const result = await runTradeEngine({ signals: scanResult })
         mark('engine')
         const actions = result.actions?.length || 0
         console.log(`[auto] 09:xx trade engine executed ${actions} action(s) (${date})`)
@@ -462,6 +463,20 @@ setInterval(async () => {
     if (!done('scan-close') && done('snapshot-close')) {
       try { await scanConviction(); mark('scan-close'); console.log(`[auto] 16:xx close scan complete (${date})`) }
       catch (err) { console.log(`[auto] 16:xx scan failed:`, err.message) }
+    }
+    if (!done('backtest') && done('scan-close')) {
+      try {
+        const dates = getSnapshotDates()
+        if (dates.length >= 7) {
+          const latest = getLatestResult()
+          const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
+          if (!latest?.ranAt || latest.ranAt < weekAgo) {
+            await runBacktest()
+            mark('backtest')
+            console.log(`[auto] 16:xx backtest completed (${date})`)
+          }
+        }
+      } catch (err) { console.log(`[auto] 16:xx backtest failed:`, err.message) }
     }
   }
 }, 15 * 60 * 1000) // check every 15 minutes

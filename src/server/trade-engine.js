@@ -1,5 +1,6 @@
 import { loadPortfolio, executeBuy, executeSell } from './virtual-portfolio.js'
 import { scanConviction } from './conviction-scanner.js'
+import { getLatestResult } from './backtest-engine.js'
 import { tokenManager } from './token-manager.js'
 import { cache } from './cache.js'
 import fs from 'fs'
@@ -36,13 +37,25 @@ async function fetchPrice(symbol) {
   }
 }
 
-export async function runTradeEngine() {
+export async function runTradeEngine({ signals: precomputedSignals, force } = {}) {
+  // Backtest gate: skip auto-trading if backtest shows bad results
+  if (!force) {
+    const backtest = getLatestResult()
+    if (backtest?.summary) {
+      const { totalReturnPct, winRate } = backtest.summary
+      if (totalReturnPct < 0 || winRate < 50) {
+        return { actions: [], portfolio: await getPortfolioWithPrices(), skipped: true,
+                 reason: `Backtest shows ${totalReturnPct}% return, ${winRate}% win rate — engine paused` }
+      }
+    }
+  }
+
   const portfolio = loadPortfolio()
   const { settings } = portfolio
   const actions = []
 
   // Step 1: Scan conviction
-  const signals = await scanConviction()
+  const signals = precomputedSignals || await scanConviction()
 
   // Step 2: Check existing positions for sell signals
   for (const pos of [...portfolio.positions]) {
@@ -54,7 +67,7 @@ export async function runTradeEngine() {
     const phase = stockSignal?.phase || ''
 
     // Stop loss
-    if (pnlPct <= settings.stopLossPct) {
+    if (pnlPct < settings.stopLossPct) {
       executeSell(portfolio, { symbol: pos.symbol, price, reason: `Stop loss (${pnlPct.toFixed(1)}%)` })
       actions.push({ action: 'SELL', symbol: pos.symbol, reason: 'Stop loss', price, pnlPct })
       continue

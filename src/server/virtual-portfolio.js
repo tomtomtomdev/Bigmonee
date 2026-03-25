@@ -45,7 +45,7 @@ export function executeBuy(portfolio, { symbol, name, shares, price, conviction,
   const existing = portfolio.positions.find((p) => p.symbol === symbol)
   if (existing) {
     const totalShares = existing.shares + shares
-    existing.avgPrice = Math.round((existing.avgPrice * existing.shares + price * shares) / totalShares)
+    existing.avgPrice = (existing.avgPrice * existing.shares + price * shares) / totalShares
     existing.shares = totalShares
     existing.conviction = conviction
     existing.signals = signals

@@ -21,6 +21,8 @@ export async function collectSnapshot() {
   const res = await fetchBandarScan()
   const stocks = res?.data || res || []
 
+  if (!Array.isArray(stocks)) return { date, timestamp: new Date().toISOString(), stocks: [], error: 'Invalid data from bandar scan' }
+
   const snapshot = {
     date,
     timestamp: new Date().toISOString(),

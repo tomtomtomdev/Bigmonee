@@ -457,6 +457,11 @@ export default function TradingPage({ onStockClick }) {
           Engine executed {engineResult.actions.length} action(s): {engineResult.actions.map((a) => `${a.action} ${a.symbol}`).join(', ')}
         </div>
       )}
+      {engineResult?.skipped && (
+        <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3 text-sm text-yellow-400">
+          Engine paused: {engineResult.reason}
+        </div>
+      )}
 
       {/* Portfolio Summary */}
       <PortfolioSummary portfolio={portfolio} />

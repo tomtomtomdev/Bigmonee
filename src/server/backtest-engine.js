@@ -146,13 +146,19 @@ export async function runBacktest(options = {}) {
   // Chronological order
   snapshots.sort((a, b) => a.date.localeCompare(b.date))
 
+  // Filter out snapshots without valid stocks arrays
+  const validSnapshots = snapshots.filter(s => Array.isArray(s?.stocks) && s.stocks.length > 0)
+  if (validSnapshots.length < 2) {
+    return { error: 'Need at least 2 valid snapshots with stock data to run backtest.' }
+  }
+
   // Collect all symbols
   const allSymbols = new Set()
-  for (const snap of snapshots) {
+  for (const snap of validSnapshots) {
     for (const stock of snap.stocks) allSymbols.add(stock.symbol)
   }
 
-  console.log(`[backtest] ${snapshots.length} snapshots, ${allSymbols.size} unique symbols`)
+  console.log(`[backtest] ${validSnapshots.length} snapshots, ${allSymbols.size} unique symbols`)
 
   // Fetch price histories (rate-limited)
   const priceMap = await fetchAllPrices([...allSymbols])
@@ -163,7 +169,7 @@ export async function runBacktest(options = {}) {
   const trades = [] // completed trades
   const equityCurve = []
 
-  for (const snapshot of snapshots) {
+  for (const snapshot of validSnapshots) {
     const date = snapshot.date
 
     // Score stocks from snapshot
@@ -293,7 +299,7 @@ export async function runBacktest(options = {}) {
       maxDrawdown: Math.round(maxDrawdown * 100) / 100,
       profitFactor: grossLoss > 0 ? Math.round((grossProfit / grossLoss) * 100) / 100 : grossProfit > 0 ? Infinity : 0,
       totalTrades: trades.length,
-      daysSimulated: snapshots.length,
+      daysSimulated: validSnapshots.length,
     },
     trades,
     equityCurve,
