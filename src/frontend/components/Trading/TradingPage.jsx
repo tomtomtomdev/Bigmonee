@@ -370,12 +370,19 @@ export default function TradingPage({ onStockClick }) {
   const [engineResult, setEngineResult] = useState(null)
   const [snapshotCount, setSnapshotCount] = useState(null)
 
-  // Load cached scan + snapshot count on mount
+  // Load cached scan + snapshot count on mount and every 15 minutes
   useEffect(() => {
-    api.getLatestConvictionScan().then((r) => {
-      if (r?.stocks) { setSignals(r.stocks); setScanTime(r.scannedAt) }
-    }).catch(() => {})
-    api.getSnapshots().then((dates) => setSnapshotCount(dates.length)).catch(() => {})
+    function fetchAll() {
+      api.getLatestConvictionScan().then((r) => {
+        if (r?.stocks) { setSignals(r.stocks); setScanTime(r.scannedAt) }
+      }).catch(() => {})
+      api.getSnapshots().then((dates) => setSnapshotCount(dates.length)).catch(() => {})
+      refreshPortfolio()
+      refreshTrades()
+    }
+    fetchAll()
+    const interval = setInterval(fetchAll, 15 * 60 * 1000)
+    return () => clearInterval(interval)
   }, [])
 
   async function handleCollectSnapshot() {
