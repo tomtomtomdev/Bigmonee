@@ -1,928 +1,239 @@
 {
-  "scannedAt": "2026-03-25T05:07:30.732Z",
+  "scannedAt": "2026-03-27T09:07:14.408Z",
   "stocks": [
-    {
-      "symbol": "ITMG",
-      "name": "Indo Tambangraya Megah Tbk.",
-      "score": 5,
-      "signals": [
-        "bandar:Strong Acc",
-        "foreign:Inflow",
-        "screeners:5",
-        "broker:BK"
-      ],
-      "phase": "Strong Acc",
-      "confidence": "high",
-      "bandarSignal": "Acc",
-      "screenerCount": 5,
-      "foreignFlow": "54.70 B",
-      "foreignFlowRaw": 54702810000,
-      "insider": null,
-      "topBuyers": [
-        {
-          "code": "BK",
-          "type": "Asing",
-          "value": 93162452500,
-          "lot": 33284,
-          "avgPrice": 27990.24528806309
-        },
-        {
-          "code": "RX",
-          "type": "Asing",
-          "value": 16933252500,
-          "lot": 6071,
-          "avgPrice": 27892.031790479326
-        },
-        {
-          "code": "BB",
-          "type": "Lokal",
-          "value": 6917160000,
-          "lot": 2481,
-          "avgPrice": 27880.532043530835
-        }
-      ],
-      "momentum": null
-    },
-    {
-      "symbol": "TAPG",
-      "name": "Triputra Agro Persada Tbk",
-      "score": 5,
-      "signals": [
-        "bandar:Strong Acc",
-        "foreign:Inflow",
-        "screeners:3",
-        "broker:BK"
-      ],
-      "phase": "Strong Acc",
-      "confidence": "high",
-      "bandarSignal": "Acc",
-      "screenerCount": 3,
-      "foreignFlow": "12.36 B",
-      "foreignFlowRaw": 12359727000,
-      "insider": null,
-      "topBuyers": [
-        {
-          "code": "ZP",
-          "type": "Asing",
-          "value": 15228437000,
-          "lot": 87238,
-          "avgPrice": 1745.7346245327897
-        },
-        {
-          "code": "RX",
-          "type": "Asing",
-          "value": 3431741500,
-          "lot": 19611,
-          "avgPrice": 1749.9064300647597
-        },
-        {
-          "code": "BK",
-          "type": "Asing",
-          "value": 1038615000,
-          "lot": 5892,
-          "avgPrice": 1762.0918679302965
-        }
-      ],
-      "momentum": null
-    },
-    {
-      "symbol": "EMAS",
-      "name": "Merdeka Gold Resources Tbk.",
-      "score": 4,
-      "signals": [
-        "bandar:Strong Acc",
-        "foreign:Inflow",
-        "screeners:6"
-      ],
-      "phase": "Strong Acc",
-      "confidence": "high",
-      "bandarSignal": "Acc",
-      "screenerCount": 6,
-      "foreignFlow": "727.82 B",
-      "foreignFlowRaw": 727820805000,
-      "insider": null,
-      "topBuyers": [
-        {
-          "code": "AK",
-          "type": "Asing",
-          "value": 790376552500,
-          "lot": 840385,
-          "avgPrice": 9408.850534764853
-        },
-        {
-          "code": "EP",
-          "type": "Lokal",
-          "value": 22904687500,
-          "lot": 25030,
-          "avgPrice": 9173.296286802402
-        },
-        {
-          "code": "BB",
-          "type": "Lokal",
-          "value": 13977372500,
-          "lot": 9990,
-          "avgPrice": 9500
-        }
-      ],
-      "momentum": null
-    },
-    {
-      "symbol": "AADI",
-      "name": "Adaro Andalan Indonesia Tbk.",
-      "score": 4,
-      "signals": [
-        "bandar:Strong Acc",
-        "foreign:Inflow",
-        "screeners:5"
-      ],
-      "phase": "Strong Acc",
-      "confidence": "high",
-      "bandarSignal": "Acc",
-      "screenerCount": 5,
-      "foreignFlow": "113.64 B",
-      "foreignFlowRaw": 113637610000,
-      "insider": null,
-      "topBuyers": [
-        {
-          "code": "ZP",
-          "type": "Asing",
-          "value": 74323445000,
-          "lot": 70769,
-          "avgPrice": 10505.250859661674
-        },
-        {
-          "code": "YU",
-          "type": "Asing",
-          "value": 17646307500,
-          "lot": 16746,
-          "avgPrice": 10535.88424081452
-        },
-        {
-          "code": "CC",
-          "type": "Pemerintah",
-          "value": 15556412500,
-          "lot": 14734,
-          "avgPrice": 10547.471654260498
-        }
-      ],
-      "momentum": null
-    },
-    {
-      "symbol": "SUPA",
-      "name": "Super Bank Indonesia Tbk.",
-      "score": 4,
-      "signals": [
-        "bandar:Strong Acc",
-        "foreign:Inflow",
-        "screeners:4"
-      ],
-      "phase": "Strong Acc",
-      "confidence": "high",
-      "bandarSignal": "Acc",
-      "screenerCount": 4,
-      "foreignFlow": "2.31 B",
-      "foreignFlowRaw": 2313803500,
-      "insider": null,
-      "topBuyers": [
-        {
-          "code": "CC",
-          "type": "Pemerintah",
-          "value": 4991637500,
-          "lot": 58805,
-          "avgPrice": 849.0666640070215
-        },
-        {
-          "code": "TP",
-          "type": "Asing",
-          "value": 1009359500,
-          "lot": 12016,
-          "avgPrice": 840.0128994673769
-        },
-        {
-          "code": "EP",
-          "type": "Lokal",
-          "value": 80814000,
-          "lot": 955,
-          "avgPrice": 847.3842302878599
-        }
-      ],
-      "momentum": null
-    },
-    {
-      "symbol": "EXCL",
-      "name": "XLSMART Telecom Sejahtera Tbk.",
-      "score": 4,
-      "signals": [
-        "bandar:Strong Acc",
-        "foreign:Inflow",
-        "screeners:3"
-      ],
-      "phase": "Strong Acc",
-      "confidence": "high",
-      "bandarSignal": "Acc",
-      "screenerCount": 3,
-      "foreignFlow": "42.01 B",
-      "foreignFlowRaw": 42009905000,
-      "insider": null,
-      "topBuyers": [
-        {
-          "code": "RX",
-          "type": "Asing",
-          "value": 12304201000,
-          "lot": 42567,
-          "avgPrice": 2890.5492517678013
-        },
-        {
-          "code": "TP",
-          "type": "Asing",
-          "value": 8699066000,
-          "lot": 31015,
-          "avgPrice": 2805.4972384310545
-        },
-        {
-          "code": "AI",
-          "type": "Asing",
-          "value": 8369004000,
-          "lot": 29661,
-          "avgPrice": 2822.3018541326855
-        }
-      ],
-      "momentum": null
-    },
-    {
-      "symbol": "PTBA",
-      "name": "Bukit Asam Tbk.",
-      "score": 4,
-      "signals": [
-        "bandar:Strong Acc",
-        "foreign:Inflow",
-        "screeners:3"
-      ],
-      "phase": "Strong Acc",
-      "confidence": "high",
-      "bandarSignal": "Acc",
-      "screenerCount": 3,
-      "foreignFlow": "14.49 B",
-      "foreignFlowRaw": 14493405000,
-      "insider": null,
-      "topBuyers": [
-        {
-          "code": "ZP",
-          "type": "Asing",
-          "value": 16712033000,
-          "lot": 57555,
-          "avgPrice": 2903.415175941975
-        },
-        {
-          "code": "YU",
-          "type": "Asing",
-          "value": 5417170000,
-          "lot": 18749,
-          "avgPrice": 2890.709794207317
-        },
-        {
-          "code": "NI",
-          "type": "Pemerintah",
-          "value": 1502379000,
-          "lot": 5180,
-          "avgPrice": 2900.793277705958
-        }
-      ],
-      "momentum": null
-    },
-    {
-      "symbol": "ITMA",
-      "name": "Sumber Energi Andalan Tbk.",
-      "score": 4,
-      "signals": [
-        "bandar:Strong Acc",
-        "insider:FERSINDO NUSA JAYA",
-        "foreign:Inflow"
-      ],
-      "phase": "Strong Acc",
-      "confidence": "high",
-      "bandarSignal": "Acc",
-      "screenerCount": 2,
-      "foreignFlow": "2.02 B",
-      "foreignFlowRaw": 2018115000,
-      "insider": {
-        "name": "FERSINDO NUSA JAYA",
-        "symbol": "ITMA",
-        "date": "16 Mar 26",
-        "action": "ACTION_TYPE_BUY",
-        "previous": "101,211,900",
-        "previousPct": "10.13",
-        "current": "109,961,900",
-        "currentPct": "11.0066",
-        "change": "+8,750,000",
-        "changePct": "+0.88",
-        "price": "0",
-        "badges": []
-      },
-      "topBuyers": [
-        {
-          "code": "II",
-          "type": "Lokal",
-          "value": 2518722000,
-          "lot": 10000,
-          "avgPrice": 2518.722
-        },
-        {
-          "code": "CC",
-          "type": "Pemerintah",
-          "value": 59819000,
-          "lot": 513,
-          "avgPrice": 2253.692132916785
-        },
-        {
-          "code": "XC",
-          "type": "Lokal",
-          "value": 29671000,
-          "lot": 125,
-          "avgPrice": 2370.6435643564355
-        }
-      ],
-      "momentum": null
-    },
-    {
-      "symbol": "INDY",
-      "name": "Indika Energy Tbk.",
-      "score": 4,
-      "signals": [
-        "bandar:Strong Acc",
-        "foreign:Inflow",
-        "broker:KZ"
-      ],
-      "phase": "Strong Acc",
-      "confidence": "high",
-      "bandarSignal": "Acc",
-      "screenerCount": 2,
-      "foreignFlow": "1.53 B",
-      "foreignFlowRaw": 1527995000,
-      "insider": null,
-      "topBuyers": [
-        {
-          "code": "RF",
-          "type": "Lokal",
-          "value": 10953674000,
-          "lot": 31000,
-          "avgPrice": 3534.5699779789575
-        },
-        {
-          "code": "AK",
-          "type": "Asing",
-          "value": 9445432000,
-          "lot": 26814,
-          "avgPrice": 3506.4348046035157
-        },
-        {
-          "code": "KZ",
-          "type": "Asing",
-          "value": 3422672000,
-          "lot": 9801,
-          "avgPrice": 3492.166105499439
-        }
-      ],
-      "momentum": null
-    },
-    {
-      "symbol": "RMKE",
-      "name": "RMK Energy Tbk.",
-      "score": 3,
-      "signals": [
-        "foreign:Inflow",
-        "screeners:3",
-        "broker:BK"
-      ],
-      "phase": "Fake Acc",
-      "confidence": "medium",
-      "bandarSignal": "Acc",
-      "screenerCount": 3,
-      "foreignFlow": "3.29 B",
-      "foreignFlowRaw": 3288207000,
-      "insider": null,
-      "topBuyers": [
-        {
-          "code": "BK",
-          "type": "Asing",
-          "value": 1271056000,
-          "lot": 4305,
-          "avgPrice": 2953.478354978355
-        },
-        {
-          "code": "ZP",
-          "type": "Asing",
-          "value": 1225710000,
-          "lot": 4213,
-          "avgPrice": 2927.9022125102433
-        },
-        {
-          "code": "IH",
-          "type": "Lokal",
-          "value": 893678000,
-          "lot": 3012,
-          "avgPrice": 2952.2568852059467
-        }
-      ],
-      "momentum": null
-    },
-    {
-      "symbol": "PWON",
-      "name": "Pakuwon Jati Tbk.",
-      "score": 3,
-      "signals": [
-        "foreign:Inflow",
-        "screeners:3",
-        "broker:KZ,BK"
-      ],
-      "phase": "Fake Dist",
-      "confidence": "medium",
-      "bandarSignal": "Dist",
-      "screenerCount": 3,
-      "foreignFlow": "1.59 B",
-      "foreignFlowRaw": 1590891000,
-      "insider": null,
-      "topBuyers": [
-        {
-          "code": "KZ",
-          "type": "Asing",
-          "value": 908482600,
-          "lot": 26989,
-          "avgPrice": 336.61217533069026
-        },
-        {
-          "code": "BK",
-          "type": "Asing",
-          "value": 497499400,
-          "lot": 14745,
-          "avgPrice": 336.1199149856445
-        },
-        {
-          "code": "BB",
-          "type": "Lokal",
-          "value": 230890800,
-          "lot": 6873,
-          "avgPrice": 335.93889131383673
-        }
-      ],
-      "momentum": null
-    },
-    {
-      "symbol": "ISAT",
-      "name": "Indosat Tbk",
-      "score": 3,
-      "signals": [
-        "bandar:Strong Acc",
-        "foreign:Inflow"
-      ],
-      "phase": "Strong Acc",
-      "confidence": "high",
-      "bandarSignal": "Acc",
-      "screenerCount": 2,
-      "foreignFlow": "2.25 B",
-      "foreignFlowRaw": 2247838000,
-      "insider": null,
-      "topBuyers": [
-        {
-          "code": "ZP",
-          "type": "Asing",
-          "value": 5118688000,
-          "lot": 23911,
-          "avgPrice": 2140.797866589787
-        },
-        {
-          "code": "RX",
-          "type": "Asing",
-          "value": 3843104000,
-          "lot": 18120,
-          "avgPrice": 2120.918322295806
-        },
-        {
-          "code": "NI",
-          "type": "Pemerintah",
-          "value": 1910897000,
-          "lot": 8942,
-          "avgPrice": 2131.2309473278024
-        }
-      ],
-      "momentum": null
-    },
-    {
-      "symbol": "ESSA",
-      "name": "ESSA Industries Indonesia Tbk.",
-      "score": 3,
-      "signals": [
-        "bandar:Strong Acc",
-        "foreign:Inflow"
-      ],
-      "phase": "Strong Acc",
-      "confidence": "high",
-      "bandarSignal": "Acc",
-      "screenerCount": 2,
-      "foreignFlow": "10.90 B",
-      "foreignFlowRaw": 10898123000,
-      "insider": null,
-      "topBuyers": [
-        {
-          "code": "ZP",
-          "type": "Asing",
-          "value": 16416802000,
-          "lot": 219709,
-          "avgPrice": 747.1279059370529
-        },
-        {
-          "code": "LG",
-          "type": "Lokal",
-          "value": 2565001500,
-          "lot": 34229,
-          "avgPrice": 745.7445353911854
-        },
-        {
-          "code": "CC",
-          "type": "Pemerintah",
-          "value": 1098816500,
-          "lot": 14862,
-          "avgPrice": 745.2817227676901
-        }
-      ],
-      "momentum": null
-    },
     {
       "symbol": "UNTR",
       "name": "United Tractors Tbk.",
-      "score": 2,
+      "score": 4,
       "signals": [
         "bandar:Acc",
-        "screeners:3"
+        "screeners:5",
+        "broker:BK",
+        "momentum:rising"
       ],
       "phase": "Acc",
       "confidence": "medium",
       "bandarSignal": "Acc",
-      "screenerCount": 3,
-      "foreignFlow": "-9.34 B",
-      "foreignFlowRaw": -9338607500,
+      "screenerCount": 5,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
       "insider": null,
       "topBuyers": [
-        {
-          "code": "ZP",
-          "type": "Asing",
-          "value": 40249955000,
-          "lot": 13414,
-          "avgPrice": 30005.42923509782
-        },
-        {
-          "code": "NI",
-          "type": "Pemerintah",
-          "value": 33294615000,
-          "lot": 11097,
-          "avgPrice": 30004.43688171134
-        },
         {
           "code": "OD",
           "type": "Pemerintah",
-          "value": 23094640000,
-          "lot": 7700,
-          "avgPrice": 29992.099949520445
+          "value": 36141435000,
+          "lot": 11736,
+          "avgPrice": 30796.144040790314
+        },
+        {
+          "code": "AK",
+          "type": "Asing",
+          "value": 35815610000,
+          "lot": 11638,
+          "avgPrice": 30770.057592853784
+        },
+        {
+          "code": "BK",
+          "type": "Asing",
+          "value": 5667607500,
+          "lot": 1845,
+          "avgPrice": 30729.20207743154
         }
       ],
-      "momentum": null
+      "momentum": {
+        "screener": 1,
+        "phase": 0,
+        "total": 1,
+        "daysSeen": 3
+      }
     },
     {
-      "symbol": "MDKA",
-      "name": "Merdeka Copper Gold Tbk.",
-      "score": 2,
+      "symbol": "AKRA",
+      "name": "AKR Corporindo Tbk.",
+      "score": 4,
       "signals": [
         "bandar:Acc",
-        "screeners:3"
+        "screeners:3",
+        "momentum:rising",
+        "phase:improving"
       ],
       "phase": "Acc",
       "confidence": "medium",
       "bandarSignal": "Acc",
       "screenerCount": 3,
-      "foreignFlow": "-42.91 B",
-      "foreignFlowRaw": -42910039000,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
       "insider": null,
       "topBuyers": [
         {
-          "code": "BB",
-          "type": "Lokal",
-          "value": 45407877000,
-          "lot": 138547,
-          "avgPrice": 3277.4348776949337
+          "code": "CC",
+          "type": "Pemerintah",
+          "value": 4580125500,
+          "lot": 33900,
+          "avgPrice": 1339.1226145397095
         },
         {
           "code": "PD",
           "type": "Lokal",
-          "value": 30890619000,
-          "lot": 95006,
-          "avgPrice": 3253.405481377372
+          "value": 2511732500,
+          "lot": 18962,
+          "avgPrice": 1330.5963968975
         },
         {
-          "code": "LG",
-          "type": "Lokal",
-          "value": 26928111000,
-          "lot": 82914,
-          "avgPrice": 3249.1918798027295
+          "code": "AK",
+          "type": "Asing",
+          "value": 1946210000,
+          "lot": 14567,
+          "avgPrice": 1339.1830177496336
         }
       ],
-      "momentum": null
+      "momentum": {
+        "screener": 1,
+        "phase": 1,
+        "total": 2,
+        "daysSeen": 3
+      }
     },
     {
-      "symbol": "TKIM",
-      "name": "Pabrik Kertas Tjiwi Kimia Tbk.",
-      "score": 2,
+      "symbol": "BBTN",
+      "name": "Bank Tabungan Negara (Persero) Tbk.",
+      "score": 3,
       "signals": [
         "bandar:Acc",
-        "screeners:3"
+        "screeners:3",
+        "momentum:rising"
       ],
       "phase": "Acc",
       "confidence": "medium",
       "bandarSignal": "Acc",
       "screenerCount": 3,
-      "foreignFlow": "-5.30 B",
-      "foreignFlowRaw": -5304227500,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
       "insider": null,
       "topBuyers": [
         {
-          "code": "AZ",
-          "type": "Lokal",
-          "value": 9289697500,
-          "lot": 10357,
-          "avgPrice": 8969.220816561243
+          "code": "NI",
+          "type": "Pemerintah",
+          "value": 3021094500,
+          "lot": 23404,
+          "avgPrice": 1290.9915923934616
         },
         {
-          "code": "PD",
-          "type": "Lokal",
-          "value": 662442500,
-          "lot": 758,
-          "avgPrice": 8817.134192570129
+          "code": "TP",
+          "type": "Asing",
+          "value": 947755000,
+          "lot": 7369,
+          "avgPrice": 1287.2014568903749
         },
         {
-          "code": "DH",
-          "type": "Lokal",
-          "value": 168135000,
-          "lot": 192,
-          "avgPrice": 8788.865546218487
+          "code": "YU",
+          "type": "Asing",
+          "value": 433176500,
+          "lot": 3359,
+          "avgPrice": 1289.6051464063887
         }
       ],
-      "momentum": null
-    },
-    {
-      "symbol": "UNVR",
-      "name": "Unilever Indonesia Tbk.",
-      "score": 2,
-      "signals": [
-        "foreign:Inflow",
-        "broker:BK"
-      ],
-      "phase": "Fake Acc",
-      "confidence": "medium",
-      "bandarSignal": "Acc",
-      "screenerCount": 2,
-      "foreignFlow": "34.15 B",
-      "foreignFlowRaw": 34147544500,
-      "insider": null,
-      "topBuyers": [
-        {
-          "code": "AK",
-          "type": "Asing",
-          "value": 18329954000,
-          "lot": 90460,
-          "avgPrice": 2020.4592453230166
-        },
-        {
-          "code": "BK",
-          "type": "Asing",
-          "value": 8369540500,
-          "lot": 41271,
-          "avgPrice": 2023.3629907004813
-        },
-        {
-          "code": "ZP",
-          "type": "Asing",
-          "value": 6188880500,
-          "lot": 30970,
-          "avgPrice": 1998.6673392423916
-        }
-      ],
-      "momentum": null
-    },
-    {
-      "symbol": "EMTK",
-      "name": "Elang Mahkota Teknologi Tbk.",
-      "score": 2,
-      "signals": [
-        "foreign:Inflow",
-        "broker:BK"
-      ],
-      "phase": "Fake Acc",
-      "confidence": "medium",
-      "bandarSignal": "Acc",
-      "screenerCount": 2,
-      "foreignFlow": "12.14 B",
-      "foreignFlowRaw": 12136741000,
-      "insider": null,
-      "topBuyers": [
-        {
-          "code": "AK",
-          "type": "Asing",
-          "value": 11732841500,
-          "lot": 158211,
-          "avgPrice": 746.1453399223499
-        },
-        {
-          "code": "BK",
-          "type": "Asing",
-          "value": 7197370000,
-          "lot": 93161,
-          "avgPrice": 771.9827164137062
-        },
-        {
-          "code": "ZP",
-          "type": "Asing",
-          "value": 2663719000,
-          "lot": 35070,
-          "avgPrice": 761.2080515804372
-        }
-      ],
-      "momentum": null
-    },
-    {
-      "symbol": "RLCO",
-      "name": "Abadi Lestari Indonesia Tbk.",
-      "score": 2,
-      "signals": [
-        "foreign:Inflow",
-        "broker:YP"
-      ],
-      "phase": "Fake Dist",
-      "confidence": "medium",
-      "bandarSignal": "Dist",
-      "screenerCount": 2,
-      "foreignFlow": "5.15 B",
-      "foreignFlowRaw": 5146200000,
-      "insider": null,
-      "topBuyers": [
-        {
-          "code": "IF",
-          "type": "Lokal",
-          "value": 1453492500,
-          "lot": 3060,
-          "avgPrice": 4989.46739954511
-        },
-        {
-          "code": "YP",
-          "type": "Asing",
-          "value": 1123801000,
-          "lot": 2437,
-          "avgPrice": 4574.8483412322275
-        },
-        {
-          "code": "XL",
-          "type": "Lokal",
-          "value": 1011137500,
-          "lot": 2317,
-          "avgPrice": 4589.98051999682
-        }
-      ],
-      "momentum": null
-    },
-    {
-      "symbol": "FILM",
-      "name": "MD Entertainment Tbk",
-      "score": 2,
-      "signals": [
-        "insider:SAMUEL SEKURITAS INDONESIA",
-        "foreign:Inflow"
-      ],
-      "phase": "Dist",
-      "confidence": "medium",
-      "bandarSignal": "Dist",
-      "screenerCount": 2,
-      "foreignFlow": "3.84 B",
-      "foreignFlowRaw": 3836640000,
-      "insider": {
-        "name": "SAMUEL SEKURITAS INDONESIA",
-        "symbol": "FILM",
-        "date": "16 Mar 26",
-        "action": "ACTION_TYPE_BUY",
-        "previous": "951,205,300",
-        "previousPct": "8.74",
-        "current": "1,140,588,000",
-        "currentPct": "10.48",
-        "change": "+189,382,700",
-        "changePct": "+1.74",
-        "price": "0",
-        "badges": []
-      },
-      "topBuyers": [
-        {
-          "code": "XL",
-          "type": "Lokal",
-          "value": 774702000,
-          "lot": 2135,
-          "avgPrice": 3639.8667036934185
-        },
-        {
-          "code": "KK",
-          "type": "Asing",
-          "value": 346161000,
-          "lot": 972,
-          "avgPrice": 3560.9617180205414
-        },
-        {
-          "code": "AK",
-          "type": "Asing",
-          "value": 243534000,
-          "lot": 713,
-          "avgPrice": 3601.7931566761
-        }
-      ],
-      "momentum": null
-    },
-    {
-      "symbol": "ADRO",
-      "name": "Alamtri Resources Indonesia Tbk.",
-      "score": 2,
-      "signals": [
-        "bandar:Acc",
-        "broker:BK"
-      ],
-      "phase": "Acc",
-      "confidence": "medium",
-      "bandarSignal": "Acc",
-      "screenerCount": 2,
-      "foreignFlow": "-2.10 B",
-      "foreignFlowRaw": -2095028000,
-      "insider": null,
-      "topBuyers": [
-        {
-          "code": "ZP",
-          "type": "Asing",
-          "value": 58971058000,
-          "lot": 239612,
-          "avgPrice": 2464.877794683439
-        },
-        {
-          "code": "BK",
-          "type": "Asing",
-          "value": 31054953000,
-          "lot": 126751,
-          "avgPrice": 2453.6128197893154
-        },
-        {
-          "code": "RX",
-          "type": "Asing",
-          "value": 16558857000,
-          "lot": 67543,
-          "avgPrice": 2451.6022385739457
-        }
-      ],
-      "momentum": null
+      "momentum": {
+        "screener": 1,
+        "phase": 0,
+        "total": 1,
+        "daysSeen": 2
+      }
     },
     {
       "symbol": "JPFA",
       "name": "Japfa Comfeed Indonesia Tbk.",
       "score": 2,
       "signals": [
-        "foreign:Inflow",
-        "broker:BK"
+        "bandar:Acc",
+        "phase:improving"
       ],
-      "phase": "Fake Acc",
+      "phase": "Acc",
       "confidence": "medium",
       "bandarSignal": "Acc",
       "screenerCount": 2,
-      "foreignFlow": "9.11 B",
-      "foreignFlowRaw": 9107691000,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
       "insider": null,
       "topBuyers": [
         {
+          "code": "DX",
+          "type": "Pemerintah",
+          "value": 26208377000,
+          "lot": 107866,
+          "avgPrice": 2430.251431891004
+        },
+        {
           "code": "ZP",
           "type": "Asing",
-          "value": 7202784000,
-          "lot": 32246,
-          "avgPrice": 2233.988198945339
+          "value": 8863894000,
+          "lot": 36172,
+          "avgPrice": 2424.177489177489
         },
         {
-          "code": "BK",
+          "code": "YU",
           "type": "Asing",
-          "value": 4481672000,
-          "lot": 20080,
-          "avgPrice": 2235.8890784548394
-        },
-        {
-          "code": "PP",
-          "type": "Lokal",
-          "value": 2240448000,
-          "lot": 10002,
-          "avgPrice": 2240
+          "value": 7815627000,
+          "lot": 32394,
+          "avgPrice": 2414.752667313288
         }
       ],
-      "momentum": null
+      "momentum": {
+        "screener": 0,
+        "phase": 1,
+        "total": 1,
+        "daysSeen": 2
+      }
     },
     {
-      "symbol": "AGII",
-      "name": "Samator Indo Gas Tbk.",
+      "symbol": "POWR",
+      "name": "Cikarang Listrindo Tbk.",
+      "score": 2,
+      "signals": [
+        "bandar:Acc",
+        "broker:KZ"
+      ],
+      "phase": "Acc",
+      "confidence": "medium",
+      "bandarSignal": "Acc",
+      "screenerCount": 2,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
+      "insider": null,
+      "topBuyers": [
+        {
+          "code": "CC",
+          "type": "Pemerintah",
+          "value": 278386500,
+          "lot": 3791,
+          "avgPrice": 734.5461897915169
+        },
+        {
+          "code": "XL",
+          "type": "Lokal",
+          "value": 110992000,
+          "lot": 1506,
+          "avgPrice": 734.7227356746765
+        },
+        {
+          "code": "KZ",
+          "type": "Asing",
+          "value": 39146000,
+          "lot": 529,
+          "avgPrice": 740
+        }
+      ],
+      "momentum": {
+        "screener": 0,
+        "phase": 0,
+        "total": 0,
+        "daysSeen": 1
+      }
+    },
+    {
+      "symbol": "WIIM",
+      "name": "PT Wismilak Inti Makmur Tbk.",
       "score": 2,
       "signals": [
         "bandar:Acc",
@@ -937,266 +248,171 @@
       "insider": null,
       "topBuyers": [
         {
-          "code": "CC",
-          "type": "Pemerintah",
-          "value": 2066180000,
-          "lot": 6077,
-          "avgPrice": 3400
-        },
-        {
-          "code": "HP",
-          "type": "Lokal",
-          "value": 1999880000,
-          "lot": 5882,
-          "avgPrice": 3400
-        },
-        {
           "code": "YP",
           "type": "Asing",
-          "value": 1271156000,
-          "lot": 3737,
-          "avgPrice": 3401.5567423230973
-        }
-      ],
-      "momentum": null
-    },
-    {
-      "symbol": "ARCI",
-      "name": "Archi Indonesia Tbk",
-      "score": 1,
-      "signals": [
-        "foreign:Inflow"
-      ],
-      "phase": "Fake Dist",
-      "confidence": "medium",
-      "bandarSignal": "Dist",
-      "screenerCount": 2,
-      "foreignFlow": "53.99 B",
-      "foreignFlowRaw": 53993694000,
-      "insider": null,
-      "topBuyers": [
-        {
-          "code": "AK",
-          "type": "Asing",
-          "value": 47530475000,
-          "lot": 291646,
-          "avgPrice": 1645.3936291675088
-        },
-        {
-          "code": "XL",
-          "type": "Lokal",
-          "value": 19264951500,
-          "lot": 115453,
-          "avgPrice": 1686.7460214600037
-        },
-        {
-          "code": "BB",
-          "type": "Lokal",
-          "value": 18188613000,
-          "lot": 114595,
-          "avgPrice": 1600
-        }
-      ],
-      "momentum": null
-    },
-    {
-      "symbol": "ULTJ",
-      "name": "Ultra Jaya Milk Industry & Trading Company Tbk.",
-      "score": 1,
-      "signals": [
-        "foreign:Inflow"
-      ],
-      "phase": "Fake Dist",
-      "confidence": "medium",
-      "bandarSignal": "Dist",
-      "screenerCount": 2,
-      "foreignFlow": "1.32 B",
-      "foreignFlowRaw": 1316094000,
-      "insider": null,
-      "topBuyers": [
-        {
-          "code": "AK",
-          "type": "Asing",
-          "value": 1173274000,
-          "lot": 7341,
-          "avgPrice": 1599.7350178890877
+          "value": 524222000,
+          "lot": 2700,
+          "avgPrice": 1945.064750473784
         },
         {
           "code": "ZP",
           "type": "Asing",
-          "value": 685074000,
-          "lot": 4288,
-          "avgPrice": 1597.8784625295255
+          "value": 390332000,
+          "lot": 1991,
+          "avgPrice": 1960.3255467196818
         },
         {
-          "code": "XL",
+          "code": "GR",
           "type": "Lokal",
-          "value": 256706000,
-          "lot": 1593,
-          "avgPrice": 1601.8109187749667
+          "value": 298731000,
+          "lot": 1539,
+          "avgPrice": 1941.5151515151515
         }
       ],
-      "momentum": null
+      "momentum": {
+        "screener": 0,
+        "phase": 0,
+        "total": 0,
+        "daysSeen": 1
+      }
     },
     {
-      "symbol": "MIDI",
-      "name": "Midi Utama Indonesia Tbk.",
+      "symbol": "EMAS",
+      "name": "Merdeka Gold Resources Tbk.",
       "score": 1,
       "signals": [
-        "foreign:Inflow"
+        "bandar:Acc",
+        "screeners:5",
+        "momentum:falling"
       ],
-      "phase": "Fake Acc",
+      "phase": "Acc",
       "confidence": "medium",
       "bandarSignal": "Acc",
-      "screenerCount": 2,
-      "foreignFlow": "1.28 B",
-      "foreignFlowRaw": 1284889200,
+      "screenerCount": 5,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
       "insider": null,
       "topBuyers": [
         {
-          "code": "DX",
-          "type": "Pemerintah",
-          "value": 1770812600,
-          "lot": 65062,
-          "avgPrice": 272.1730964310965
-        },
-        {
-          "code": "AK",
-          "type": "Asing",
-          "value": 435166400,
-          "lot": 16080,
-          "avgPrice": 270.56740973950133
-        },
-        {
-          "code": "MG",
+          "code": "IU",
           "type": "Lokal",
-          "value": 1380000,
-          "lot": 50,
-          "avgPrice": 276
-        }
-      ],
-      "momentum": null
-    },
-    {
-      "symbol": "MEDC",
-      "name": "Medco Energi Internasional Tbk",
-      "score": 1,
-      "signals": [
-        "foreign:Inflow"
-      ],
-      "phase": "Fake Acc",
-      "confidence": "medium",
-      "bandarSignal": "Acc",
-      "screenerCount": 2,
-      "foreignFlow": "3.58 B",
-      "foreignFlowRaw": 3584124000,
-      "insider": null,
-      "topBuyers": [
+          "value": 33894872500,
+          "lot": 40026,
+          "avgPrice": 8468.218041919608
+        },
+        {
+          "code": "GR",
+          "type": "Lokal",
+          "value": 6475680000,
+          "lot": 7607,
+          "avgPrice": 8491.868392451339
+        },
         {
           "code": "PD",
           "type": "Lokal",
-          "value": 37754503500,
-          "lot": 210505,
-          "avgPrice": 1792.7432112702193
-        },
-        {
-          "code": "ZP",
-          "type": "Asing",
-          "value": 22958323000,
-          "lot": 128090,
-          "avgPrice": 1791.4860941076881
-        },
-        {
-          "code": "LG",
-          "type": "Lokal",
-          "value": 22384383000,
-          "lot": 125923,
-          "avgPrice": 1781.1669140284814
+          "value": 3085830000,
+          "lot": 3657,
+          "avgPrice": 8438.303920407438
         }
       ],
-      "momentum": null
+      "momentum": {
+        "screener": -1,
+        "phase": 0,
+        "total": -1,
+        "daysSeen": 3
+      }
     },
     {
-      "symbol": "MSIN",
-      "name": "MNC Digital Entertainment Tbk.",
+      "symbol": "RLCO",
+      "name": "Abadi Lestari Indonesia Tbk.",
       "score": 1,
       "signals": [
-        "foreign:Inflow"
+        "phase:improving"
       ],
-      "phase": "Fake Dist",
+      "phase": "Fake Acc",
       "confidence": "medium",
-      "bandarSignal": "Dist",
+      "bandarSignal": "Acc",
       "screenerCount": 2,
-      "foreignFlow": "1.21 B",
-      "foreignFlowRaw": 1214313600,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
       "insider": null,
       "topBuyers": [
         {
-          "code": "EP",
+          "code": "IF",
           "type": "Lokal",
-          "value": 2113450000,
-          "lot": 42728,
-          "avgPrice": 494.9225643873062
-        },
-        {
-          "code": "YJ",
-          "type": "Lokal",
-          "value": 38532000,
-          "lot": 788,
-          "avgPrice": 488.98477157360406
-        },
-        {
-          "code": "SQ",
-          "type": "Lokal",
-          "value": 9760000,
-          "lot": 200,
-          "avgPrice": 488
-        }
-      ],
-      "momentum": null
-    },
-    {
-      "symbol": "ICON",
-      "name": "Island Concepts Indonesia Tbk.",
-      "score": 1,
-      "signals": [
-        "foreign:Inflow"
-      ],
-      "phase": "Fake Dist",
-      "confidence": "medium",
-      "bandarSignal": "Dist",
-      "screenerCount": 2,
-      "foreignFlow": "126.08 M",
-      "foreignFlowRaw": 126079300,
-      "insider": null,
-      "topBuyers": [
-        {
-          "code": "MG",
-          "type": "Lokal",
-          "value": 472216200,
-          "lot": 44287,
-          "avgPrice": 106.53343079631232
-        },
-        {
-          "code": "KI",
-          "type": "Lokal",
-          "value": 199643700,
-          "lot": 19167,
-          "avgPrice": 104.18801599252298
+          "value": 2314015500,
+          "lot": 4817,
+          "avgPrice": 4959.504425062528
         },
         {
           "code": "AK",
           "type": "Asing",
-          "value": 125082500,
-          "lot": 11687,
-          "avgPrice": 106.52422575540652
+          "value": 983350500,
+          "lot": 1958,
+          "avgPrice": 5053.823466092573
+        },
+        {
+          "code": "ZP",
+          "type": "Asing",
+          "value": 751312500,
+          "lot": 1462,
+          "avgPrice": 5110.472527472528
         }
       ],
-      "momentum": null
+      "momentum": {
+        "screener": 0,
+        "phase": 1,
+        "total": 1,
+        "daysSeen": 3
+      }
     },
     {
-      "symbol": "BBTN",
-      "name": "Bank Tabungan Negara (Persero) Tbk.",
+      "symbol": "SCMA",
+      "name": "Surya Citra Media Tbk.",
+      "score": 1,
+      "signals": [
+        "broker:KZ"
+      ],
+      "phase": "Fake Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 2,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
+      "insider": null,
+      "topBuyers": [
+        {
+          "code": "KZ",
+          "type": "Asing",
+          "value": 8540950000,
+          "lot": 309545,
+          "avgPrice": 275.9243944331188
+        },
+        {
+          "code": "BQ",
+          "type": "Asing",
+          "value": 1282779400,
+          "lot": 47477,
+          "avgPrice": 271.65044705632647
+        },
+        {
+          "code": "XL",
+          "type": "Lokal",
+          "value": 1088837800,
+          "lot": 40247,
+          "avgPrice": 275.63971078331934
+        }
+      ],
+      "momentum": {
+        "screener": 0,
+        "phase": 0,
+        "total": 0,
+        "daysSeen": 1
+      }
+    },
+    {
+      "symbol": "INKP",
+      "name": "Indah Kiat Pulp & Paper Tbk.",
       "score": 1,
       "signals": [
         "bandar:Acc"
@@ -1205,33 +421,919 @@
       "confidence": "medium",
       "bandarSignal": "Acc",
       "screenerCount": 2,
-      "foreignFlow": "-5.01 B",
-      "foreignFlowRaw": -5008881000,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
       "insider": null,
       "topBuyers": [
         {
           "code": "YU",
           "type": "Asing",
-          "value": 4792962500,
-          "lot": 37620,
-          "avgPrice": 1273.19584139265
+          "value": 12689645000,
+          "lot": 12755,
+          "avgPrice": 9948.750383906634
         },
+        {
+          "code": "CC",
+          "type": "Pemerintah",
+          "value": 12000235000,
+          "lot": 12021,
+          "avgPrice": 9970.398947968819
+        },
+        {
+          "code": "ZP",
+          "type": "Asing",
+          "value": 2288592500,
+          "lot": 2312,
+          "avgPrice": 9944.104642593957
+        }
+      ],
+      "momentum": {
+        "screener": 0,
+        "phase": 0,
+        "total": 0,
+        "daysSeen": 1
+      }
+    },
+    {
+      "symbol": "MDKA",
+      "name": "Merdeka Copper Gold Tbk.",
+      "score": 1,
+      "signals": [
+        "bandar:Acc"
+      ],
+      "phase": "Acc",
+      "confidence": "medium",
+      "bandarSignal": "Acc",
+      "screenerCount": 2,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
+      "insider": null,
+      "topBuyers": [
         {
           "code": "PD",
           "type": "Lokal",
-          "value": 1189515500,
-          "lot": 9348,
-          "avgPrice": 1271.9068179536098
+          "value": 21395265000,
+          "lot": 65877,
+          "avgPrice": 3249.728503013986
+        },
+        {
+          "code": "BB",
+          "type": "Lokal",
+          "value": 7156573000,
+          "lot": 21962,
+          "avgPrice": 3258.6162462435113
+        },
+        {
+          "code": "YU",
+          "type": "Asing",
+          "value": 6973976000,
+          "lot": 21266,
+          "avgPrice": 3264.247159893743
+        }
+      ],
+      "momentum": {
+        "screener": 0,
+        "phase": 0,
+        "total": 0,
+        "daysSeen": 2
+      }
+    },
+    {
+      "symbol": "SRTG",
+      "name": "Saratoga Investama Sedaya Tbk.",
+      "score": 1,
+      "signals": [
+        "bandar:Acc"
+      ],
+      "phase": "Acc",
+      "confidence": "medium",
+      "bandarSignal": "Acc",
+      "screenerCount": 1,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
+      "insider": null,
+      "topBuyers": [
+        {
+          "code": "ZP",
+          "type": "Asing",
+          "value": 3512311000,
+          "lot": 20033,
+          "avgPrice": 1755.8987038793298
+        },
+        {
+          "code": "AK",
+          "type": "Asing",
+          "value": 3012378500,
+          "lot": 17229,
+          "avgPrice": 1763.3333333333333
+        },
+        {
+          "code": "CC",
+          "type": "Pemerintah",
+          "value": 1269144500,
+          "lot": 7317,
+          "avgPrice": 1779.181022310082
+        }
+      ],
+      "momentum": {
+        "screener": 0,
+        "phase": 0,
+        "total": 0,
+        "daysSeen": 1
+      }
+    },
+    {
+      "symbol": "BRPT",
+      "name": "Barito Pacific Tbk.",
+      "score": 1,
+      "signals": [
+        "broker:BK"
+      ],
+      "phase": "Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 1,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
+      "insider": null,
+      "topBuyers": [
+        {
+          "code": "BK",
+          "type": "Asing",
+          "value": 3477211000,
+          "lot": 26521,
+          "avgPrice": 1337.5871997842876
+        },
+        {
+          "code": "NI",
+          "type": "Pemerintah",
+          "value": 3244811500,
+          "lot": 23706,
+          "avgPrice": 1363.6763564219789
         },
         {
           "code": "SQ",
           "type": "Lokal",
-          "value": 800738500,
-          "lot": 6327,
-          "avgPrice": 1265.9304018637158
+          "value": 2779178500,
+          "lot": 20548,
+          "avgPrice": 1348.5624158219323
         }
       ],
-      "momentum": null
+      "momentum": {
+        "screener": 0,
+        "phase": 0,
+        "total": 0,
+        "daysSeen": 1
+      }
+    },
+    {
+      "symbol": "AADI",
+      "name": "Adaro Andalan Indonesia Tbk.",
+      "score": 0,
+      "signals": [
+        "screeners:4",
+        "momentum:falling",
+        "phase:degrading"
+      ],
+      "phase": "Fake Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 4,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
+      "insider": null,
+      "topBuyers": [
+        {
+          "code": "ZP",
+          "type": "Asing",
+          "value": 69756262500,
+          "lot": 63239,
+          "avgPrice": 11008.09744768563
+        },
+        {
+          "code": "CC",
+          "type": "Pemerintah",
+          "value": 69619932500,
+          "lot": 63506,
+          "avgPrice": 10970.154458719166
+        },
+        {
+          "code": "PD",
+          "type": "Lokal",
+          "value": 17172305000,
+          "lot": 15498,
+          "avgPrice": 11029.942076502732
+        }
+      ],
+      "momentum": {
+        "screener": -1,
+        "phase": -1,
+        "total": -2,
+        "daysSeen": 3
+      }
+    },
+    {
+      "symbol": "EXCL",
+      "name": "XLSMART Telecom Sejahtera Tbk.",
+      "score": 0,
+      "signals": [
+        "screeners:3",
+        "phase:degrading"
+      ],
+      "phase": "Fake Acc",
+      "confidence": "medium",
+      "bandarSignal": "Acc",
+      "screenerCount": 3,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
+      "insider": null,
+      "topBuyers": [
+        {
+          "code": "BB",
+          "type": "Lokal",
+          "value": 10007000000,
+          "lot": 34477,
+          "avgPrice": 2903.0443876996633
+        },
+        {
+          "code": "RX",
+          "type": "Asing",
+          "value": 5618465000,
+          "lot": 19377,
+          "avgPrice": 2899.553594467668
+        },
+        {
+          "code": "NI",
+          "type": "Pemerintah",
+          "value": 4296261000,
+          "lot": 14792,
+          "avgPrice": 2904.75157854455
+        }
+      ],
+      "momentum": {
+        "screener": 0,
+        "phase": -1,
+        "total": -1,
+        "daysSeen": 2
+      }
+    },
+    {
+      "symbol": "ISAT",
+      "name": "Indosat Tbk",
+      "score": 0,
+      "signals": [
+        "phase:degrading"
+      ],
+      "phase": "Fake Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 2,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
+      "insider": null,
+      "topBuyers": [
+        {
+          "code": "CC",
+          "type": "Pemerintah",
+          "value": 2017762000,
+          "lot": 9334,
+          "avgPrice": 2160.3200077813444
+        },
+        {
+          "code": "DX",
+          "type": "Pemerintah",
+          "value": 1497801000,
+          "lot": 6939,
+          "avgPrice": 2158.5257241677477
+        },
+        {
+          "code": "YU",
+          "type": "Asing",
+          "value": 1435350000,
+          "lot": 6655,
+          "avgPrice": 2156.727109246216
+        }
+      ],
+      "momentum": {
+        "screener": 0,
+        "phase": -1,
+        "total": -1,
+        "daysSeen": 3
+      }
+    },
+    {
+      "symbol": "ITMG",
+      "name": "Indo Tambangraya Megah Tbk.",
+      "score": 0,
+      "signals": [
+        "momentum:falling",
+        "phase:degrading"
+      ],
+      "phase": "Fake Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 2,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
+      "insider": null,
+      "topBuyers": [
+        {
+          "code": "AK",
+          "type": "Asing",
+          "value": 23061962500,
+          "lot": 7735,
+          "avgPrice": 29745.856389986824
+        },
+        {
+          "code": "ZP",
+          "type": "Asing",
+          "value": 6753512500,
+          "lot": 2302,
+          "avgPrice": 29496.24379872431
+        },
+        {
+          "code": "XL",
+          "type": "Lokal",
+          "value": 5557292500,
+          "lot": 1864,
+          "avgPrice": 29765.081065970928
+        }
+      ],
+      "momentum": {
+        "screener": -1,
+        "phase": -1,
+        "total": -2,
+        "daysSeen": 3
+      }
+    },
+    {
+      "symbol": "PTBA",
+      "name": "Bukit Asam Tbk.",
+      "score": 0,
+      "signals": [
+        "broker:BK",
+        "momentum:falling",
+        "phase:degrading"
+      ],
+      "phase": "Fake Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 2,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
+      "insider": null,
+      "topBuyers": [
+        {
+          "code": "ZP",
+          "type": "Asing",
+          "value": 14667946000,
+          "lot": 47303,
+          "avgPrice": 3102.9701920016973
+        },
+        {
+          "code": "YU",
+          "type": "Asing",
+          "value": 7855382000,
+          "lot": 25438,
+          "avgPrice": 3089.370566037736
+        },
+        {
+          "code": "BK",
+          "type": "Asing",
+          "value": 7320996000,
+          "lot": 23558,
+          "avgPrice": 3106.364210925485
+        }
+      ],
+      "momentum": {
+        "screener": -1,
+        "phase": -1,
+        "total": -2,
+        "daysSeen": 3
+      }
+    },
+    {
+      "symbol": "ADRO",
+      "name": "Alamtri Resources Indonesia Tbk.",
+      "score": 0,
+      "signals": [
+        "broker:KZ",
+        "phase:degrading"
+      ],
+      "phase": "Fake Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 2,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
+      "insider": null,
+      "topBuyers": [
+        {
+          "code": "BB",
+          "type": "Lokal",
+          "value": 24934876000,
+          "lot": 96690,
+          "avgPrice": 2578.847450615369
+        },
+        {
+          "code": "KZ",
+          "type": "Asing",
+          "value": 17674423000,
+          "lot": 67681,
+          "avgPrice": 2611.1944577161967
+        },
+        {
+          "code": "XL",
+          "type": "Lokal",
+          "value": 15036721000,
+          "lot": 57693,
+          "avgPrice": 2604.5342163937885
+        }
+      ],
+      "momentum": {
+        "screener": 0,
+        "phase": -1,
+        "total": -1,
+        "daysSeen": 3
+      }
+    },
+    {
+      "symbol": "ESSA",
+      "name": "ESSA Industries Indonesia Tbk.",
+      "score": 0,
+      "signals": [
+        "phase:degrading"
+      ],
+      "phase": "Fake Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 2,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
+      "insider": null,
+      "topBuyers": [
+        {
+          "code": "ZP",
+          "type": "Asing",
+          "value": 8678319500,
+          "lot": 115385,
+          "avgPrice": 752.4372106850129
+        },
+        {
+          "code": "AZ",
+          "type": "Lokal",
+          "value": 8628688500,
+          "lot": 113860,
+          "avgPrice": 758.1471697486252
+        },
+        {
+          "code": "YU",
+          "type": "Asing",
+          "value": 7647611000,
+          "lot": 102089,
+          "avgPrice": 749.1261376907412
+        }
+      ],
+      "momentum": {
+        "screener": 0,
+        "phase": -1,
+        "total": -1,
+        "daysSeen": 3
+      }
+    },
+    {
+      "symbol": "LSIP",
+      "name": "PP London Sumatra Indonesia Tbk.",
+      "score": 0,
+      "signals": [],
+      "phase": "Fake Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 2,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
+      "insider": null,
+      "topBuyers": [
+        {
+          "code": "TP",
+          "type": "Asing",
+          "value": 1353448000,
+          "lot": 10042,
+          "avgPrice": 1347.787293367855
+        },
+        {
+          "code": "ES",
+          "type": "Lokal",
+          "value": 807000000,
+          "lot": 6000,
+          "avgPrice": 1345
+        },
+        {
+          "code": "SQ",
+          "type": "Lokal",
+          "value": 506130500,
+          "lot": 3747,
+          "avgPrice": 1349.559780398536
+        }
+      ],
+      "momentum": {
+        "screener": 0,
+        "phase": 0,
+        "total": 0,
+        "daysSeen": 1
+      }
+    },
+    {
+      "symbol": "ABMM",
+      "name": "ABM Investama Tbk.",
+      "score": 0,
+      "signals": [],
+      "phase": "Fake Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 2,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
+      "insider": null,
+      "topBuyers": [
+        {
+          "code": "AK",
+          "type": "Asing",
+          "value": 1600635000,
+          "lot": 5155,
+          "avgPrice": 3104.5683614134487
+        },
+        {
+          "code": "ZP",
+          "type": "Asing",
+          "value": 1553388000,
+          "lot": 5039,
+          "avgPrice": 3082.7636796193497
+        },
+        {
+          "code": "PD",
+          "type": "Lokal",
+          "value": 393420000,
+          "lot": 1267,
+          "avgPrice": 3102.712201591512
+        }
+      ],
+      "momentum": {
+        "screener": 0,
+        "phase": 0,
+        "total": 0,
+        "daysSeen": 1
+      }
+    },
+    {
+      "symbol": "GMFI",
+      "name": "Garuda Maintenance Facility Aero Asia Tbk",
+      "score": 0,
+      "signals": [],
+      "phase": "Fake Acc",
+      "confidence": "medium",
+      "bandarSignal": "Acc",
+      "screenerCount": 2,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
+      "insider": null,
+      "topBuyers": [
+        {
+          "code": "MG",
+          "type": "Lokal",
+          "value": 1217455800,
+          "lot": 184463,
+          "avgPrice": 66
+        },
+        {
+          "code": "CP",
+          "type": "Asing",
+          "value": 418750200,
+          "lot": 63447,
+          "avgPrice": 66
+        },
+        {
+          "code": "OD",
+          "type": "Pemerintah",
+          "value": 260851800,
+          "lot": 39523,
+          "avgPrice": 66
+        }
+      ],
+      "momentum": {
+        "screener": 0,
+        "phase": 0,
+        "total": 0,
+        "daysSeen": 1
+      }
+    },
+    {
+      "symbol": "ULTJ",
+      "name": "Ultra Jaya Milk Industry & Trading Company Tbk.",
+      "score": 0,
+      "signals": [],
+      "phase": "Fake Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 2,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
+      "insider": null,
+      "topBuyers": [
+        {
+          "code": "ZP",
+          "type": "Asing",
+          "value": 1312358000,
+          "lot": 8334,
+          "avgPrice": 1575.664957451451
+        },
+        {
+          "code": "XL",
+          "type": "Lokal",
+          "value": 161714500,
+          "lot": 1027,
+          "avgPrice": 1581.6923436041084
+        },
+        {
+          "code": "YB",
+          "type": "Lokal",
+          "value": 99021000,
+          "lot": 634,
+          "avgPrice": 1562.1439749608764
+        }
+      ],
+      "momentum": {
+        "screener": 0,
+        "phase": 0,
+        "total": 0,
+        "daysSeen": 3
+      }
+    },
+    {
+      "symbol": "EURO",
+      "name": "Estee Gold Feet Tbk.",
+      "score": 0,
+      "signals": [
+        "momentum:falling",
+        "phase:degrading"
+      ],
+      "phase": "Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 2,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
+      "insider": null,
+      "topBuyers": [
+        {
+          "code": "SA",
+          "type": "Lokal",
+          "value": 410875000,
+          "lot": 2065,
+          "avgPrice": 1997.682119205298
+        },
+        {
+          "code": "PC",
+          "type": "Lokal",
+          "value": 383782500,
+          "lot": 1915,
+          "avgPrice": 2006.8886679920477
+        },
+        {
+          "code": "ZR",
+          "type": "Lokal",
+          "value": 245642000,
+          "lot": 1198,
+          "avgPrice": 2060.662905500705
+        }
+      ],
+      "momentum": {
+        "screener": -1,
+        "phase": -1,
+        "total": -2,
+        "daysSeen": 2
+      }
+    },
+    {
+      "symbol": "BSML",
+      "name": "Bintang Samudera Mandiri Lines Tbk.",
+      "score": 0,
+      "signals": [],
+      "phase": "Fake Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 2,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
+      "insider": null,
+      "topBuyers": [
+        {
+          "code": "CP",
+          "type": "Asing",
+          "value": 2104373400,
+          "lot": 62318,
+          "avgPrice": 337.83515660122885
+        },
+        {
+          "code": "AI",
+          "type": "Asing",
+          "value": 189600000,
+          "lot": 5600,
+          "avgPrice": 338.57142857142856
+        },
+        {
+          "code": "PD",
+          "type": "Lokal",
+          "value": 140510800,
+          "lot": 4129,
+          "avgPrice": 339.6821396993811
+        }
+      ],
+      "momentum": {
+        "screener": 0,
+        "phase": 0,
+        "total": 0,
+        "daysSeen": 2
+      }
+    },
+    {
+      "symbol": "BTPS",
+      "name": "Bank BTPN Syariah Tbk",
+      "score": 0,
+      "signals": [],
+      "phase": "Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 1,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
+      "insider": null,
+      "topBuyers": [
+        {
+          "code": "BB",
+          "type": "Lokal",
+          "value": 3455984500,
+          "lot": 32804,
+          "avgPrice": 1053.5253322765516
+        },
+        {
+          "code": "CC",
+          "type": "Pemerintah",
+          "value": 1070173000,
+          "lot": 10230,
+          "avgPrice": 1048.9636819035693
+        },
+        {
+          "code": "XL",
+          "type": "Lokal",
+          "value": 829965000,
+          "lot": 7905,
+          "avgPrice": 1051.2043760286572
+        }
+      ],
+      "momentum": {
+        "screener": 0,
+        "phase": 0,
+        "total": 0,
+        "daysSeen": 1
+      }
+    },
+    {
+      "symbol": "MIDI",
+      "name": "Midi Utama Indonesia Tbk.",
+      "score": 0,
+      "signals": [
+        "momentum:falling",
+        "phase:degrading"
+      ],
+      "phase": "Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 1,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
+      "insider": null,
+      "topBuyers": [
+        {
+          "code": "DX",
+          "type": "Pemerintah",
+          "value": 2919489200,
+          "lot": 100001,
+          "avgPrice": 291.9460005399946
+        },
+        {
+          "code": "XL",
+          "type": "Lokal",
+          "value": 203549400,
+          "lot": 6823,
+          "avgPrice": 293.67160100204967
+        },
+        {
+          "code": "SQ",
+          "type": "Lokal",
+          "value": 114636200,
+          "lot": 3918,
+          "avgPrice": 292.55408653846155
+        }
+      ],
+      "momentum": {
+        "screener": -1,
+        "phase": -1,
+        "total": -2,
+        "daysSeen": 2
+      }
+    },
+    {
+      "symbol": "ASII",
+      "name": "Astra International Tbk.",
+      "score": 0,
+      "signals": [
+        "broker:KZ",
+        "momentum:falling",
+        "phase:degrading"
+      ],
+      "phase": "Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 1,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
+      "insider": null,
+      "topBuyers": [
+        {
+          "code": "ZP",
+          "type": "Asing",
+          "value": 46068210000,
+          "lot": 73831,
+          "avgPrice": 6276.7284450746065
+        },
+        {
+          "code": "YU",
+          "type": "Asing",
+          "value": 22849515000,
+          "lot": 35645,
+          "avgPrice": 6355.401532844756
+        },
+        {
+          "code": "KZ",
+          "type": "Asing",
+          "value": 15555667500,
+          "lot": 24410,
+          "avgPrice": 6327.796312331279
+        }
+      ],
+      "momentum": {
+        "screener": -1,
+        "phase": -1,
+        "total": -2,
+        "daysSeen": 2
+      }
+    },
+    {
+      "symbol": "TLKM",
+      "name": "PT Telkom Indonesia (Persero) Tbk",
+      "score": 0,
+      "signals": [
+        "broker:BK,YP",
+        "momentum:falling",
+        "phase:degrading"
+      ],
+      "phase": "Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 1,
+      "foreignFlow": "0",
+      "foreignFlowRaw": 0,
+      "insider": null,
+      "topBuyers": [
+        {
+          "code": "BK",
+          "type": "Asing",
+          "value": 42846212000,
+          "lot": 134639,
+          "avgPrice": 3179.3200966981035
+        },
+        {
+          "code": "RX",
+          "type": "Asing",
+          "value": 17255148000,
+          "lot": 54258,
+          "avgPrice": 3180.2034722990156
+        },
+        {
+          "code": "YP",
+          "type": "Asing",
+          "value": 16414977000,
+          "lot": 52118,
+          "avgPrice": 3154.1944505546303
+        }
+      ],
+      "momentum": {
+        "screener": -1,
+        "phase": -1,
+        "total": -2,
+        "daysSeen": 2
+      }
     }
   ]
 }

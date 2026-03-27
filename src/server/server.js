@@ -409,12 +409,13 @@ server.listen(BACKEND_PORT, () => {
 // Auto-scheduler: snapshots, conviction scan, trade engine
 // Checks every 15 minutes, deduplicates per task per hour per day
 const autoTracker = { lastDate: null, completed: new Set() }
+const SCHEDULE_HOURS = [9, 12, 16]
 
-setInterval(async () => {
+async function runScheduledTasks({ catchUp = false } = {}) {
   if (!tokenManager.getToken()) return
   const now = new Date()
   const wib = new Date(now.getTime() + 7 * 60 * 60 * 1000) // UTC to WIB
-  const hour = wib.getUTCHours()
+  const currentHour = wib.getUTCHours()
   const date = wib.toISOString().slice(0, 10)
 
   // Reset tracker on new day
@@ -423,63 +424,80 @@ setInterval(async () => {
     autoTracker.completed.clear()
   }
 
-  const task = (name) => `${name}:${hour}`
-  const done = (name) => autoTracker.completed.has(task(name))
-  const mark = (name) => autoTracker.completed.add(task(name))
+  // In catch-up mode, run all scheduled hours up to now; otherwise only current hour
+  const hoursToRun = catchUp
+    ? SCHEDULE_HOURS.filter(h => h <= currentHour)
+    : [currentHour]
 
-  // 09:xx WIB — Market open: snapshot → conviction scan → trade engine
-  if (hour === 9) {
-    if (!done('snapshot')) {
-      try { await collectSnapshot(); mark('snapshot'); console.log(`[auto] 09:xx snapshot collected (${date})`) }
-      catch (err) { console.log(`[auto] 09:xx snapshot failed:`, err.message) }
-    }
-    let scanResult = null
-    if (!done('scan') && done('snapshot')) {
-      try { scanResult = await scanConviction(); mark('scan'); console.log(`[auto] 09:xx conviction scan complete (${date})`) }
-      catch (err) { console.log(`[auto] 09:xx scan failed:`, err.message) }
-    }
-    if (!done('engine') && done('scan')) {
-      try {
-        const result = await runTradeEngine({ signals: scanResult })
-        mark('engine')
-        const actions = result.actions?.length || 0
-        console.log(`[auto] 09:xx trade engine executed ${actions} action(s) (${date})`)
-      } catch (err) { console.log(`[auto] 09:xx engine failed:`, err.message) }
-    }
-  }
+  const prefix = catchUp ? '[auto:catch-up]' : '[auto]'
 
-  // 12:xx WIB — Midday: conviction scan only (review, no trading)
-  if (hour === 12 && !done('scan-mid')) {
-    try { await scanConviction(); mark('scan-mid'); console.log(`[auto] 12:xx midday scan complete (${date})`) }
-    catch (err) { console.log(`[auto] 12:xx scan failed:`, err.message) }
-  }
+  for (const hour of hoursToRun) {
+    const task = (name) => `${name}:${hour}`
+    const done = (name) => autoTracker.completed.has(task(name))
+    const mark = (name) => autoTracker.completed.add(task(name))
 
-  // 16:xx WIB — Market close: snapshot + conviction scan (for next-day planning)
-  if (hour === 16) {
-    if (!done('snapshot-close')) {
-      try { await collectSnapshot(); mark('snapshot-close'); console.log(`[auto] 16:xx close snapshot collected (${date})`) }
-      catch (err) { console.log(`[auto] 16:xx snapshot failed:`, err.message) }
+    // 09:xx WIB — Market open: snapshot → conviction scan → trade engine
+    if (hour === 9) {
+      if (!done('snapshot')) {
+        try { await collectSnapshot(); mark('snapshot'); console.log(`${prefix} 09:xx snapshot collected (${date})`) }
+        catch (err) { console.log(`${prefix} 09:xx snapshot failed:`, err.message) }
+      }
+      let scanResult = null
+      if (!done('scan') && done('snapshot')) {
+        try { scanResult = await scanConviction(); mark('scan'); console.log(`${prefix} 09:xx conviction scan complete (${date})`) }
+        catch (err) { console.log(`${prefix} 09:xx scan failed:`, err.message) }
+      }
+      if (!done('engine') && done('scan')) {
+        try {
+          const result = await runTradeEngine({ signals: scanResult })
+          mark('engine')
+          const actions = result.actions?.length || 0
+          console.log(`${prefix} 09:xx trade engine executed ${actions} action(s) (${date})`)
+        } catch (err) { console.log(`${prefix} 09:xx engine failed:`, err.message) }
+      }
     }
-    if (!done('scan-close') && done('snapshot-close')) {
-      try { await scanConviction(); mark('scan-close'); console.log(`[auto] 16:xx close scan complete (${date})`) }
-      catch (err) { console.log(`[auto] 16:xx scan failed:`, err.message) }
+
+    // 12:xx WIB — Midday: conviction scan only (review, no trading)
+    if (hour === 12 && !done('scan-mid')) {
+      try { await scanConviction(); mark('scan-mid'); console.log(`${prefix} 12:xx midday scan complete (${date})`) }
+      catch (err) { console.log(`${prefix} 12:xx scan failed:`, err.message) }
     }
-    if (!done('backtest') && done('scan-close')) {
-      try {
-        const dates = getSnapshotDates()
-        if (dates.length >= 7) {
-          const latest = getLatestResult()
-          const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
-          if (!latest?.ranAt || latest.ranAt < weekAgo) {
-            await runBacktest()
-            mark('backtest')
-            console.log(`[auto] 16:xx backtest completed (${date})`)
+
+    // 16:xx WIB — Market close: snapshot + conviction scan (for next-day planning)
+    if (hour === 16) {
+      if (!done('snapshot-close')) {
+        try { await collectSnapshot(); mark('snapshot-close'); console.log(`${prefix} 16:xx close snapshot collected (${date})`) }
+        catch (err) { console.log(`${prefix} 16:xx snapshot failed:`, err.message) }
+      }
+      if (!done('scan-close') && done('snapshot-close')) {
+        try { await scanConviction(); mark('scan-close'); console.log(`${prefix} 16:xx close scan complete (${date})`) }
+        catch (err) { console.log(`${prefix} 16:xx scan failed:`, err.message) }
+      }
+      if (!done('backtest') && done('scan-close')) {
+        try {
+          const dates = getSnapshotDates()
+          if (dates.length >= 7) {
+            const latest = getLatestResult()
+            const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
+            if (!latest?.ranAt || latest.ranAt < weekAgo) {
+              await runBacktest()
+              mark('backtest')
+              console.log(`${prefix} 16:xx backtest completed (${date})`)
+            }
           }
-        }
-      } catch (err) { console.log(`[auto] 16:xx backtest failed:`, err.message) }
+        } catch (err) { console.log(`${prefix} 16:xx backtest failed:`, err.message) }
+      }
     }
   }
-}, 15 * 60 * 1000) // check every 15 minutes
+}
+
+setInterval(() => runScheduledTasks(), 15 * 60 * 1000) // check every 15 minutes
+
+// Catch up on missed scheduled tasks when token is acquired
+tokenManager.on('captured', () => {
+  console.log('[auto] Token acquired — checking for missed scheduled tasks...')
+  runScheduledTasks({ catchUp: true })
+})
 
 // Start MITM proxy
 createProxy(PROXY_PORT)

@@ -1,0 +1,610 @@
+{
+  "date": "2026-03-27",
+  "timestamp": "2026-03-27T09:07:14.161Z",
+  "stocks": [
+    {
+      "symbol": "UNTR",
+      "name": "United Tractors Tbk.",
+      "phase": "Acc",
+      "confidence": "medium",
+      "bandarSignal": "Acc",
+      "screenerCount": 5,
+      "screeners": [
+        "Foreign Flow Uptrend",
+        "1 Month Net Foreign Flow",
+        "Big Accumulation",
+        "Bandar Accumulation Uptrend",
+        "Trend Following"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "OD",
+        "AK",
+        "BK",
+        "BB",
+        "RX"
+      ]
+    },
+    {
+      "symbol": "EMAS",
+      "name": "Merdeka Gold Resources Tbk.",
+      "phase": "Acc",
+      "confidence": "medium",
+      "bandarSignal": "Acc",
+      "screenerCount": 5,
+      "screeners": [
+        "1 Month Net Foreign Flow",
+        "Big Accumulation",
+        "Bandar Accumulation Uptrend",
+        "Insider Net Buy (3M - 1Y)",
+        "Trend Following"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "IU",
+        "GR",
+        "PD",
+        "CP",
+        "OD"
+      ]
+    },
+    {
+      "symbol": "AADI",
+      "name": "Adaro Andalan Indonesia Tbk.",
+      "phase": "Fake Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 4,
+      "screeners": [
+        "Foreign Flow Uptrend",
+        "1 Month Net Foreign Flow",
+        "Bandar Accumulation Uptrend",
+        "Trend Following"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "ZP",
+        "CC",
+        "PD",
+        "XC",
+        "SQ"
+      ]
+    },
+    {
+      "symbol": "EXCL",
+      "name": "XLSMART Telecom Sejahtera Tbk.",
+      "phase": "Fake Acc",
+      "confidence": "medium",
+      "bandarSignal": "Acc",
+      "screenerCount": 3,
+      "screeners": [
+        "1 Month Net Foreign Flow",
+        "Big Accumulation",
+        "Bandar Accumulation Uptrend"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "BB",
+        "RX",
+        "NI",
+        "AZ",
+        "HD"
+      ]
+    },
+    {
+      "symbol": "BBTN",
+      "name": "Bank Tabungan Negara (Persero) Tbk.",
+      "phase": "Acc",
+      "confidence": "medium",
+      "bandarSignal": "Acc",
+      "screenerCount": 3,
+      "screeners": [
+        "Big Accumulation",
+        "Bandar Accumulation Uptrend",
+        "Frequency Spike"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "NI",
+        "TP",
+        "YU",
+        "GR",
+        "DH"
+      ]
+    },
+    {
+      "symbol": "AKRA",
+      "name": "AKR Corporindo Tbk.",
+      "phase": "Acc",
+      "confidence": "medium",
+      "bandarSignal": "Acc",
+      "screenerCount": 3,
+      "screeners": [
+        "Bandar Accumulation Uptrend",
+        "Frequency Spike",
+        "Trend Following"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "CC",
+        "PD",
+        "AK",
+        "ZP",
+        "KZ"
+      ]
+    },
+    {
+      "symbol": "RLCO",
+      "name": "Abadi Lestari Indonesia Tbk.",
+      "phase": "Fake Acc",
+      "confidence": "medium",
+      "bandarSignal": "Acc",
+      "screenerCount": 2,
+      "screeners": [
+        "Foreign Flow Uptrend",
+        "1 Month Net Foreign Flow"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "IF",
+        "AK",
+        "ZP",
+        "YP",
+        "XL"
+      ]
+    },
+    {
+      "symbol": "SCMA",
+      "name": "Surya Citra Media Tbk.",
+      "phase": "Fake Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 2,
+      "screeners": [
+        "Foreign Flow Uptrend",
+        "1 Month Net Foreign Flow"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "KZ",
+        "BQ",
+        "XL",
+        "AK",
+        "YB"
+      ]
+    },
+    {
+      "symbol": "ISAT",
+      "name": "Indosat Tbk",
+      "phase": "Fake Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 2,
+      "screeners": [
+        "Foreign Flow Uptrend",
+        "1 Month Net Foreign Flow"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "CC",
+        "DX",
+        "YU",
+        "ZP",
+        "PD"
+      ]
+    },
+    {
+      "symbol": "ITMG",
+      "name": "Indo Tambangraya Megah Tbk.",
+      "phase": "Fake Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 2,
+      "screeners": [
+        "1 Month Net Foreign Flow",
+        "Trend Following"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "AK",
+        "ZP",
+        "XL",
+        "BB",
+        "YP"
+      ]
+    },
+    {
+      "symbol": "PTBA",
+      "name": "Bukit Asam Tbk.",
+      "phase": "Fake Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 2,
+      "screeners": [
+        "1 Month Net Foreign Flow",
+        "Trend Following"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "ZP",
+        "YU",
+        "BK",
+        "BB",
+        "GR"
+      ]
+    },
+    {
+      "symbol": "ADRO",
+      "name": "Alamtri Resources Indonesia Tbk.",
+      "phase": "Fake Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 2,
+      "screeners": [
+        "1 Month Net Foreign Flow",
+        "Trend Following"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "BB",
+        "KZ",
+        "XL",
+        "DR",
+        "RX"
+      ]
+    },
+    {
+      "symbol": "ESSA",
+      "name": "ESSA Industries Indonesia Tbk.",
+      "phase": "Fake Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 2,
+      "screeners": [
+        "1 Month Net Foreign Flow",
+        "Trend Following"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "ZP",
+        "AZ",
+        "YU",
+        "AK",
+        "SS"
+      ]
+    },
+    {
+      "symbol": "LSIP",
+      "name": "PP London Sumatra Indonesia Tbk.",
+      "phase": "Fake Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 2,
+      "screeners": [
+        "1 Month Net Foreign Flow",
+        "Bandar Accumulation Uptrend"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "TP",
+        "ES",
+        "SQ",
+        "XL",
+        "YB"
+      ]
+    },
+    {
+      "symbol": "INKP",
+      "name": "Indah Kiat Pulp & Paper Tbk.",
+      "phase": "Acc",
+      "confidence": "medium",
+      "bandarSignal": "Acc",
+      "screenerCount": 2,
+      "screeners": [
+        "Big Accumulation",
+        "Minor Retracement on Long Term Uptrend"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "YU",
+        "CC",
+        "ZP",
+        "LG",
+        "PD"
+      ]
+    },
+    {
+      "symbol": "ABMM",
+      "name": "ABM Investama Tbk.",
+      "phase": "Fake Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 2,
+      "screeners": [
+        "Big Accumulation",
+        "Bandar Accumulation Uptrend"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "AK",
+        "ZP",
+        "PD",
+        "BK",
+        "NI"
+      ]
+    },
+    {
+      "symbol": "GMFI",
+      "name": "Garuda Maintenance Facility Aero Asia Tbk",
+      "phase": "Fake Acc",
+      "confidence": "medium",
+      "bandarSignal": "Acc",
+      "screenerCount": 2,
+      "screeners": [
+        "Big Accumulation",
+        "Insider Net Buy (3M - 1Y)"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "MG",
+        "CP",
+        "OD",
+        "YB"
+      ]
+    },
+    {
+      "symbol": "JPFA",
+      "name": "Japfa Comfeed Indonesia Tbk.",
+      "phase": "Acc",
+      "confidence": "medium",
+      "bandarSignal": "Acc",
+      "screenerCount": 2,
+      "screeners": [
+        "Big Accumulation",
+        "Bandar Accumulation Uptrend"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "DX",
+        "ZP",
+        "YU",
+        "LG",
+        "MG"
+      ]
+    },
+    {
+      "symbol": "MDKA",
+      "name": "Merdeka Copper Gold Tbk.",
+      "phase": "Acc",
+      "confidence": "medium",
+      "bandarSignal": "Acc",
+      "screenerCount": 2,
+      "screeners": [
+        "Big Accumulation",
+        "Bandar Accumulation Uptrend"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "PD",
+        "BB",
+        "YU",
+        "CC",
+        "DR"
+      ]
+    },
+    {
+      "symbol": "POWR",
+      "name": "Cikarang Listrindo Tbk.",
+      "phase": "Acc",
+      "confidence": "medium",
+      "bandarSignal": "Acc",
+      "screenerCount": 2,
+      "screeners": [
+        "Big Accumulation",
+        "Minor Retracement on Long Term Uptrend"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "CC",
+        "XL",
+        "KZ",
+        "DR",
+        "TP"
+      ]
+    },
+    {
+      "symbol": "WIIM",
+      "name": "PT Wismilak Inti Makmur Tbk.",
+      "phase": "Acc",
+      "confidence": "medium",
+      "bandarSignal": "Acc",
+      "screenerCount": 2,
+      "screeners": [
+        "Bandar Accumulation Uptrend",
+        "Minor Retracement on Long Term Uptrend"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "YP",
+        "ZP",
+        "GR",
+        "AZ",
+        "CC"
+      ]
+    },
+    {
+      "symbol": "ULTJ",
+      "name": "Ultra Jaya Milk Industry & Trading Company Tbk.",
+      "phase": "Fake Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 2,
+      "screeners": [
+        "Bandar Accumulation Uptrend",
+        "Minor Retracement on Long Term Uptrend"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "ZP",
+        "XL",
+        "YB",
+        "PD",
+        "SQ"
+      ]
+    },
+    {
+      "symbol": "EURO",
+      "name": "Estee Gold Feet Tbk.",
+      "phase": "Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 2,
+      "screeners": [
+        "Insider Net Buy (3M - 1Y)",
+        "Trend Following"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "SA",
+        "PC",
+        "ZR",
+        "AK",
+        "MU"
+      ]
+    },
+    {
+      "symbol": "BSML",
+      "name": "Bintang Samudera Mandiri Lines Tbk.",
+      "phase": "Fake Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 2,
+      "screeners": [
+        "Insider Net Buy (3M - 1Y)",
+        "Minor Retracement on Long Term Uptrend"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "CP",
+        "AI",
+        "PD",
+        "AK",
+        "LS"
+      ]
+    },
+    {
+      "symbol": "SRTG",
+      "name": "Saratoga Investama Sedaya Tbk.",
+      "phase": "Acc",
+      "confidence": "medium",
+      "bandarSignal": "Acc",
+      "screenerCount": 1,
+      "screeners": [
+        "Foreign Flow Uptrend"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "ZP",
+        "AK",
+        "CC",
+        "LG",
+        "DR"
+      ]
+    },
+    {
+      "symbol": "BTPS",
+      "name": "Bank BTPN Syariah Tbk",
+      "phase": "Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 1,
+      "screeners": [
+        "Foreign Flow Uptrend"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "BB",
+        "CC",
+        "XL",
+        "BK",
+        "DH"
+      ]
+    },
+    {
+      "symbol": "MIDI",
+      "name": "Midi Utama Indonesia Tbk.",
+      "phase": "Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 1,
+      "screeners": [
+        "Foreign Flow Uptrend"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "DX",
+        "XL",
+        "SQ",
+        "PD",
+        "AG"
+      ]
+    },
+    {
+      "symbol": "ASII",
+      "name": "Astra International Tbk.",
+      "phase": "Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 1,
+      "screeners": [
+        "1 Month Net Foreign Flow"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "ZP",
+        "YU",
+        "KZ",
+        "LG",
+        "XL"
+      ]
+    },
+    {
+      "symbol": "BRPT",
+      "name": "Barito Pacific Tbk.",
+      "phase": "Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 1,
+      "screeners": [
+        "1 Month Net Foreign Flow"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "BK",
+        "NI",
+        "SQ",
+        "XA",
+        "XC"
+      ]
+    },
+    {
+      "symbol": "TLKM",
+      "name": "PT Telkom Indonesia (Persero) Tbk",
+      "phase": "Dist",
+      "confidence": "medium",
+      "bandarSignal": "Dist",
+      "screenerCount": 1,
+      "screeners": [
+        "1 Month Net Foreign Flow"
+      ],
+      "foreignFlowRaw": 0,
+      "topBuyers": [
+        "BK",
+        "RX",
+        "YP",
+        "DR",
+        "YU"
+      ]
+    }
+  ]
+}

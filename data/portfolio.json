@@ -1,0 +1,343 @@
+{
+  "cash": 37575500,
+  "initialCash": 100000000,
+  "positions": [
+    {
+      "symbol": "PTBA",
+      "name": "Bukit Asam Tbk.",
+      "shares": 3100,
+      "avgPrice": 3150,
+      "entryDate": "2026-03-26",
+      "conviction": 7,
+      "signals": [
+        "bandar:Strong Acc",
+        "foreign:Inflow",
+        "screeners:5",
+        "broker:BK",
+        "momentum:rising",
+        "phase:improving"
+      ]
+    },
+    {
+      "symbol": "ADRO",
+      "name": "Alamtri Resources Indonesia Tbk.",
+      "shares": 3300,
+      "avgPrice": 2660,
+      "entryDate": "2026-03-26",
+      "conviction": 7,
+      "signals": [
+        "bandar:Strong Acc",
+        "foreign:Inflow",
+        "screeners:4",
+        "broker:BK",
+        "momentum:rising",
+        "phase:improving"
+      ]
+    },
+    {
+      "symbol": "UNTR",
+      "name": "United Tractors Tbk.",
+      "shares": 200,
+      "avgPrice": 30700,
+      "entryDate": "2026-03-26",
+      "conviction": 6,
+      "signals": [
+        "bandar:Strong Acc",
+        "foreign:Inflow",
+        "screeners:3",
+        "broker:BK,KZ",
+        "phase:improving"
+      ]
+    },
+    {
+      "symbol": "ITMG",
+      "name": "Indo Tambangraya Megah Tbk.",
+      "shares": 200,
+      "avgPrice": 30300,
+      "entryDate": "2026-03-26",
+      "conviction": 5,
+      "signals": [
+        "bandar:Strong Acc",
+        "foreign:Inflow",
+        "screeners:5",
+        "phase:improving"
+      ]
+    },
+    {
+      "symbol": "CDIA",
+      "name": "Chandra Daya Investasi Tbk.",
+      "shares": 7800,
+      "avgPrice": 880,
+      "entryDate": "2026-03-26",
+      "conviction": 5,
+      "signals": [
+        "bandar:Strong Acc",
+        "foreign:Inflow",
+        "screeners:3",
+        "broker:BK"
+      ]
+    },
+    {
+      "symbol": "AADI",
+      "name": "Adaro Andalan Indonesia Tbk.",
+      "shares": 500,
+      "avgPrice": 11225,
+      "entryDate": "2026-03-26",
+      "conviction": 4,
+      "signals": [
+        "bandar:Strong Acc",
+        "foreign:Inflow",
+        "screeners:3",
+        "momentum:falling",
+        "phase:improving"
+      ]
+    },
+    {
+      "symbol": "PTRO",
+      "name": "Petrosea Tbk.",
+      "shares": 1100,
+      "avgPrice": 4840,
+      "entryDate": "2026-03-26",
+      "conviction": 4,
+      "signals": [
+        "bandar:Strong Acc",
+        "foreign:Inflow",
+        "screeners:3"
+      ]
+    },
+    {
+      "symbol": "SUPA",
+      "name": "Super Bank Indonesia Tbk.",
+      "shares": 5700,
+      "avgPrice": 900,
+      "entryDate": "2026-03-26",
+      "conviction": 4,
+      "signals": [
+        "bandar:Strong Acc",
+        "foreign:Inflow",
+        "broker:KZ,BK",
+        "momentum:falling",
+        "phase:improving"
+      ]
+    },
+    {
+      "symbol": "ISAT",
+      "name": "Indosat Tbk",
+      "shares": 2100,
+      "avgPrice": 2200,
+      "entryDate": "2026-03-26",
+      "conviction": 4,
+      "signals": [
+        "bandar:Strong Acc",
+        "foreign:Inflow",
+        "phase:improving"
+      ]
+    },
+    {
+      "symbol": "ESSA",
+      "name": "ESSA Industries Indonesia Tbk.",
+      "shares": 5400,
+      "avgPrice": 765,
+      "entryDate": "2026-03-26",
+      "conviction": 4,
+      "signals": [
+        "bandar:Strong Acc",
+        "foreign:Inflow",
+        "phase:improving"
+      ]
+    }
+  ],
+  "trades": [
+    {
+      "id": "a9e34366-a8c2-4af6-befa-bf75fb42cd97",
+      "symbol": "PTBA",
+      "name": "Bukit Asam Tbk.",
+      "side": "BUY",
+      "shares": 3100,
+      "price": 3150,
+      "value": 9765000,
+      "date": "2026-03-26",
+      "conviction": 7,
+      "signals": [
+        "bandar:Strong Acc",
+        "foreign:Inflow",
+        "screeners:5",
+        "broker:BK",
+        "momentum:rising",
+        "phase:improving"
+      ],
+      "reason": "Conviction 7"
+    },
+    {
+      "id": "5b9fb9fd-53e2-4dde-955e-456fc70a3ccd",
+      "symbol": "ADRO",
+      "name": "Alamtri Resources Indonesia Tbk.",
+      "side": "BUY",
+      "shares": 3300,
+      "price": 2660,
+      "value": 8778000,
+      "date": "2026-03-26",
+      "conviction": 7,
+      "signals": [
+        "bandar:Strong Acc",
+        "foreign:Inflow",
+        "screeners:4",
+        "broker:BK",
+        "momentum:rising",
+        "phase:improving"
+      ],
+      "reason": "Conviction 7"
+    },
+    {
+      "id": "d6ccc38f-0e91-4836-b576-7c423ee2ab21",
+      "symbol": "UNTR",
+      "name": "United Tractors Tbk.",
+      "side": "BUY",
+      "shares": 200,
+      "price": 30700,
+      "value": 6140000,
+      "date": "2026-03-26",
+      "conviction": 6,
+      "signals": [
+        "bandar:Strong Acc",
+        "foreign:Inflow",
+        "screeners:3",
+        "broker:BK,KZ",
+        "phase:improving"
+      ],
+      "reason": "Conviction 6"
+    },
+    {
+      "id": "752cc2dd-1214-44cc-b1ca-3fa1e46a44c9",
+      "symbol": "ITMG",
+      "name": "Indo Tambangraya Megah Tbk.",
+      "side": "BUY",
+      "shares": 200,
+      "price": 30300,
+      "value": 6060000,
+      "date": "2026-03-26",
+      "conviction": 5,
+      "signals": [
+        "bandar:Strong Acc",
+        "foreign:Inflow",
+        "screeners:5",
+        "phase:improving"
+      ],
+      "reason": "Conviction 5"
+    },
+    {
+      "id": "26acec98-1323-46a7-9b2b-4f45547d695d",
+      "symbol": "CDIA",
+      "name": "Chandra Daya Investasi Tbk.",
+      "side": "BUY",
+      "shares": 7800,
+      "price": 880,
+      "value": 6864000,
+      "date": "2026-03-26",
+      "conviction": 5,
+      "signals": [
+        "bandar:Strong Acc",
+        "foreign:Inflow",
+        "screeners:3",
+        "broker:BK"
+      ],
+      "reason": "Conviction 5"
+    },
+    {
+      "id": "81525033-7d2f-4b97-baa5-c5d703a03739",
+      "symbol": "AADI",
+      "name": "Adaro Andalan Indonesia Tbk.",
+      "side": "BUY",
+      "shares": 500,
+      "price": 11225,
+      "value": 5612500,
+      "date": "2026-03-26",
+      "conviction": 4,
+      "signals": [
+        "bandar:Strong Acc",
+        "foreign:Inflow",
+        "screeners:3",
+        "momentum:falling",
+        "phase:improving"
+      ],
+      "reason": "Conviction 4"
+    },
+    {
+      "id": "6a8a1244-c47d-43cb-8a4a-239d176cd998",
+      "symbol": "PTRO",
+      "name": "Petrosea Tbk.",
+      "side": "BUY",
+      "shares": 1100,
+      "price": 4840,
+      "value": 5324000,
+      "date": "2026-03-26",
+      "conviction": 4,
+      "signals": [
+        "bandar:Strong Acc",
+        "foreign:Inflow",
+        "screeners:3"
+      ],
+      "reason": "Conviction 4"
+    },
+    {
+      "id": "b81d8cbf-3aac-42ec-86dd-a2fc4f9163ad",
+      "symbol": "SUPA",
+      "name": "Super Bank Indonesia Tbk.",
+      "side": "BUY",
+      "shares": 5700,
+      "price": 900,
+      "value": 5130000,
+      "date": "2026-03-26",
+      "conviction": 4,
+      "signals": [
+        "bandar:Strong Acc",
+        "foreign:Inflow",
+        "broker:KZ,BK",
+        "momentum:falling",
+        "phase:improving"
+      ],
+      "reason": "Conviction 4"
+    },
+    {
+      "id": "4d6000ea-0fc1-4fc6-bd7b-6ee51b109411",
+      "symbol": "ISAT",
+      "name": "Indosat Tbk",
+      "side": "BUY",
+      "shares": 2100,
+      "price": 2200,
+      "value": 4620000,
+      "date": "2026-03-26",
+      "conviction": 4,
+      "signals": [
+        "bandar:Strong Acc",
+        "foreign:Inflow",
+        "phase:improving"
+      ],
+      "reason": "Conviction 4"
+    },
+    {
+      "id": "40d8f6e9-5b82-408e-98c5-2c2b5b538331",
+      "symbol": "ESSA",
+      "name": "ESSA Industries Indonesia Tbk.",
+      "side": "BUY",
+      "shares": 5400,
+      "price": 765,
+      "value": 4131000,
+      "date": "2026-03-26",
+      "conviction": 4,
+      "signals": [
+        "bandar:Strong Acc",
+        "foreign:Inflow",
+        "phase:improving"
+      ],
+      "reason": "Conviction 4"
+    }
+  ],
+  "settings": {
+    "maxPositionPct": 10,
+    "maxPositions": 10,
+    "convictionThreshold": 3,
+    "stopLossPct": -10,
+    "takeProfitPct": 25
+  }
+}
